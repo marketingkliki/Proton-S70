@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Log Prestasi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e16;
+    --bg-2:#0d1220;
+    --surface:#141b2b;
+    --surface-2:#1a2338;
+    --border:rgba(255,255,255,0.08);
+    --border-strong:rgba(255,255,255,0.14);
+    --red:#ff3b3f;
+    --red-dim:rgba(255,59,63,0.14);
+    --cyan:#2dd4e8;
+    --cyan-dim:rgba(45,212,232,0.14);
+    --green:#3ee08a;
+    --green-dim:rgba(62,224,138,0.14);
+    --yellow:#f5b942;
+    --yellow-dim:rgba(245,185,66,0.14);
+    --text:#eef1f7;
+    --text-dim:#93a0b8;
+    --text-faint:#5c6787;
+    --radius:16px;
+    --radius-sm:10px;
+    --font-num:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    background:
+      radial-gradient(circle at 15% -10%, rgba(255,59,63,0.10), transparent 40%),
+      radial-gradient(circle at 100% 0%, rgba(45,212,232,0.06), transparent 45%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    font-size:15px;
+    line-height:1.45;
+    min-height:100%;
+    overflow-x:hidden;
+  }
+  button, input, select, textarea{font-family:inherit; color:inherit;}
+  button{cursor:pointer;}
+  ::-webkit-scrollbar{width:0;height:0;}
+
+  .grid-lines{
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size:28px 28px;
+    mask-image:linear-gradient(to bottom, black, transparent 60%);
+  }
+
+  #app{position:relative; z-index:1; max-width:520px; margin:0 auto; min-height:100vh; padding-bottom:92px;}
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:20;
+    padding:14px 16px 12px;
+    background:linear-gradient(180deg, var(--bg-2) 70%, transparent);
+    backdrop-filter:blur(10px);
+  }
+  .topbar-row{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+  .brand{display:flex; align-items:center; gap:9px;}
+  .brand-mark{
+    width:34px; height:34px; border-radius:9px;
+    background:linear-gradient(155deg, var(--red), #a8181c);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 14px rgba(255,59,63,0.35);
+    flex-shrink:0;
+  }
+  .brand-mark svg{width:18px; height:18px;}
+  .brand-name{font-family:var(--font-num); font-weight:700; font-size:17px; letter-spacing:0.2px;}
+  .vehicle-chip{
+    display:flex; align-items:center; gap:8px;
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:100px; padding:6px 12px 6px 6px;
+  }
+  .vehicle-chip .plate{
+    background:var(--yellow); color:#1a1a1a; font-family:var(--font-num);
+    font-weight:700; font-size:11.5px; padding:3px 8px; border-radius:5px; letter-spacing:0.5px;
+  }
+  .vehicle-chip .vname{font-size:12.5px; color:var(--text-dim); font-weight:600; white-space:nowrap;}
+
+  /* ---------- Screens ---------- */
+  .screen{display:none; padding:4px 16px 12px; animation:fadeIn .22s ease;}
+  .screen.active{display:block;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  .page-title{font-family:var(--font-num); font-size:25px; font-weight:700; margin-bottom:2px;}
+  .page-sub{color:var(--text-dim); font-size:13.5px; margin-bottom:18px;}
+
+  /* ---------- Hero mileage card ---------- */
+  .hero-card{
+    position:relative; overflow:hidden;
+    background:linear-gradient(150deg, var(--surface-2), var(--surface));
+    border:1px solid var(--border-strong);
+    border-radius:var(--radius);
+    padding:20px 18px;
+    margin-bottom:14px;
+  }
+  .hero-card::after{
+    content:''; position:absolute; right:-30px; top:-30px; width:140px; height:140px;
+    border-radius:50%; background:radial-gradient(circle, rgba(255,59,63,0.18), transparent 70%);
+  }
+  .hero-top{display:flex; justify-content:space-between; align-items:flex-start; position:relative;}
+  .hero-label{font-size:13px; color:var(--text-dim); font-weight:600;}
+  .hero-value{font-family:var(--font-num); font-size:34px; font-weight:700; margin-top:6px; letter-spacing:-0.5px;}
+  .hero-value span{font-size:16px; color:var(--text-dim); font-weight:600; margin-left:4px;}
+  .hero-meta{font-size:12.5px; color:var(--text-faint); margin-top:4px;}
+  .odo-icon{width:40px; height:40px; border-radius:11px; background:var(--surface); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .odo-icon svg{width:20px;height:20px; color:var(--red);}
+
+  .cta-btn{
+    width:100%; margin-top:16px;
+    background:linear-gradient(155deg, var(--red), #c7262a);
+    border:none; border-radius:13px;
+    color:#fff; font-weight:700; font-size:15.5px;
+    padding:15px; display:flex; align-items:center; justify-content:center; gap:8px;
+    box-shadow:0 6px 18px rgba(255,59,63,0.30);
+    transition:transform .12s ease, box-shadow .12s ease;
+    min-height:50px;
+  }
+  .cta-btn:active{transform:scale(0.97); box-shadow:0 3px 10px rgba(255,59,63,0.25);}
+
+  .section-head{display:flex; align-items:baseline; justify-content:space-between; margin:22px 0 12px;}
+  .section-title{font-family:var(--font-num); font-size:19px; font-weight:700;}
+  .section-link{font-size:13px; color:var(--cyan); font-weight:600; background:none; border:none;}
+
+  /* ---------- Stat grid ---------- */
+  .stat-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  .stat-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm);
+    padding:14px 14px 13px; position:relative; overflow:hidden;
+  }
+  .stat-card.wide{grid-column:1 / -1;}
+  .stat-icon-row{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;}
+  .stat-dot{width:8px; height:8px; border-radius:50%;}
+  .stat-title{font-size:12px; color:var(--text-dim); font-weight:600;}
+  .stat-value{font-family:var(--font-num); font-size:22px; font-weight:700; letter-spacing:-0.3px;}
+  .stat-sub{font-size:11.5px; color:var(--text-faint); margin-top:3px;}
+  .c-red{color:var(--red);} .c-cyan{color:var(--cyan);} .c-green{color:var(--green);} .c-yellow{color:var(--yellow);}
+  .bg-red{background:var(--red);} .bg-cyan{background:var(--cyan);} .bg-green{background:var(--green);} .bg-yellow{background:var(--yellow);}
+
+  /* ---------- Chart ---------- */
+  .chart-card{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px 14px;}
+  .chart-tabs{display:flex; gap:6px; margin-bottom:16px;}
+  .chart-tab{
+    flex:1; background:var(--surface-2); border:1px solid var(--border); border-radius:9px;
+    padding:8px 6px; font-size:12.5px; font-weight:600; color:var(--text-dim); text-align:center;
+  }
+  .chart-tab.active{background:var(--red-dim); border-color:rgba(255,59,63,0.4); color:var(--red);}
+  .chart-bars{display:flex; align-items:flex-end; gap:8px; height:120px; padding-top:6px;}
+  .chart-col{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; gap:6px;}
+  .chart-bar{width:100%; max-width:30px; border-radius:6px 6px 3px 3px; background:linear-gradient(180deg, var(--red), rgba(255,59,63,0.35)); min-height:3px; transition:height .3s ease;}
+  .chart-month{font-size:10.5px; color:var(--text-faint); font-weight:600;}
+  .chart-empty{text-align:center; color:var(--text-faint); font-size:13px; padding:30px 0;}
+
+  /* ---------- Reminders ---------- */
+  .reminder-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm);
+    padding:13px 14px; display:flex; align-items:center; gap:12px; margin-bottom:9px;
+  }
+  .reminder-icon{width:38px;height:38px;border-radius:10px; background:var(--surface-2); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .reminder-icon svg{width:18px;height:18px;color:var(--cyan);}
+  .reminder-body{flex:1; min-width:0;}
+  .reminder-name{font-weight:600; font-size:14px;}
+  .reminder-target{font-size:12px; color:var(--text-dim); margin-top:2px;}
+  .badge{font-size:11px; font-weight:700; padding:4px 9px; border-radius:100px; white-space:nowrap;}
+  .badge.due{background:var(--red-dim); color:var(--red);}
+  .badge.soon{background:var(--yellow-dim); color:var(--yellow);}
+  .badge.ok{background:var(--green-dim); color:var(--green);}
+  .reminder-del{background:none; border:none; color:var(--text-faint); padding:4px; flex-shrink:0;}
+  .reminder-del svg{width:16px;height:16px;}
+
+  .add-reminder-btn{
+    width:100%; background:var(--surface); border:1px dashed var(--border-strong); border-radius:var(--radius-sm);
+    color:var(--text-dim); font-weight:600; font-size:13.5px; padding:12px; margin-top:2px;
+  }
+
+  /* ---------- Empty state ---------- */
+  .empty-state{text-align:center; padding:40px 20px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);}
+  .empty-state svg{width:44px;height:44px; color:var(--text-faint); margin-bottom:12px;}
+  .empty-title{font-weight:700; font-size:15.5px; margin-bottom:5px;}
+  .empty-sub{color:var(--text-dim); font-size:13px; margin-bottom:18px; line-height:1.5;}
+
+  /* ---------- Record cards (history + recent) ---------- */
+  .record-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm);
+    padding:14px; margin-bottom:10px; display:flex; gap:12px; align-items:flex-start;
+  }
+  .record-icon{width:40px;height:40px;border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .record-icon svg{width:19px;height:19px;}
+  .record-main{flex:1; min-width:0;}
+  .record-top-row{display:flex; justify-content:space-between; align-items:flex-start; gap:8px;}
+  .record-type{font-weight:700; font-size:14px;}
+  .record-amount{font-family:var(--font-num); font-weight:700; font-size:15.5px; white-space:nowrap;}
+  .record-date{font-size:12px; color:var(--text-dim); margin-top:2px;}
+  .record-detail-line{font-size:12.5px; color:var(--text-faint); margin-top:6px; display:flex; gap:10px; flex-wrap:wrap;}
+
+  /* ---------- Search / filter / sort ---------- */
+  .search-box{
+    display:flex; align-items:center; gap:9px; background:var(--surface); border:1px solid var(--border);
+    border-radius:12px; padding:11px 13px; margin-bottom:12px;
+  }
+  .search-box svg{width:17px;height:17px; color:var(--text-faint); flex-shrink:0;}
+  .search-box input{background:none; border:none; outline:none; width:100%; font-size:14px;}
+  .search-box input::placeholder{color:var(--text-faint);}
+
+  .filter-row{display:flex; gap:8px; overflow-x:auto; padding-bottom:2px; margin-bottom:10px;}
+  .filter-chip{
+    flex-shrink:0; background:var(--surface); border:1px solid var(--border); border-radius:100px;
+    padding:8px 15px; font-size:13px; font-weight:600; color:var(--text-dim);
+  }
+  .filter-chip.active{background:var(--red); border-color:var(--red); color:#fff;}
+
+  .sort-select-wrap{margin-bottom:14px;}
+  select.sort-select{
+    width:100%; background:var(--surface); border:1px solid var(--border); border-radius:12px;
+    padding:11px 13px; font-size:13.5px; font-weight:600; appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2393a0b8' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 13px center;
+  }
+
+  /* ---------- Forms ---------- */
+  .form-block{margin-bottom:16px;}
+  .form-label{display:block; font-size:13.5px; font-weight:600; color:var(--text-dim); margin-bottom:7px;}
+  .form-input, .form-select, .form-textarea{
+    width:100%; background:var(--surface); border:1px solid var(--border); border-radius:12px;
+    padding:14px 14px; font-size:15px; outline:none; transition:border-color .15s;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus{border-color:var(--red);}
+  .form-textarea{resize:vertical; min-height:72px;}
+  select.form-select{
+    appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2393a0b8' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 14px center;
+  }
+  .form-error{color:var(--red); font-size:12.5px; margin-top:6px; font-weight:600; display:none;}
+  .form-error.show{display:block;}
+  .form-input.err, .form-select.err{border-color:var(--red);}
+  .form-row-2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  .calc-hint{font-size:11.5px; color:var(--cyan); margin-top:6px; font-weight:600;}
+
+  .type-grid{display:grid; grid-template-columns:repeat(4, 1fr); gap:9px; margin-bottom:20px;}
+  .type-btn{
+    background:var(--surface); border:1px solid var(--border); border-radius:12px;
+    padding:12px 4px 10px; display:flex; flex-direction:column; align-items:center; gap:6px;
+    font-size:11.5px; font-weight:600; color:var(--text-dim); min-height:64px;
+  }
+  .type-btn svg{width:20px;height:20px;}
+  .type-btn.active{background:var(--red-dim); border-color:var(--red); color:var(--red);}
+  .type-btn.active svg{color:var(--red) !important;}
+
+  .save-btn{
+    width:100%; background:linear-gradient(155deg, var(--red), #c7262a); border:none; border-radius:13px;
+    color:#fff; font-weight:700; font-size:15.5px; padding:15px; margin-top:6px; min-height:50px;
+  }
+  .save-btn:active{transform:scale(0.98);}
+  .cancel-link{width:100%; background:none; border:none; color:var(--text-dim); font-weight:600; font-size:14px; padding:13px; text-align:center;}
+
+  /* ---------- Settings ---------- */
+  .settings-group{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px 14px; margin-bottom:16px;}
+  .settings-group-title{font-size:12.5px; font-weight:700; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.6px; margin-bottom:14px;}
+  .settings-btn{
+    width:100%; display:flex; align-items:center; justify-content:space-between; gap:10px;
+    background:var(--surface-2); border:1px solid var(--border); border-radius:11px;
+    padding:14px; font-weight:600; font-size:14px; margin-bottom:10px;
+  }
+  .settings-btn:last-child{margin-bottom:0;}
+  .settings-btn.danger{color:var(--red);}
+  .settings-btn svg{width:17px;height:17px; color:var(--text-faint);}
+  .hidden-file{display:none;}
+
+  /* ---------- Bottom nav ---------- */
+  .bottom-nav{
+    position:fixed; bottom:0; left:0; right:0; z-index:30;
+    max-width:520px; margin:0 auto;
+    background:rgba(13,18,32,0.92); backdrop-filter:blur(14px);
+    border-top:1px solid var(--border);
+    display:flex; padding:8px 6px calc(8px + env(safe-area-inset-bottom));
+  }
+  .nav-item{
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;
+    background:none; border:none; padding:8px 2px; color:var(--text-faint);
+    min-height:44px; justify-content:center;
+  }
+  .nav-item svg{width:22px;height:22px; transition:transform .15s;}
+  .nav-item span{font-size:11px; font-weight:600;}
+  .nav-item.active{color:var(--red);}
+  .nav-item.active svg{transform:translateY(-1px);}
+  .nav-item.fab{position:relative;}
+
+  /* ---------- Overlay / modal ---------- */
+  .overlay{
+    position:fixed; inset:0; z-index:50; background:rgba(4,6,12,0.72); backdrop-filter:blur(3px);
+    display:none; align-items:flex-end; justify-content:center;
+  }
+  .overlay.show{display:flex; animation:fadeIn .18s ease;}
+  .sheet{
+    width:100%; max-width:520px; max-height:88vh; overflow-y:auto;
+    background:var(--bg-2); border-radius:22px 22px 0 0; border:1px solid var(--border);
+    padding:10px 18px calc(22px + env(safe-area-inset-bottom));
+    animation:slideUp .22s cubic-bezier(.2,.9,.3,1);
+  }
+  @keyframes slideUp{from{transform:translateY(30px); opacity:.6;} to{transform:translateY(0); opacity:1;}}
+  .sheet-handle{width:36px; height:4px; background:var(--border-strong); border-radius:10px; margin:6px auto 16px;}
+  .sheet-title{font-family:var(--font-num); font-size:19px; font-weight:700; margin-bottom:16px;}
+  .detail-row{display:flex; justify-content:space-between; padding:11px 0; border-bottom:1px solid var(--border); font-size:14px;}
+  .detail-row:last-of-type{border-bottom:none;}
+  .detail-row .k{color:var(--text-dim);}
+  .detail-row .v{font-weight:600; text-align:right;}
+  .sheet-actions{display:flex; gap:10px; margin-top:18px;}
+  .sheet-actions button{flex:1; border-radius:12px; padding:13px; font-weight:700; font-size:14px; border:none; min-height:46px;}
+  .btn-edit{background:var(--surface-2); border:1px solid var(--border) !important; color:var(--text);}
+  .btn-delete{background:var(--red-dim); color:var(--red);}
+  .confirm-text{color:var(--text-dim); font-size:13.5px; margin-bottom:18px; line-height:1.5;}
+
+  /* ---------- Service schedule accordion (dashboard sheet) ---------- */
+  .schedule-item{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:10px; overflow:hidden;}
+  .schedule-head{display:flex; justify-content:space-between; align-items:center; padding:14px; cursor:pointer; min-height:44px;}
+  .schedule-head .sh-label{font-size:12px; color:var(--text-dim); font-weight:600;}
+  .schedule-head .sh-value{font-family:var(--font-num); font-weight:700; font-size:16px; margin-top:2px;}
+  .schedule-chevron{transition:transform .2s ease; color:var(--text-faint); flex-shrink:0; width:18px; height:18px;}
+  .schedule-item.open .schedule-chevron{transform:rotate(180deg);}
+  .schedule-body{max-height:0; overflow:hidden; transition:max-height .25s ease;}
+  .schedule-item.open .schedule-body{max-height:700px;}
+  .schedule-table{padding:2px 14px 14px;}
+  .schedule-row-line{display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px solid var(--border); font-size:13.5px; gap:10px;}
+  .schedule-row-line span:first-child{color:var(--text-dim);}
+  .schedule-row-line span:last-child{font-weight:600; text-align:right;}
+  .schedule-row-line.total{padding-top:12px; border-top:1px solid var(--border-strong); border-bottom:none; margin-top:2px;}
+  .schedule-row-line.total span{font-weight:700 !important; color:var(--text) !important; font-size:14.5px;}
+  .schedule-actions{display:flex; gap:8px; padding:0 14px 14px;}
+  .schedule-actions button{flex:1; font-size:12.5px; font-weight:700; padding:10px; border-radius:9px; border:1px solid var(--border); background:var(--surface-2); color:var(--text-dim);}
+  .schedule-use-btn{background:var(--red-dim) !important; color:var(--red) !important; border-color:rgba(255,59,63,0.3) !important;}
+  .schedule-note{font-size:11.5px; color:var(--text-faint); line-height:1.5; margin:4px 0 14px;}
+  .link-btn{width:100%; background:none; border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--cyan); font-weight:600; font-size:13.5px; padding:12px; margin-top:9px; min-height:44px;}
+
+  /* ---------- Editable schedule (settings) ---------- */
+  .sched-edit-block{border:1px solid var(--border); border-radius:12px; padding:13px; margin-bottom:10px;}
+  .sched-edit-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:11px;}
+  .sched-edit-title{font-weight:700; font-size:14px;}
+  .sched-edit-sub{font-size:11.5px; color:var(--text-faint);}
+  .sched-part-row{display:flex; gap:7px; align-items:center; margin-bottom:8px;}
+  .sched-part-row input[type=text]{flex:1; min-width:0;}
+  .sched-part-row input[type=number]{width:88px; flex-shrink:0;}
+  .sched-part-row input{background:var(--surface-2); border:1px solid var(--border); border-radius:8px; padding:9px 10px; font-size:13px; outline:none;}
+  .sched-part-row input:focus{border-color:var(--red);}
+  .sched-remove-part{background:none; border:none; color:var(--text-faint); padding:6px; flex-shrink:0; min-width:28px; min-height:28px;}
+  .sched-remove-part svg{width:15px;height:15px;}
+  .sched-add-part{background:var(--surface-2); border:1px dashed var(--border-strong); border-radius:8px; padding:9px; font-size:12px; font-weight:600; color:var(--text-dim); width:100%; margin-top:2px;}
+  .sched-labour-row{display:flex; align-items:center; gap:8px; margin-top:10px; padding-top:10px; border-top:1px solid var(--border);}
+  .sched-labour-row label{font-size:12.5px; color:var(--text-dim); font-weight:600; flex:1;}
+  .sched-labour-row input{width:88px; background:var(--surface-2); border:1px solid var(--border); border-radius:8px; padding:9px 10px; font-size:13px;}
+  .sched-computed{font-size:11.5px; color:var(--text-faint); margin-top:9px; text-align:right;}
+  .sched-computed b{color:var(--text); font-weight:700;}
+  .settings-btn-row{display:flex; gap:10px; margin-top:4px;}
+  .settings-btn-row button{flex:1;}
+
+  .toast{
+    position:fixed; bottom:100px; left:50%; transform:translateX(-50%) translateY(20px); z-index:60;
+    background:var(--surface-2); border:1px solid var(--border-strong); color:var(--text);
+    padding:12px 18px; border-radius:100px; font-size:13.5px; font-weight:600; opacity:0;
+    transition:all .25s ease; pointer-events:none; box-shadow:0 8px 24px rgba(0,0,0,0.4); white-space:nowrap;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  @media (min-width:600px){
+    .type-grid{grid-template-columns:repeat(4,1fr);}
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-lines"></div>
+<div id="app">
+
+  <div class="topbar">
+    <div class="topbar-row">
+      <div class="brand">
+        <div class="brand-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l1.5-5A2 2 0 0 1 6.4 6.5h11.2a2 2 0 0 1 1.9 1.5L21 13"/><path d="M3 13h18v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H6v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4z"/><circle cx="7" cy="17.5" r="0" /><path d="M7 10h2M15 10h2"/></svg>
+        </div>
+        <span class="brand-name">Log Prestasi</span>
+      </div>
+      <div class="vehicle-chip" id="vehicleChip">
+        <span class="plate" id="chipPlate">GM9727</span>
+        <span class="vname" id="chipName">Proton S70</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ DASHBOARD ============ -->
+  <section class="screen active" data-screen="dashboard">
+    <div class="page-title">Papan Pemuka</div>
+    <div class="page-sub">Ringkasan perjalanan kenderaan anda</div>
+
+    <div class="hero-card">
+      <div class="hero-top">
+        <div>
+          <div class="hero-label">Mileage terkini</div>
+          <div class="hero-value" id="heroMileage">- <span>km</span></div>
+          <div class="hero-meta" id="heroMeta">Belum ada rekod</div>
+        </div>
+        <div class="odo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 12l3-2M12 7v1M17 12h1M6 12h1"/></svg>
+        </div>
+      </div>
+      <button class="cta-btn" onclick="goAddRecord()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        Tambah Rekod
+      </button>
+    </div>
+
+    <div class="section-head">
+      <div class="section-title">Prestasi Bulan Ini</div>
+    </div>
+    <div class="stat-grid" id="monthlyStats"></div>
+
+    <div class="section-head">
+      <div class="section-title">Aliran Perbelanjaan</div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-tabs" id="chartTabs">
+        <button class="chart-tab active" data-cat="minyak">Minyak</button>
+        <button class="chart-tab" data-cat="maintenance">Maintenance</button>
+        <button class="chart-tab" data-cat="lain">Lain-lain</button>
+      </div>
+      <div id="chartArea"></div>
+    </div>
+
+    <div class="section-head">
+      <div class="section-title">Penjagaan Kenderaan</div>
+    </div>
+    <div id="reminderList"></div>
+    <button class="add-reminder-btn" onclick="openReminderSheet()">+ Tambah Peringatan Servis</button>
+    <button class="link-btn" onclick="openScheduleSheet()">Lihat Jadual Servis Rasmi (S70)</button>
+
+    <div class="section-head">
+      <div class="section-title">Rekod Terkini</div>
+      <button class="section-link" onclick="switchScreen('history')">Lihat Semua</button>
+    </div>
+    <div id="recentRecords"></div>
+  </section>
+
+  <!-- ============ ADD RECORD ============ -->
+  <section class="screen" data-screen="add">
+    <div class="page-title">Tambah Rekod</div>
+    <div class="page-sub">Pilih jenis rekod untuk diteruskan</div>
+
+    <div class="type-grid" id="typeGrid"></div>
+    <form id="recordForm"></form>
+  </section>
+
+  <!-- ============ HISTORY ============ -->
+  <section class="screen" data-screen="history">
+    <div class="page-title">Sejarah</div>
+    <div class="page-sub">Semua rekod kenderaan anda</div>
+
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="text" id="searchInput" placeholder="Cari rekod...">
+    </div>
+
+    <div class="filter-row" id="filterRow">
+      <button class="filter-chip active" data-filter="semua">Semua</button>
+      <button class="filter-chip" data-filter="minyak">Minyak</button>
+      <button class="filter-chip" data-filter="servis">Servis</button>
+      <button class="filter-chip" data-filter="lain">Lain-lain</button>
+    </div>
+
+    <div class="sort-select-wrap">
+      <select class="sort-select" id="sortSelect">
+        <option value="terbaru">Terbaru</option>
+        <option value="terlama">Terlama</option>
+        <option value="mileage">Mileage Tertinggi</option>
+        <option value="kos">Kos Tertinggi</option>
+      </select>
+    </div>
+
+    <div id="historyList"></div>
+
+    <div class="section-head">
+      <div class="section-title">Statistik Keseluruhan</div>
+    </div>
+    <div class="stat-grid" id="analyticsGrid" style="margin-bottom:20px;"></div>
+  </section>
+
+  <!-- ============ SETTINGS ============ -->
+  <section class="screen" data-screen="settings">
+    <div class="page-title">Tetapan</div>
+    <div class="page-sub">Urus maklumat kenderaan dan data</div>
+
+    <div class="settings-group">
+      <div class="settings-group-title">Maklumat Kenderaan</div>
+      <div class="form-block">
+        <label class="form-label">Nama kenderaan</label>
+        <input class="form-input" id="setVehName" type="text" placeholder="cth: Proton S70">
+      </div>
+      <div class="form-block">
+        <label class="form-label">Nombor pendaftaran</label>
+        <input class="form-input" id="setVehPlate" type="text" placeholder="cth: GM9727">
+      </div>
+      <div class="form-row-2">
+        <div class="form-block">
+          <label class="form-label">Model</label>
+          <input class="form-input" id="setVehModel" type="text" placeholder="cth: S70 Premium">
+        </div>
+        <div class="form-block">
+          <label class="form-label">Tahun</label>
+          <input class="form-input" id="setVehYear" type="number" placeholder="cth: 2024">
+        </div>
+      </div>
+      <button class="save-btn" onclick="saveVehicleSettings()">Simpan Maklumat</button>
+    </div>
+
+    <div class="settings-group">
+      <div class="settings-group-title">Unit &amp; Mata Wang</div>
+      <div class="form-block">
+        <label class="form-label">Mata wang</label>
+        <select class="form-select" id="setCurrency">
+          <option value="RM">Ringgit Malaysia (RM)</option>
+        </select>
+      </div>
+      <div class="form-block">
+        <label class="form-label">Unit jarak</label>
+        <select class="form-select" id="setDistanceUnit">
+          <option value="km">Kilometer (km)</option>
+        </select>
+      </div>
+      <div class="form-block" style="margin-bottom:0;">
+        <label class="form-label">Unit penggunaan minyak</label>
+        <select class="form-select" id="setConsumptionUnit">
+          <option value="kml">km/L</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="settings-group">
+      <div class="settings-group-title">Jadual Servis Rasmi (S70)</div>
+      <div class="sched-edit-sub" style="margin-bottom:12px;">Harga parts berubah dari semasa ke semasa. Kemaskini di sini bila Proton tukar harga supaya jadual dalam app kekal tepat.</div>
+      <div id="scheduleSettingsContainer"></div>
+      <div class="settings-btn-row">
+        <button class="save-btn" style="margin-top:8px;" onclick="saveScheduleFromSettings()">Simpan Jadual</button>
+        <button class="settings-btn" style="margin-top:8px; margin-bottom:0;" onclick="confirmResetSchedule()">Set Semula</button>
+      </div>
+    </div>
+
+    <div class="settings-group">
+      <div class="settings-group-title">Urusan Data</div>
+      <button class="settings-btn" onclick="exportData()">
+        <span>Export Data</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+      </button>
+      <button class="settings-btn" onclick="document.getElementById('importFile').click()">
+        <span>Import Data</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"/></svg>
+      </button>
+      <input type="file" id="importFile" class="hidden-file" accept="application/json">
+      <button class="settings-btn danger" onclick="confirmReset()">
+        <span>Reset Data</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6"/></svg>
+      </button>
+    </div>
+  </section>
+
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-item active" data-nav="dashboard" onclick="switchScreen('dashboard')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+    <span>Dashboard</span>
+  </button>
+  <button class="nav-item" data-nav="add" onclick="goAddRecord()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+    <span>Tambah Rekod</span>
+  </button>
+  <button class="nav-item" data-nav="history" onclick="switchScreen('history')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 8v5l3 3"/></svg>
+    <span>Sejarah</span>
+  </button>
+  <button class="nav-item" data-nav="settings" onclick="switchScreen('settings')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.13.31.4.55.72.72.32.13.55.4.72.72"/></svg>
+    <span>Tetapan</span>
+  </button>
+</nav>
+
+<div class="overlay" id="overlay"><div class="sheet" id="sheet"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   STATE & STORAGE
+   ============================================================ */
+let state = { records: [], settings: null, reminders: [], schedule: null };
+let currentType = 'minyak';
+let editingId = null;
+let chartCat = 'minyak';
+
+const DEFAULT_SETTINGS = {
+  vehName: 'Proton S70', vehPlate: 'GM9727', vehModel: '', vehYear: '',
+  currency: 'RM', distanceUnit: 'km', consumptionUnit: 'kml'
+};
+
+/* Official Proton S70 scheduled maintenance pricing, as published on Proton's
+   service page at the time this was entered. Editable in Tetapan since parts
+   pricing changes over time and this app has no way to pull live prices. */
+const DEFAULT_SERVICE_SCHEDULE = [
+  { id:'sched_10k', mileage:10000, months:6, labour:0,
+    parts:[
+      {name:'PGO Fully Synthetic 4L', price:172.00},
+      {name:'Engine Oil Filter', price:50.25},
+      {name:'Drain Plug Gasket', price:5.76},
+      {name:'Engine Air Filter', price:55.34},
+      {name:'Windshield Cleaner', price:2.00}
+    ]},
+  { id:'sched_20k', mileage:20000, months:12, labour:48.00,
+    parts:[
+      {name:'PGO Fully Synthetic 4L', price:172.00},
+      {name:'Engine Oil Filter', price:50.25},
+      {name:'Drain Plug Gasket', price:5.76},
+      {name:'Cabin Filter', price:69.00},
+      {name:'Windshield Cleaner', price:2.00}
+    ]},
+  { id:'sched_30k', mileage:30000, months:18, labour:0,
+    parts:[
+      {name:'PGO Fully Synthetic 4L', price:172.00},
+      {name:'Engine Oil Filter', price:50.25},
+      {name:'Drain Plug Gasket', price:5.76},
+      {name:'Engine Air Filter', price:55.34},
+      {name:'Windshield Cleaner', price:2.00}
+    ]},
+  { id:'sched_40k', mileage:40000, months:24, labour:114.00,
+    parts:[
+      {name:'PGO Fully Synthetic 4L', price:172.00},
+      {name:'Engine Oil Filter', price:50.25},
+      {name:'Drain Plug Gasket', price:5.76},
+      {name:'Spark Plugs', price:166.72},
+      {name:'Brake Fluid', price:50.11},
+      {name:'Cabin Filter', price:69.00},
+      {name:'Windshield Cleaner', price:2.00}
+    ]},
+  { id:'sched_50k', mileage:50000, months:30, labour:0,
+    parts:[
+      {name:'PGO Fully Synthetic 4L', price:172.00},
+      {name:'Engine Oil Filter', price:50.25},
+      {name:'Drain Plug Gasket', price:5.76},
+      {name:'Engine Air Filter', price:55.34},
+      {name:'Windshield Cleaner', price:2.00}
+    ]}
+];
+function cloneDefaultSchedule(){ return JSON.parse(JSON.stringify(DEFAULT_SERVICE_SCHEDULE)); }
+function scheduleTax(labour){ return Math.round((Number(labour)||0)*0.08*100)/100; }
+function scheduleTotal(interval){
+  const partsSum = interval.parts.reduce((s,p)=>s+(Number(p.price)||0),0);
+  const labour = Number(interval.labour)||0;
+  return partsSum + labour + scheduleTax(labour);
+}
+
+async function storageGet(key){
+  try{
+    const raw = localStorage.getItem('logprestasi_'+key);
+    return raw ? JSON.parse(raw) : null;
+  }catch(e){ return null; }
+}
+async function storageSet(key, value){
+  try{ localStorage.setItem('logprestasi_'+key, JSON.stringify(value)); }
+  catch(e){ console.error('storage set failed', key, e); }
+}
+
+async function loadAll(){
+  const [records, settings, reminders, schedule] = await Promise.all([
+    storageGet('records'), storageGet('settings'), storageGet('reminders'), storageGet('schedule')
+  ]);
+  state.records = records || [];
+  state.settings = settings || {...DEFAULT_SETTINGS};
+  state.reminders = reminders || [];
+  state.schedule = schedule || cloneDefaultSchedule();
+}
+function saveRecords(){ return storageSet('records', state.records); }
+function saveSettings(){ return storageSet('settings', state.settings); }
+function saveReminders(){ return storageSet('reminders', state.reminders); }
+function saveSchedule(){ return storageSet('schedule', state.schedule); }
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+function fmtRM(n){
+  n = Number(n)||0;
+  return 'RM ' + n.toLocaleString('en-MY', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+function fmtDate(d){
+  if(!d) return '-';
+  const dt = new Date(d+'T00:00:00');
+  if(isNaN(dt)) return d;
+  const bulan = ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'];
+  return dt.getDate()+' '+bulan[dt.getMonth()]+' '+dt.getFullYear();
+}
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+function nowTimeStr(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+function isThisMonth(dateStr){
+  if(!dateStr) return false;
+  const d = new Date(dateStr+'T00:00:00'); const n = new Date();
+  return d.getFullYear()===n.getFullYear() && d.getMonth()===n.getMonth();
+}
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+const TYPE_META = {
+  minyak:       {label:'Minyak', color:'red', icon:'fuel'},
+  servis:       {label:'Servis', color:'cyan', icon:'wrench'},
+  maintenance:  {label:'Maintenance', color:'cyan', icon:'tool'},
+  tol:          {label:'Tol', color:'yellow', icon:'road'},
+  parking:      {label:'Parking', color:'yellow', icon:'parking'},
+  insurans:     {label:'Insurans', color:'green', icon:'shield'},
+  roadtax:      {label:'Roadtax', color:'green', icon:'doc'},
+  lain:         {label:'Lain-lain', color:'text-dim', icon:'dots'}
+};
+const ICONS = {
+  fuel:'<path d="M3 22V9l6-6 6 6v13"/><path d="M9 22V13h6v9"/><path d="M15 8h2a2 2 0 0 1 2 2v3.5a1.5 1.5 0 0 0 3 0V8l-3-3"/>',
+  wrench:'<path d="M14.7 6.3a4 4 0 1 1-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 1 5.4-5.4l-3 3-2-2z"/>',
+  tool:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.13.31.4.55.72.72.32.13.55.4.72.72"/>',
+  road:'<path d="M4 22l5-19h6l5 19"/><path d="M12 3v4M12 11v2M12 17v2"/>',
+  parking:'<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 16V8h4a3 3 0 0 1 0 6H9"/>',
+  shield:'<path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/>',
+  doc:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/>',
+  dots:'<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>',
+  trash:'<path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6"/>'
+};
+function iconSvg(name, cls){
+  return `<svg class="${cls||''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[name]||ICONS.dots}</svg>`;
+}
+function typeColorVar(color){
+  return {red:'var(--red)', cyan:'var(--cyan)', green:'var(--green)', yellow:'var(--yellow)', 'text-dim':'var(--text-dim)'}[color] || 'var(--text-dim)';
+}
+function typeBgVar(color){
+  return {red:'var(--red-dim)', cyan:'var(--cyan-dim)', green:'var(--green-dim)', yellow:'var(--yellow-dim)', 'text-dim':'var(--surface-2)'}[color] || 'var(--surface-2)';
+}
+function recordAmount(r){
+  if(r.type==='minyak') return Number(r.amount)||0;
+  if(r.type==='servis' || r.type==='maintenance') return Number(r.amount)||0;
+  return Number(r.amount)||0;
+}
+function recordLabel(type){ return (TYPE_META[type]||{}).label || type; }
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+function switchScreen(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active', s.dataset.screen===name));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active', n.dataset.nav===name));
+  if(name==='dashboard') renderDashboard();
+  if(name==='history') renderHistory();
+  window.scrollTo(0,0);
+}
+function goAddRecord(){
+  editingId = null;
+  currentType = 'minyak';
+  switchScreen('add');
+  renderTypeGrid();
+  renderRecordForm();
+}
+
+/* ============================================================
+   DASHBOARD RENDERING
+   ============================================================ */
+function getLatestMileageRecord(){
+  const withMileage = state.records.filter(r=>r.mileage!==undefined && r.mileage!==null && r.mileage!=='');
+  if(withMileage.length===0) return null;
+  withMileage.sort((a,b)=> (a.date+  (a.time||'00:00')).localeCompare(b.date+(b.time||'00:00')) || 0);
+  return withMileage[withMileage.length-1];
+}
+
+function computeMonthly(){
+  const monthRecords = state.records.filter(r=>isThisMonth(r.date));
+  const fuel = monthRecords.filter(r=>r.type==='minyak');
+  const kosMinyak = fuel.reduce((s,r)=>s+(Number(r.amount)||0),0);
+  const jumlahLiter = fuel.reduce((s,r)=>s+(Number(r.litres)||0),0);
+  const jumlahBelanja = monthRecords.reduce((s,r)=>s+(Number(r.amount)||0),0);
+
+  // fuel efficiency this month: needs >=2 fuel records with mileage
+  const fuelWithMileage = fuel.filter(r=>r.mileage!=='' && r.mileage!=null).sort((a,b)=>Number(a.mileage)-Number(b.mileage));
+  let penggunaan = null, kosPerKm = null;
+  if(fuelWithMileage.length>=2){
+    const dist = Number(fuelWithMileage[fuelWithMileage.length-1].mileage) - Number(fuelWithMileage[0].mileage);
+    const litresUsed = fuelWithMileage.slice(1).reduce((s,r)=>s+(Number(r.litres)||0),0);
+    if(dist>0 && litresUsed>0) penggunaan = dist/litresUsed;
+    if(dist>0) kosPerKm = jumlahBelanja/dist;
+  }
+  return {kosMinyak, jumlahLiter, jumlahBelanja, penggunaan, kosPerKm};
+}
+
+function renderMonthlyStats(){
+  const m = computeMonthly();
+  const latest = getLatestMileageRecord();
+  const wrap = document.getElementById('monthlyStats');
+  wrap.innerHTML = `
+    <div class="stat-card">
+      <div class="stat-icon-row"><span class="stat-title">Kos Minyak</span><span class="stat-dot bg-red"></span></div>
+      <div class="stat-value">${fmtRM(m.kosMinyak)}</div>
+      <div class="stat-sub">bulan semasa</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon-row"><span class="stat-title">Jumlah Liter</span><span class="stat-dot bg-cyan"></span></div>
+      <div class="stat-value">${m.jumlahLiter.toFixed(1)} L</div>
+      <div class="stat-sub">minyak diisi bulan ini</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon-row"><span class="stat-title">Penggunaan Minyak</span><span class="stat-dot bg-green"></span></div>
+      <div class="stat-value">${m.penggunaan!==null ? m.penggunaan.toFixed(1)+' km/L' : '-'}</div>
+      <div class="stat-sub">${m.penggunaan!==null ? 'purata bulan semasa' : 'belum cukup data'}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon-row"><span class="stat-title">Kos Setiap KM</span><span class="stat-dot bg-yellow"></span></div>
+      <div class="stat-value">${m.kosPerKm!==null ? fmtRM(m.kosPerKm) : '-'}</div>
+      <div class="stat-sub">${m.kosPerKm!==null ? 'anggaran bulan semasa' : 'belum cukup data'}</div>
+    </div>
+    <div class="stat-card wide">
+      <div class="stat-icon-row"><span class="stat-title">Jumlah Belanja</span><span class="stat-dot bg-red"></span></div>
+      <div class="stat-value">${fmtRM(m.jumlahBelanja)}</div>
+      <div class="stat-sub">semua rekod bulan ini</div>
+    </div>
+  `;
+  const hero = document.getElementById('heroMileage');
+  const meta = document.getElementById('heroMeta');
+  if(latest){
+    hero.innerHTML = Number(latest.mileage).toLocaleString('en-MY')+' <span>km</span>';
+    meta.textContent = 'terakhir direkodkan pada '+fmtDate(latest.date);
+  }else{
+    hero.innerHTML = '- <span>km</span>';
+    meta.textContent = 'km terakhir direkodkan';
+  }
+}
+
+function monthLabel(offset){
+  const d = new Date(); d.setDate(1); d.setMonth(d.getMonth()-offset);
+  const bulan = ['Jan','Feb','Mac','Apr','Mei','Jun','Jul','Ogo','Sep','Okt','Nov','Dis'];
+  return {label:bulan[d.getMonth()], y:d.getFullYear(), m:d.getMonth()};
+}
+function catMatchesFilter(type, cat){
+  if(cat==='minyak') return type==='minyak';
+  if(cat==='maintenance') return type==='servis' || type==='maintenance';
+  return !['minyak','servis','maintenance'].includes(type);
+}
+function renderChart(){
+  const months = [5,4,3,2,1,0].map(monthLabel);
+  const totals = months.map(mo=>{
+    return state.records.filter(r=>{
+      if(!r.date) return false;
+      const d = new Date(r.date+'T00:00:00');
+      return d.getFullYear()===mo.y && d.getMonth()===mo.m && catMatchesFilter(r.type, chartCat);
+    }).reduce((s,r)=>s+(Number(r.amount)||0),0);
+  });
+  const max = Math.max(...totals, 1);
+  const area = document.getElementById('chartArea');
+  if(totals.every(t=>t===0)){
+    area.innerHTML = `<div class="chart-empty">Belum cukup data untuk carta ini</div>`;
+    return;
+  }
+  area.innerHTML = `<div class="chart-bars">
+    ${totals.map((t,i)=>`
+      <div class="chart-col">
+        <div class="chart-bar" style="height:${Math.max((t/max)*100,3)}%" title="${fmtRM(t)}"></div>
+        <div class="chart-month">${months[i].label}</div>
+      </div>`).join('')}
+  </div>`;
+}
+
+function reminderStatus(rem){
+  if(rem.completed) return {key:'ok', label:'Selesai'};
+  const latest = getLatestMileageRecord();
+  const curMileage = latest ? Number(latest.mileage) : null;
+  let dueByMileage = false, soonByMileage = false;
+  if(rem.targetMileage && curMileage!==null){
+    const diff = Number(rem.targetMileage) - curMileage;
+    if(diff<=0) dueByMileage = true; else if(diff<=500) soonByMileage = true;
+  }
+  let dueByDate=false, soonByDate=false;
+  if(rem.targetDate){
+    const days = (new Date(rem.targetDate+'T00:00:00') - new Date(todayStr()+'T00:00:00'))/86400000;
+    if(days<=0) dueByDate = true; else if(days<=14) soonByDate = true;
+  }
+  if(dueByMileage||dueByDate) return {key:'due', label:'Due'};
+  if(soonByMileage||soonByDate) return {key:'soon', label:'Due Soon'};
+  return {key:'active', label:'Aktif'};
+}
+
+function renderReminders(){
+  const wrap = document.getElementById('reminderList');
+  if(state.reminders.length===0){
+    wrap.innerHTML = `<div style="text-align:center; color:var(--text-faint); font-size:13px; padding:14px 0;">Tiada peringatan servis lagi</div>`;
+    return;
+  }
+  const sorted = [...state.reminders].sort((a,b)=>{
+    const order = {due:0, soon:1, active:2, ok:3};
+    return order[reminderStatus(a).key]-order[reminderStatus(b).key];
+  });
+  wrap.innerHTML = sorted.map(rem=>{
+    const st = reminderStatus(rem);
+    const badgeClass = st.key==='due'?'due':st.key==='soon'?'soon':'ok';
+    const targetParts = [];
+    if(rem.targetMileage) targetParts.push(Number(rem.targetMileage).toLocaleString('en-MY')+' km');
+    if(rem.targetDate) targetParts.push(fmtDate(rem.targetDate));
+    return `<div class="reminder-card">
+      <div class="reminder-icon">${iconSvg('wrench')}</div>
+      <div class="reminder-body">
+        <div class="reminder-name">${escapeHtml(rem.name)}</div>
+        <div class="reminder-target">${targetParts.join(' • ')||'Tiada sasaran'}</div>
+      </div>
+      <span class="badge ${badgeClass}">${st.label}</span>
+      <button class="reminder-del" onclick="deleteReminder('${rem.id}')">${iconSvg('trash')}</button>
+    </div>`;
+  }).join('');
+}
+
+function renderRecentRecords(){
+  const wrap = document.getElementById('recentRecords');
+  const sorted = [...state.records].sort((a,b)=>(b.date+(b.time||'')).localeCompare(a.date+(a.time||''))).slice(0,4);
+  if(sorted.length===0){
+    wrap.innerHTML = emptyStateHtml();
+    return;
+  }
+  wrap.innerHTML = sorted.map(recordCardHtml).join('');
+}
+
+function emptyStateHtml(){
+  return `<div class="empty-state">
+    ${iconSvg('doc')}
+    <div class="empty-title">Belum ada rekod</div>
+    <div class="empty-sub">Mulakan dengan merekodkan minyak, servis atau perbelanjaan pertama anda.</div>
+    <button class="cta-btn" style="margin-top:0;" onclick="goAddRecord()">+ Tambah Rekod</button>
+  </div>`;
+}
+
+function escapeHtml(s){
+  return String(s??'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function recordCardHtml(r){
+  const meta = TYPE_META[r.type]||TYPE_META.lain;
+  let detailBits = [];
+  if(r.type==='minyak'){
+    if(r.litres) detailBits.push(Number(r.litres).toFixed(1)+' L');
+    if(r.pricePerLitre) detailBits.push('RM '+Number(r.pricePerLitre).toFixed(2)+'/L');
+    if(r.vendor) detailBits.push(escapeHtml(r.vendor));
+  } else if(r.type==='servis'||r.type==='maintenance'){
+    if(r.category) detailBits.push(escapeHtml(r.category));
+    if(r.workshop) detailBits.push(escapeHtml(r.workshop));
+  } else {
+    if(r.notes) detailBits.push(escapeHtml(r.notes).slice(0,40));
+  }
+  if(r.mileage) detailBits.push(Number(r.mileage).toLocaleString('en-MY')+' km');
+  return `<div class="record-card" onclick="openRecordDetail('${r.id}')">
+    <div class="record-icon" style="background:${typeBgVar(meta.color)}; color:${typeColorVar(meta.color)}">${iconSvg(meta.icon)}</div>
+    <div class="record-main">
+      <div class="record-top-row">
+        <div class="record-type">${meta.label}</div>
+        <div class="record-amount">${fmtRM(recordAmount(r))}</div>
+      </div>
+      <div class="record-date">${fmtDate(r.date)}${r.time? ' • '+r.time:''}</div>
+      ${detailBits.length? `<div class="record-detail-line">${detailBits.map(d=>`<span>${d}</span>`).join('')}</div>`:''}
+    </div>
+  </div>`;
+}
+
+function renderDashboard(){
+  document.getElementById('chipPlate').textContent = state.settings.vehPlate || 'GM9727';
+  document.getElementById('chipName').textContent = state.settings.vehName || 'Proton S70';
+  renderMonthlyStats();
+  renderChart();
+  renderReminders();
+  renderRecentRecords();
+}
+
+/* ============================================================
+   ADD RECORD FORM
+   ============================================================ */
+function renderTypeGrid(){
+  const grid = document.getElementById('typeGrid');
+  grid.innerHTML = Object.keys(TYPE_META).map(t=>{
+    const meta = TYPE_META[t];
+    return `<button type="button" class="type-btn ${t===currentType?'active':''}" data-type="${t}" onclick="selectType('${t}')" style="${t===currentType?'':''}">
+      <span style="color:${t===currentType?typeColorVar(meta.color):'var(--text-dim)'}">${iconSvg(meta.icon)}</span>
+      ${meta.label}
+    </button>`;
+  }).join('');
+}
+function selectType(t){
+  currentType = t;
+  renderTypeGrid();
+  renderRecordForm();
+}
+
+function fieldWrap(label, inputHtml, errId){
+  return `<div class="form-block">
+    <label class="form-label">${label}</label>
+    ${inputHtml}
+    <div class="form-error" id="${errId}"></div>
+  </div>`;
+}
+
+function renderRecordForm(){
+  const form = document.getElementById('recordForm');
+  const existing = editingId ? state.records.find(r=>r.id===editingId) : null;
+  const v = (key, def='') => existing && existing[key]!==undefined ? existing[key] : def;
+
+  let html = '';
+  if(currentType==='minyak'){
+    html += fieldWrap('Tarikh', `<input class="form-input" type="date" id="f_tarikh" value="${v('date', todayStr())}">`, 'e_tarikh');
+    html += fieldWrap('Masa', `<input class="form-input" type="time" id="f_masa" value="${v('time', nowTimeStr())}">`, 'e_masa');
+    html += fieldWrap('Mileage (km)', `<input class="form-input" type="number" inputmode="numeric" id="f_mileage" placeholder="cth: 12450" value="${v('mileage')}">`, 'e_mileage');
+    html += `<div class="form-row-2">
+      ${fieldWrap('Jumlah liter', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_litres" placeholder="cth: 40.0" value="${v('litres')}">`, 'e_litres')}
+      ${fieldWrap('Harga seliter (RM)', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_price" placeholder="cth: 2.05" value="${v('pricePerLitre')}">`, 'e_price')}
+    </div>`;
+    html += fieldWrap('Jumlah bayaran (RM)', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_amount" placeholder="cth: 82.00" value="${v('amount')}">`, 'e_amount');
+    html += `<div class="calc-hint" id="calcHint" style="display:none;"></div>`;
+    html += fieldWrap('Stesen minyak', `<input class="form-input" type="text" id="f_vendor" placeholder="cth: Petronas" value="${escapeHtml(v('vendor'))}">`, 'e_vendor');
+    html += fieldWrap('Catatan', `<textarea class="form-textarea" id="f_notes">${escapeHtml(v('notes'))}</textarea>`, 'e_notes');
+  } else if(currentType==='servis' || currentType==='maintenance'){
+    const cats = ['Engine oil','Oil filter','Air filter','Cabin filter','Brake','Tyre','Battery','Alignment','Air conditioning','Scheduled service','Other'];
+    html += fieldWrap('Tarikh', `<input class="form-input" type="date" id="f_tarikh" value="${v('date', todayStr())}">`, 'e_tarikh');
+    html += fieldWrap('Mileage (km)', `<input class="form-input" type="number" inputmode="numeric" id="f_mileage" placeholder="cth: 12450" value="${v('mileage')}">`, 'e_mileage');
+    html += fieldWrap('Kategori servis', `<select class="form-select" id="f_category">${cats.map(c=>`<option value="${c}" ${v('category')===c?'selected':''}>${c}</option>`).join('')}</select>`, 'e_category');
+    html += fieldWrap('Kos (RM)', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_amount" placeholder="cth: 150.00" value="${v('amount')}">`, 'e_amount');
+    html += fieldWrap('Bengkel', `<input class="form-input" type="text" id="f_workshop" placeholder="cth: Bengkel Ah Chong" value="${escapeHtml(v('workshop'))}">`, 'e_workshop');
+    html += fieldWrap('Catatan', `<textarea class="form-textarea" id="f_notes">${escapeHtml(v('notes'))}</textarea>`, 'e_notes');
+    html += fieldWrap('Bandingkan dengan jadual rasmi (pilihan)', `<select class="form-select" id="f_scheduleCompare">
+      <option value="">- Tiada -</option>
+      ${state.schedule.map(iv=>`<option value="${iv.id}">${iv.mileage.toLocaleString('en-MY')} km / ${iv.months} bulan</option>`).join('')}
+    </select>`, 'e_scheduleCompare');
+    html += `<div class="calc-hint" id="scheduleHint" style="display:none;"></div>`;
+  } else {
+    html += fieldWrap('Tarikh', `<input class="form-input" type="date" id="f_tarikh" value="${v('date', todayStr())}">`, 'e_tarikh');
+    if(currentType==='lain'){
+      html += fieldWrap('Kategori', `<input class="form-input" type="text" id="f_category" placeholder="cth: Cucian kereta" value="${escapeHtml(v('category'))}">`, 'e_category');
+    }
+    html += fieldWrap('Mileage (km) - pilihan', `<input class="form-input" type="number" inputmode="numeric" id="f_mileage" placeholder="cth: 12450" value="${v('mileage')}">`, 'e_mileage');
+    html += fieldWrap('Jumlah (RM)', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_amount" placeholder="cth: 15.00" value="${v('amount')}">`, 'e_amount');
+    html += fieldWrap('Catatan', `<textarea class="form-textarea" id="f_notes">${escapeHtml(v('notes'))}</textarea>`, 'e_notes');
+  }
+  html += `<button type="submit" class="save-btn">${existing? 'Kemaskini Rekod':'Simpan Rekod'}</button>`;
+  if(existing) html += `<button type="button" class="cancel-link" onclick="cancelEdit()">Batal</button>`;
+  form.innerHTML = html;
+
+  if(currentType==='minyak'){
+    const litresEl = document.getElementById('f_litres');
+    const priceEl = document.getElementById('f_price');
+    const amountEl = document.getElementById('f_amount');
+    const hint = document.getElementById('calcHint');
+    function recalcFromLitresPrice(){
+      const l = parseFloat(litresEl.value), p = parseFloat(priceEl.value);
+      if(l>0 && p>0){ amountEl.value = (l*p).toFixed(2); hint.style.display='block'; hint.textContent = 'Jumlah bayaran dikira automatik (liter × harga seliter)'; }
+    }
+    function recalcPriceFromTotal(){
+      const l = parseFloat(litresEl.value), a = parseFloat(amountEl.value);
+      if(l>0 && a>0 && (!priceEl.value || document.activeElement===amountEl)){ priceEl.value = (a/l).toFixed(2); hint.style.display='block'; hint.textContent='Harga seliter dikira automatik (jumlah ÷ liter)'; }
+    }
+    litresEl.addEventListener('input', recalcFromLitresPrice);
+    priceEl.addEventListener('input', recalcFromLitresPrice);
+    amountEl.addEventListener('input', recalcPriceFromTotal);
+  }
+
+  if(currentType==='servis' || currentType==='maintenance'){
+    const compareEl = document.getElementById('f_scheduleCompare');
+    const hintEl = document.getElementById('scheduleHint');
+    compareEl.addEventListener('change', ()=>{
+      const iv = state.schedule.find(x=>x.id===compareEl.value);
+      if(!iv){ hintEl.style.display='none'; return; }
+      hintEl.style.display='block';
+      hintEl.textContent = 'Anggaran rasmi untuk ' + iv.mileage.toLocaleString('en-MY') + ' km: ' + fmtRM(scheduleTotal(iv)) + ' (bandingkan dengan Kos di atas)';
+    });
+  }
+
+  form.onsubmit = handleFormSubmit;
+}
+
+function clearErrors(form){
+  form.querySelectorAll('.form-error').forEach(e=>{e.classList.remove('show'); e.textContent='';});
+  form.querySelectorAll('.err').forEach(e=>e.classList.remove('err'));
+}
+function setError(id, inputId, msg){
+  const errEl = document.getElementById(id);
+  const inputEl = document.getElementById(inputId);
+  if(errEl){ errEl.textContent = msg; errEl.classList.add('show'); }
+  if(inputEl){ inputEl.classList.add('err'); }
+}
+
+function handleFormSubmit(ev){
+  ev.preventDefault();
+  const form = ev.target;
+  clearErrors(form);
+  let valid = true;
+  const get = id => document.getElementById(id);
+
+  const date = get('f_tarikh') ? get('f_tarikh').value : '';
+  if(!date){ setError('e_tarikh','f_tarikh','Sila pilih tarikh.'); valid = false; }
+
+  const mileageEl = get('f_mileage');
+  const mileageVal = mileageEl ? mileageEl.value : '';
+  if(mileageEl && mileageVal!=='' && Number(mileageVal) < 0){ setError('e_mileage','f_mileage','Mileage tidak boleh negatif.'); valid = false; }
+  if(currentType==='minyak' || currentType==='servis' || currentType==='maintenance'){
+    if(mileageVal===''){ setError('e_mileage','f_mileage','Sila masukkan mileage.'); valid = false; }
+  }
+
+  let record = { id: editingId || uid(), type: currentType, date, mileage: mileageVal!==''? Number(mileageVal): null, createdAt: editingId ? (state.records.find(r=>r.id===editingId)||{}).createdAt || Date.now() : Date.now() };
+
+  if(currentType==='minyak'){
+    record.time = get('f_masa').value;
+    const litres = get('f_litres').value, price = get('f_price').value, amount = get('f_amount').value;
+    if(litres==='' || Number(litres)<=0){ setError('e_litres','f_litres','Jumlah liter mesti lebih daripada 0.'); valid=false; }
+    if(price!=='' && Number(price)<0){ setError('e_price','f_price','Harga tidak boleh negatif.'); valid=false; }
+    if(amount==='' || Number(amount)<=0){ setError('e_amount','f_amount','Sila masukkan jumlah bayaran.'); valid=false; }
+    record.litres = Number(litres)||0;
+    record.pricePerLitre = price!==''? Number(price) : (record.litres>0? Number(amount)/record.litres : 0);
+    record.amount = Number(amount)||0;
+    record.vendor = get('f_vendor').value.trim();
+    record.notes = get('f_notes').value.trim();
+  } else if(currentType==='servis'||currentType==='maintenance'){
+    record.category = get('f_category').value;
+    const amount = get('f_amount').value;
+    if(amount===''|| Number(amount)<0){ setError('e_amount','f_amount','Sila masukkan kos servis.'); valid=false; }
+    record.amount = Number(amount)||0;
+    record.workshop = get('f_workshop').value.trim();
+    record.notes = get('f_notes').value.trim();
+  } else {
+    if(currentType==='lain'){ record.category = get('f_category').value.trim() || 'Lain-lain'; }
+    else { record.category = TYPE_META[currentType].label; }
+    const amount = get('f_amount').value;
+    if(amount===''|| Number(amount)<0){ setError('e_amount','f_amount','Sila masukkan jumlah perbelanjaan.'); valid=false; }
+    record.amount = Number(amount)||0;
+    record.notes = get('f_notes').value.trim();
+  }
+
+  if(!valid) return;
+
+  if(editingId){
+    const idx = state.records.findIndex(r=>r.id===editingId);
+    state.records[idx] = record;
+    showToast('Rekod dikemaskini');
+  } else {
+    state.records.push(record);
+    showToast('Rekod disimpan');
+  }
+  saveRecords();
+  editingId = null;
+  switchScreen('dashboard');
+}
+
+function cancelEdit(){
+  editingId = null;
+  switchScreen('history');
+}
+
+/* ============================================================
+   HISTORY
+   ============================================================ */
+let activeFilter = 'semua';
+function renderHistory(){
+  const search = (document.getElementById('searchInput').value||'').toLowerCase();
+  const sortMode = document.getElementById('sortSelect').value;
+
+  let list = state.records.filter(r=>{
+    if(activeFilter==='minyak') return r.type==='minyak';
+    if(activeFilter==='servis') return r.type==='servis'||r.type==='maintenance';
+    if(activeFilter==='lain') return !['minyak','servis','maintenance'].includes(r.type);
+    return true;
+  });
+  if(search){
+    list = list.filter(r=>{
+      const hay = [recordLabel(r.type), r.vendor, r.workshop, r.category, r.notes].filter(Boolean).join(' ').toLowerCase();
+      return hay.includes(search);
+    });
+  }
+  if(sortMode==='terbaru') list.sort((a,b)=>(b.date+(b.time||'')).localeCompare(a.date+(a.time||'')));
+  if(sortMode==='terlama') list.sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
+  if(sortMode==='mileage') list.sort((a,b)=>(Number(b.mileage)||0)-(Number(a.mileage)||0));
+  if(sortMode==='kos') list.sort((a,b)=>recordAmount(b)-recordAmount(a));
+
+  const wrap = document.getElementById('historyList');
+  wrap.innerHTML = list.length ? list.map(recordCardHtml).join('') : `<div class="empty-state">${iconSvg('doc')}<div class="empty-title">Tiada rekod dijumpai</div><div class="empty-sub">Cuba tukar penapis atau kata kunci carian.</div></div>`;
+
+  renderAnalytics();
+}
+
+function renderAnalytics(){
+  const records = state.records;
+  const fuel = records.filter(r=>r.type==='minyak');
+  const totalFuelCost = fuel.reduce((s,r)=>s+(Number(r.amount)||0),0);
+  const totalLitres = fuel.reduce((s,r)=>s+(Number(r.litres)||0),0);
+  const avgPrice = totalLitres>0 ? totalFuelCost/totalLitres : null;
+  const maintCost = records.filter(r=>r.type==='servis'||r.type==='maintenance').reduce((s,r)=>s+(Number(r.amount)||0),0);
+  const totalSpending = records.reduce((s,r)=>s+(Number(r.amount)||0),0);
+
+  const withMileage = records.filter(r=>r.mileage!=null).map(r=>Number(r.mileage));
+  let distance = null, costPerKm = null, avgConsumption = null;
+  if(withMileage.length>=2){
+    distance = Math.max(...withMileage) - Math.min(...withMileage);
+    if(distance>0) costPerKm = totalSpending/distance;
+  }
+  const fuelWithMileage = fuel.filter(r=>r.mileage!=null).sort((a,b)=>Number(a.mileage)-Number(b.mileage));
+  if(fuelWithMileage.length>=2){
+    const d = Number(fuelWithMileage[fuelWithMileage.length-1].mileage) - Number(fuelWithMileage[0].mileage);
+    const litresUsed = fuelWithMileage.slice(1).reduce((s,r)=>s+(Number(r.litres)||0),0);
+    if(d>0 && litresUsed>0) avgConsumption = d/litresUsed;
+  }
+
+  const grid = document.getElementById('analyticsGrid');
+  grid.innerHTML = `
+    <div class="stat-card"><div class="stat-title">Jumlah Mileage</div><div class="stat-value">${distance!==null? distance.toLocaleString('en-MY')+' km' : '-'}</div><div class="stat-sub">${distance!==null?'jarak direkodkan':'belum cukup data'}</div></div>
+    <div class="stat-card"><div class="stat-title">Jumlah Minyak</div><div class="stat-value">${totalLitres.toFixed(1)} L</div><div class="stat-sub">keseluruhan</div></div>
+    <div class="stat-card"><div class="stat-title">Purata Harga Minyak</div><div class="stat-value">${avgPrice!==null? 'RM '+avgPrice.toFixed(2):'-'}</div><div class="stat-sub">setiap liter</div></div>
+    <div class="stat-card"><div class="stat-title">Purata Penggunaan</div><div class="stat-value">${avgConsumption!==null? avgConsumption.toFixed(1)+' km/L':'-'}</div><div class="stat-sub">${avgConsumption!==null?'keseluruhan':'belum cukup data'}</div></div>
+    <div class="stat-card"><div class="stat-title">Kos Setiap KM</div><div class="stat-value">${costPerKm!==null? fmtRM(costPerKm):'-'}</div><div class="stat-sub">${costPerKm!==null?'anggaran keseluruhan':'belum cukup data'}</div></div>
+    <div class="stat-card"><div class="stat-title">Jumlah Penyelenggaraan</div><div class="stat-value">${fmtRM(maintCost)}</div><div class="stat-sub">servis &amp; maintenance</div></div>
+    <div class="stat-card wide"><div class="stat-title">Jumlah Belanja Kenderaan</div><div class="stat-value">${fmtRM(totalSpending)}</div><div class="stat-sub">semua rekod</div></div>
+  `;
+}
+
+/* ============================================================
+   RECORD DETAIL / DELETE
+   ============================================================ */
+function openOverlay(html){
+  document.getElementById('sheet').innerHTML = html;
+  document.getElementById('overlay').classList.add('show');
+}
+function closeOverlay(){
+  document.getElementById('overlay').classList.remove('show');
+}
+document.getElementById('overlay').addEventListener('click', e=>{
+  if(e.target.id==='overlay') closeOverlay();
+});
+
+function openRecordDetail(id){
+  const r = state.records.find(x=>x.id===id);
+  if(!r) return;
+  const meta = TYPE_META[r.type]||TYPE_META.lain;
+  let rows = [
+    ['Jenis', meta.label],
+    ['Tarikh', fmtDate(r.date)],
+  ];
+  if(r.time) rows.push(['Masa', r.time]);
+  if(r.mileage!=null) rows.push(['Mileage', Number(r.mileage).toLocaleString('en-MY')+' km']);
+  if(r.type==='minyak'){
+    rows.push(['Jumlah liter', Number(r.litres).toFixed(2)+' L']);
+    rows.push(['Harga seliter', 'RM '+Number(r.pricePerLitre).toFixed(2)]);
+    rows.push(['Jumlah bayaran', fmtRM(r.amount)]);
+    if(r.vendor) rows.push(['Stesen minyak', r.vendor]);
+  } else if(r.type==='servis'||r.type==='maintenance'){
+    rows.push(['Kategori', r.category||'-']);
+    rows.push(['Kos', fmtRM(r.amount)]);
+    if(r.workshop) rows.push(['Bengkel', r.workshop]);
+  } else {
+    if(r.category) rows.push(['Kategori', r.category]);
+    rows.push(['Jumlah', fmtRM(r.amount)]);
+  }
+  if(r.notes) rows.push(['Catatan', r.notes]);
+
+  openOverlay(`
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">${meta.label}</div>
+    ${rows.map(([k,v])=>`<div class="detail-row"><span class="k">${escapeHtml(k)}</span><span class="v">${escapeHtml(v)}</span></div>`).join('')}
+    <div class="sheet-actions">
+      <button class="btn-edit" onclick="editRecord('${r.id}')">Edit Rekod</button>
+      <button class="btn-delete" onclick="confirmDeleteRecord('${r.id}')">Delete Rekod</button>
+    </div>
+  `);
+}
+function editRecord(id){
+  const r = state.records.find(x=>x.id===id);
+  if(!r) return;
+  closeOverlay();
+  editingId = id;
+  currentType = r.type;
+  switchScreen('add');
+  renderTypeGrid();
+  renderRecordForm();
+}
+function confirmDeleteRecord(id){
+  openOverlay(`
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Padam rekod ini?</div>
+    <div class="confirm-text">Tindakan ini tidak boleh diundur. Rekod akan dipadam secara kekal.</div>
+    <div class="sheet-actions">
+      <button class="btn-edit" onclick="closeOverlay()">Batal</button>
+      <button class="btn-delete" onclick="deleteRecord('${id}')">Padam</button>
+    </div>
+  `);
+}
+function deleteRecord(id){
+  state.records = state.records.filter(r=>r.id!==id);
+  saveRecords();
+  closeOverlay();
+  showToast('Rekod dipadam');
+  renderDashboard();
+  renderHistory();
+}
+
+/* ============================================================
+   REMINDERS SHEET
+   ============================================================ */
+function openReminderSheet(prefill){
+  prefill = prefill || {};
+  openOverlay(`
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Tambah Peringatan Servis</div>
+    <div class="form-block"><label class="form-label">Nama servis</label><input class="form-input" id="rem_name" placeholder="cth: Engine Oil" value="${escapeHtml(prefill.name||'')}"></div>
+    <div class="form-block"><label class="form-label">Mileage sasaran (km)</label><input class="form-input" type="number" id="rem_mileage" placeholder="cth: 15000" value="${prefill.targetMileage||''}"></div>
+    <div class="form-block"><label class="form-label">Tarikh sasaran</label><input class="form-input" type="date" id="rem_date" value="${prefill.targetDate||''}"></div>
+    <div class="form-block"><label class="form-label">Catatan</label><textarea class="form-textarea" id="rem_notes">${escapeHtml(prefill.notes||'')}</textarea></div>
+    <div class="form-error show" id="rem_err" style="display:none;"></div>
+    <button class="save-btn" onclick="saveReminder()">Simpan Peringatan</button>
+  `);
+}
+function saveReminder(){
+  const name = document.getElementById('rem_name').value.trim();
+  const mileage = document.getElementById('rem_mileage').value;
+  const date = document.getElementById('rem_date').value;
+  const notes = document.getElementById('rem_notes').value.trim();
+  const err = document.getElementById('rem_err');
+  if(!name){ err.textContent = 'Sila masukkan nama servis.'; err.style.display='block'; return; }
+  if(!mileage && !date){ err.textContent = 'Sila masukkan mileage sasaran atau tarikh sasaran.'; err.style.display='block'; return; }
+  state.reminders.push({id:uid(), name, targetMileage: mileage?Number(mileage):null, targetDate: date||null, notes, completed:false});
+  saveReminders();
+  closeOverlay();
+  showToast('Peringatan disimpan');
+  renderReminders();
+}
+function deleteReminder(id){
+  state.reminders = state.reminders.filter(r=>r.id!==id);
+  saveReminders();
+  renderReminders();
+  showToast('Peringatan dipadam');
+}
+
+/* ============================================================
+   OFFICIAL SERVICE SCHEDULE (S70) — reference sheet + reminders
+   ============================================================ */
+function scheduleRowsHtml(interval){
+  const rows = interval.parts.map(p=>`<div class="schedule-row-line"><span>${escapeHtml(p.name)}</span><span>${fmtRM(p.price)}</span></div>`).join('');
+  const labourRow = `<div class="schedule-row-line"><span>Servis Labour</span><span>${fmtRM(interval.labour)}</span></div>`;
+  const taxRow = `<div class="schedule-row-line"><span>Servis Tax 8%</span><span>${fmtRM(scheduleTax(interval.labour))}</span></div>`;
+  const totalRow = `<div class="schedule-row-line total"><span>Grand Total</span><span>${fmtRM(scheduleTotal(interval))}</span></div>`;
+  return rows + labourRow + taxRow + totalRow;
+}
+function openScheduleSheet(){
+  const items = state.schedule.map(iv=>`
+    <div class="schedule-item" id="schedItem_${iv.id}">
+      <div class="schedule-head" onclick="toggleScheduleItem('${iv.id}')">
+        <div>
+          <div class="sh-label">Mileage</div>
+          <div class="sh-value">${iv.mileage.toLocaleString('en-MY')} km / ${iv.months} bulan</div>
+        </div>
+        <svg class="schedule-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="schedule-body">
+        <div class="schedule-table">${scheduleRowsHtml(iv)}</div>
+        <div class="schedule-actions">
+          <button class="schedule-use-btn" onclick="useScheduleAsReminder('${iv.id}')">Guna Sebagai Peringatan</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  openOverlay(`
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Jadual Servis Rasmi (S70)</div>
+    <div class="schedule-note">Harga anggaran ikut jadual servis berkala rasmi. Harga sebenar boleh berbeza ikut pusat servis dan promosi semasa. Boleh dikemaskini di Tetapan.</div>
+    ${items}
+  `);
+}
+function toggleScheduleItem(id){
+  const el = document.getElementById('schedItem_'+id);
+  if(el) el.classList.toggle('open');
+}
+function useScheduleAsReminder(id){
+  const iv = state.schedule.find(x=>x.id===id);
+  if(!iv) return;
+  closeOverlay();
+  const partNames = iv.parts.map(p=>p.name).join(', ');
+  openReminderSheet({
+    name: 'Servis '+iv.mileage.toLocaleString('en-MY')+' km',
+    targetMileage: iv.mileage,
+    notes: 'Ikut jadual rasmi: '+partNames+'. Anggaran RM '+scheduleTotal(iv).toFixed(2)+'.'
+  });
+}
+
+/* ---- Editable schedule in Tetapan ---- */
+function renderScheduleSettings(){
+  const wrap = document.getElementById('scheduleSettingsContainer');
+  if(!wrap) return;
+  wrap.innerHTML = state.schedule.map(iv=>`
+    <div class="sched-edit-block" data-interval="${iv.id}" data-mileage="${iv.mileage}" data-months="${iv.months}">
+      <div class="sched-edit-head">
+        <div class="sched-edit-title">${iv.mileage.toLocaleString('en-MY')} km</div>
+        <div class="sched-edit-sub">${iv.months} bulan</div>
+      </div>
+      <div class="sched-parts" id="schedParts_${iv.id}">
+        ${iv.parts.map(p=>schedPartRowHtml(p.name, p.price)).join('')}
+      </div>
+      <button type="button" class="sched-add-part" onclick="addSchedulePart('${iv.id}')">+ Tambah Item</button>
+      <div class="sched-labour-row">
+        <label>Servis Labour (RM)</label>
+        <input type="number" step="0.01" class="sched-labour-input" value="${iv.labour}">
+      </div>
+      <div class="sched-computed">Tax 8% + Total dikira automatik bila disimpan</div>
+    </div>
+  `).join('');
+}
+function schedPartRowHtml(name, price){
+  return `<div class="sched-part-row">
+    <input type="text" class="sched-part-name" value="${escapeHtml(name)}" placeholder="Nama item">
+    <input type="number" step="0.01" class="sched-part-price" value="${price}" placeholder="0.00">
+    <button type="button" class="sched-remove-part" onclick="this.closest('.sched-part-row').remove()">${iconSvg('trash')}</button>
+  </div>`;
+}
+function addSchedulePart(intervalId){
+  const container = document.getElementById('schedParts_'+intervalId);
+  if(!container) return;
+  container.insertAdjacentHTML('beforeend', schedPartRowHtml('', 0));
+}
+function saveScheduleFromSettings(){
+  const blocks = document.querySelectorAll('.sched-edit-block');
+  const newSchedule = [];
+  let hasError = false;
+  blocks.forEach(block=>{
+    const id = block.dataset.interval;
+    const mileage = Number(block.dataset.mileage);
+    const months = Number(block.dataset.months);
+    const parts = [];
+    block.querySelectorAll('.sched-part-row').forEach(row=>{
+      const name = row.querySelector('.sched-part-name').value.trim();
+      const price = Number(row.querySelector('.sched-part-price').value);
+      if(name && price>=0) parts.push({name, price});
+    });
+    const labour = Number(block.querySelector('.sched-labour-input').value) || 0;
+    if(labour<0){ hasError = true; }
+    newSchedule.push({id, mileage, months, labour, parts});
+  });
+  if(hasError){ showToast('Nilai tidak sah, sila semak semula.'); return; }
+  state.schedule = newSchedule;
+  saveSchedule();
+  showToast('Jadual servis disimpan');
+}
+function confirmResetSchedule(){
+  openOverlay(`
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Set semula jadual servis?</div>
+    <div class="confirm-text">Sebarang harga yang anda kemaskini akan digantikan dengan jadual asal. Rekod dan peringatan anda tidak terjejas.</div>
+    <div class="sheet-actions">
+      <button class="btn-edit" onclick="closeOverlay()">Batal</button>
+      <button class="btn-delete" onclick="doResetSchedule()">Set Semula</button>
+    </div>
+  `);
+}
+function doResetSchedule(){
+  state.schedule = cloneDefaultSchedule();
+  saveSchedule().then(()=>{
+    closeOverlay();
+    renderScheduleSettings();
+    showToast('Jadual servis diset semula');
+  });
+}
+
+/* ============================================================
+   SETTINGS
+   ============================================================ */
+function populateSettingsForm(){
+  document.getElementById('setVehName').value = state.settings.vehName||'';
+  document.getElementById('setVehPlate').value = state.settings.vehPlate||'';
+  document.getElementById('setVehModel').value = state.settings.vehModel||'';
+  document.getElementById('setVehYear').value = state.settings.vehYear||'';
+}
+function saveVehicleSettings(){
+  state.settings.vehName = document.getElementById('setVehName').value.trim() || 'Kenderaan Saya';
+  state.settings.vehPlate = document.getElementById('setVehPlate').value.trim().toUpperCase();
+  state.settings.vehModel = document.getElementById('setVehModel').value.trim();
+  state.settings.vehYear = document.getElementById('setVehYear').value.trim();
+  saveSettings();
+  document.getElementById('chipPlate').textContent = state.settings.vehPlate || '-';
+  document.getElementById('chipName').textContent = state.settings.vehName || '-';
+  showToast('Maklumat kenderaan disimpan');
+}
+
+function exportData(){
+  const payload = { records: state.records, settings: state.settings, reminders: state.reminders, schedule: state.schedule, exportedAt: new Date().toISOString() };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'log-prestasi-data.json';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('Data dieksport');
+}
+document.getElementById('importFile').addEventListener('change', function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    try{
+      const data = JSON.parse(ev.target.result);
+      if(!data || typeof data !== 'object') throw new Error('invalid');
+      state.records = Array.isArray(data.records) ? data.records : state.records;
+      state.settings = data.settings && typeof data.settings==='object' ? {...DEFAULT_SETTINGS, ...data.settings} : state.settings;
+      state.reminders = Array.isArray(data.reminders) ? data.reminders : state.reminders;
+      state.schedule = Array.isArray(data.schedule) ? data.schedule : state.schedule;
+      Promise.all([saveRecords(), saveSettings(), saveReminders(), saveSchedule()]).then(()=>{
+        populateSettingsForm();
+        renderScheduleSettings();
+        renderDashboard();
+        showToast('Data diimport berjaya');
+      });
+    }catch(err){
+      showToast('Fail tidak sah. Sila cuba fail export yang betul.');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+function confirmReset(){
+  openOverlay(`
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Reset semua data?</div>
+    <div class="confirm-text">Semua rekod, peringatan dan tetapan akan dipadam secara kekal. Pastikan anda telah export data jika perlu.</div>
+    <div class="sheet-actions">
+      <button class="btn-edit" onclick="closeOverlay()">Batal</button>
+      <button class="btn-delete" onclick="doReset()">Reset</button>
+    </div>
+  `);
+}
+function doReset(){
+  state.records = [];
+  state.reminders = [];
+  state.settings = {...DEFAULT_SETTINGS};
+  Promise.all([saveRecords(), saveReminders(), saveSettings()]).then(()=>{
+    closeOverlay();
+    populateSettingsForm();
+    renderDashboard();
+    showToast('Data telah direset');
+  });
+}
+
+/* ============================================================
+   EVENT WIRING
+   ============================================================ */
+document.getElementById('chartTabs').addEventListener('click', e=>{
+  const btn = e.target.closest('.chart-tab');
+  if(!btn) return;
+  document.querySelectorAll('.chart-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  chartCat = btn.dataset.cat;
+  renderChart();
+});
+document.getElementById('filterRow').addEventListener('click', e=>{
+  const btn = e.target.closest('.filter-chip');
+  if(!btn) return;
+  document.querySelectorAll('.filter-chip').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter = btn.dataset.filter;
+  renderHistory();
+});
+document.getElementById('searchInput').addEventListener('input', renderHistory);
+document.getElementById('sortSelect').addEventListener('change', renderHistory);
+
+/* ============================================================
+   INIT
+   ============================================================ */
+async function init(){
+  await loadAll();
+  populateSettingsForm();
+  renderScheduleSettings();
+  renderTypeGrid();
+  renderRecordForm();
+  renderDashboard();
+}
+init();
+</script>
+</body>
+</html>
