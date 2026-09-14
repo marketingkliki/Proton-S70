@@ -118,16 +118,17 @@
   .odo-icon svg{width:20px;height:20px; color:var(--red);}
 
   .cta-btn{
-    width:100%; margin-top:16px;
+    width:auto; margin:16px auto 0; max-width:220px;
     background:linear-gradient(155deg, var(--red), #c7262a);
-    border:none; border-radius:13px;
-    color:#fff; font-weight:700; font-size:15.5px;
-    padding:15px; display:flex; align-items:center; justify-content:center; gap:8px;
-    box-shadow:0 6px 18px rgba(255,59,63,0.30);
+    border:none; border-radius:11px;
+    color:#fff; font-weight:700; font-size:13.5px;
+    padding:11px 20px; display:flex; align-items:center; justify-content:center; gap:6px;
+    box-shadow:0 4px 12px rgba(255,59,63,0.24);
     transition:transform .12s ease, box-shadow .12s ease;
-    min-height:50px;
+    min-height:44px;
   }
-  .cta-btn:active{transform:scale(0.97); box-shadow:0 3px 10px rgba(255,59,63,0.25);}
+  .cta-btn svg{width:15px; height:15px;}
+  .cta-btn:active{transform:scale(0.97); box-shadow:0 2px 8px rgba(255,59,63,0.2);}
 
   .section-head{display:flex; align-items:baseline; justify-content:space-between; margin:22px 0 12px;}
   .section-title{font-family:var(--font-num); font-size:19px; font-weight:700;}
