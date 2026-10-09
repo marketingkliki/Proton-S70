@@ -507,6 +507,7 @@
         <button class="chart-tab active" data-cat="minyak">Minyak</button>
         <button class="chart-tab" data-cat="maintenance">Maintenance</button>
         <button class="chart-tab" data-cat="lain">Lain-lain</button>
+        <button class="chart-tab" data-cat="kml">km/L</button>
       </div>
       <div id="chartArea"></div>
     </div>
@@ -847,6 +848,17 @@ function recordAmount(r){
   return Number(r.amount)||0;
 }
 function recordLabel(type){ return (TYPE_META[type]||{}).label || type; }
+function lastMileageHint(){
+  const r = getLatestMileageRecord();
+  return r ? 'Last: '+Number(r.mileage).toLocaleString('en-MY')+' km' : 'cth: 12450';
+}
+function lastVendor(){
+  const f = state.records.filter(r=>r.type==='minyak' && r.vendor).sort((a,b)=>recKey(a).localeCompare(recKey(b)));
+  return f.length ? f[f.length-1].vendor : '';
+}
+function pastVendors(){
+  return [...new Set(state.records.filter(r=>r.type==='minyak' && r.vendor).map(r=>r.vendor.trim()))];
+}
 function lastFuelPrice(){
   const f = state.records.filter(r=>r.type==='minyak' && r.pricePerLitre>0).sort((a,b)=>recKey(a).localeCompare(recKey(b)));
   return f.length ? Number(f[f.length-1].pricePerLitre).toFixed(2) : '';
@@ -1174,26 +1186,29 @@ function renderChart(){
   // 6 months ending at the selected month (or the current month in year view)
   const endP = period.mode==='month' ? period : currentPeriod('month');
   const months = [5,4,3,2,1,0].map(i=>periodShift(endP,-i));
+  const isKml = chartCat==='kml';
   const totals = months.map(mo=>{
+    if(isKml) return computePeriod(mo).kml || 0;
     const {start,end} = periodRange(mo);
     return state.records.filter(r=>r.date>=start && r.date<=end && catMatchesFilter(r.type, chartCat))
       .reduce((s,r)=>s+(Number(r.amount)||0),0);
   });
   const max = Math.max(...totals, 1);
+  const overall = isKml ? overallKml() : null;
   const area = document.getElementById('chartArea');
   if(totals.every(t=>t===0)){
-    area.innerHTML = `<div class="chart-empty">Takde belanja dalam 6 bulan ni</div>`;
+    area.innerHTML = `<div class="chart-empty">${isKml ? 'Data tak cukup untuk km/L' : 'Takde belanja dalam 6 bulan ni'}</div>`;
     return;
   }
   area.innerHTML = `<div class="chart-bars">
     ${totals.map((t,i)=>{
       const sel = period.mode==='month' && months[i].y===period.y && months[i].m===period.m;
       return `<div class="chart-col ${sel?'sel':''}" onclick="selectMonth(${months[i].y},${months[i].m})">
-        <div class="chart-val">${t>0? Math.round(t):''}</div>
+        <div class="chart-val">${t>0? (isKml ? t.toFixed(1) : Math.round(t)):''}</div>
         <div class="chart-bar" style="height:${Math.max((t/max)*82,3)}%"></div>
         <div class="chart-month">${BULAN_S[months[i].m]}</div>
       </div>`;}).join('')}
-  </div>`;
+  </div>${isKml && overall ? `<div class="stat-sub" style="text-align:center; margin-top:10px;">Purata keseluruhan ${overall.toFixed(1)} km/L. Bar lebih tinggi = lebih jimat.</div>`:''}`;
 }
 function selectMonth(y,m){
   period = {mode:'month', y, m};
@@ -1351,19 +1366,19 @@ function renderRecordForm(){
   if(currentType==='minyak'){
     html += fieldWrap('Tarikh', `<input class="form-input" type="date" id="f_tarikh" value="${v('date', todayStr())}">`, 'e_tarikh');
     html += fieldWrap('Masa', `<input class="form-input" type="time" id="f_masa" value="${v('time', nowTimeStr())}">`, 'e_masa');
-    html += fieldWrap('Mileage (km)', `<input class="form-input" type="number" inputmode="numeric" id="f_mileage" placeholder="cth: 12450" value="${v('mileage')}">`, 'e_mileage');
+    html += fieldWrap('Mileage (km)', `<input class="form-input" type="number" inputmode="numeric" id="f_mileage" placeholder="${lastMileageHint()}" value="${v('mileage')}">`, 'e_mileage');
     html += `<div class="form-row-2">
       ${fieldWrap('Liter', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_litres" placeholder="cth: 40.0" value="${v('litres')}">`, 'e_litres')}
       ${fieldWrap('Harga / liter (RM)', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_price" placeholder="cth: 2.05" value="${existing ? (existing.pricePerLitre? Number(existing.pricePerLitre).toFixed(2):'') : lastFuelPrice()}">`, 'e_price')}
     </div>`;
     html += fieldWrap('Total bayar (RM)', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_amount" placeholder="cth: 82.00" value="${v('amount')}">`, 'e_amount');
     html += `<div class="calc-hint" id="calcHint" style="display:none;"></div>`;
-    html += fieldWrap('Stesen', `<input class="form-input" type="text" id="f_vendor" placeholder="cth: Petronas" value="${escapeHtml(v('vendor'))}">`, 'e_vendor');
+    html += fieldWrap('Stesen', `<input class="form-input" type="text" id="f_vendor" list="vendorList" placeholder="cth: Petronas" value="${escapeHtml(existing ? (existing.vendor||'') : lastVendor())}"><datalist id="vendorList">${pastVendors().map(x=>`<option value="${escapeHtml(x)}">`).join('')}</datalist>`, 'e_vendor');
     html += fieldWrap('Nota', `<textarea class="form-textarea" id="f_notes">${escapeHtml(v('notes'))}</textarea>`, 'e_notes');
   } else if(currentType==='servis' || currentType==='maintenance'){
     const cats = ['Engine oil','Oil filter','Air filter','Cabin filter','Brake','Tyre','Battery','Alignment','Air conditioning','Scheduled service','Other'];
     html += fieldWrap('Tarikh', `<input class="form-input" type="date" id="f_tarikh" value="${v('date', todayStr())}">`, 'e_tarikh');
-    html += fieldWrap('Mileage (km)', `<input class="form-input" type="number" inputmode="numeric" id="f_mileage" placeholder="cth: 12450" value="${v('mileage')}">`, 'e_mileage');
+    html += fieldWrap('Mileage (km)', `<input class="form-input" type="number" inputmode="numeric" id="f_mileage" placeholder="${lastMileageHint()}" value="${v('mileage')}">`, 'e_mileage');
     html += fieldWrap('Kategori', `<select class="form-select" id="f_category">${cats.map(c=>`<option value="${c}" ${v('category')===c?'selected':''}>${c}</option>`).join('')}</select>`, 'e_category');
     html += fieldWrap('Kos (RM)', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_amount" placeholder="cth: 150.00" value="${v('amount')}">`, 'e_amount');
     html += fieldWrap('Workshop', `<input class="form-input" type="text" id="f_workshop" placeholder="cth: Proton Service Centre" value="${escapeHtml(v('workshop'))}">`, 'e_workshop');
@@ -1995,6 +2010,9 @@ async function init(){
   renderDashboard();
 }
 init();
+if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')){
+  window.addEventListener('load', ()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
 </script>
 </body>
 </html>
