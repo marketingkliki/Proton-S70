@@ -247,7 +247,7 @@
   .form-error.show{display:block;}
   .form-input.err, .form-select.err{border-color:var(--red);}
   .form-row-2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
-  .calc-hint{font-size:11.5px; color:var(--cyan); margin-top:6px; font-weight:600;}
+  .calc-hint{font-size:11.5px; color:var(--cyan); margin:-8px 0 16px; font-weight:600;}
 
   .type-grid{display:grid; grid-template-columns:repeat(4, 1fr); gap:9px; margin-bottom:20px;}
   .type-btn{
@@ -373,6 +373,60 @@
   }
   .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
 
+  /* ---------- Period picker ---------- */
+  .period-bar{display:flex; align-items:center; gap:8px; margin:22px 0 12px;}
+  .period-nav{width:40px; height:40px; border-radius:11px; background:var(--surface); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .period-nav svg{width:18px; height:18px; color:var(--text-dim);}
+  .period-nav:disabled{opacity:.3;}
+  .period-label{flex:1; text-align:center; font-family:var(--font-num); font-weight:700; font-size:18px;}
+  .seg{display:flex; background:var(--surface); border:1px solid var(--border); border-radius:11px; padding:3px; margin-bottom:12px;}
+  .seg button{flex:1; background:none; border:none; border-radius:8px; padding:8px; font-size:13px; font-weight:600; color:var(--text-dim);}
+  .seg button.active{background:var(--surface-2); color:var(--text);}
+  .delta{font-size:11.5px; font-weight:700; margin-top:3px;}
+  .delta.up{color:var(--red);} .delta.down{color:var(--green);} .delta.flat{color:var(--text-faint);}
+  .delta.good-up{color:var(--green);} .delta.bad-down{color:var(--red);}
+  .period-link{width:100%; background:none; border:none; color:var(--cyan); font-weight:600; font-size:13px; padding:12px 0 0; text-align:center;}
+
+  /* ---------- Hero extras ---------- */
+  .hero-split{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px; position:relative;}
+  .hero-mini{background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:11px; padding:10px 12px;}
+  .hero-mini .k{font-size:11.5px; color:var(--text-dim); font-weight:600;}
+  .hero-mini .v{font-family:var(--font-num); font-size:17px; font-weight:700; margin-top:2px;}
+
+  /* ---------- Next service ---------- */
+  .next-service{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px; margin-bottom:14px;}
+  .next-service.due{border-color:rgba(255,59,63,0.5); background:linear-gradient(150deg, rgba(255,59,63,0.10), var(--surface));}
+  .next-service.soon{border-color:rgba(245,185,66,0.45);}
+  .ns-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px;}
+  .ns-label{font-size:12px; color:var(--text-dim); font-weight:600;}
+  .ns-title{font-family:var(--font-num); font-size:20px; font-weight:700; margin-top:2px;}
+  .ns-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px;}
+  .ns-cell .k{font-size:11.5px; color:var(--text-faint); font-weight:600;}
+  .ns-cell .v{font-family:var(--font-num); font-size:16px; font-weight:700; margin-top:2px;}
+  .ns-note{font-size:12px; color:var(--text-faint); margin-top:12px; line-height:1.5;}
+  .ns-note b{color:var(--text-dim);}
+  .ns-note a, .text-link{color:var(--cyan); font-weight:600; background:none; border:none; font-size:12px; padding:0;}
+
+  /* ---------- Reminder done ---------- */
+  .reminder-card.done{opacity:.5;}
+  .reminder-check{width:30px; height:30px; border-radius:50%; border:1.5px solid var(--border-strong); background:none; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:transparent;}
+  .reminder-check svg{width:15px; height:15px;}
+  .reminder-card.done .reminder-check{background:var(--green); border-color:var(--green); color:#0a0e16;}
+
+  /* ---------- Backup banner ---------- */
+  .backup-banner{display:flex; align-items:center; gap:10px; background:var(--yellow-dim); border:1px solid rgba(245,185,66,0.3); border-radius:12px; padding:11px 12px; margin-bottom:14px; font-size:12.5px; color:var(--yellow); font-weight:600;}
+  .backup-banner span{flex:1; line-height:1.4;}
+  .backup-banner button{background:var(--yellow); color:#1a1a1a; border:none; border-radius:8px; padding:8px 12px; font-weight:700; font-size:12.5px; flex-shrink:0;}
+
+  /* ---------- History month chip ---------- */
+  .month-chip{display:inline-flex; align-items:center; gap:8px; background:var(--cyan-dim); color:var(--cyan); border-radius:100px; padding:7px 8px 7px 14px; font-size:13px; font-weight:700; margin-bottom:12px; border:none;}
+  .month-chip span.x{width:20px; height:20px; border-radius:50%; background:rgba(45,212,232,0.2); display:flex; align-items:center; justify-content:center; font-size:14px; line-height:1;}
+
+  .chart-val{font-size:10px; color:var(--text-dim); font-weight:600; font-family:var(--font-num); white-space:nowrap;}
+  .chart-col.sel .chart-bar{background:linear-gradient(180deg, var(--cyan), rgba(45,212,232,0.35));}
+  .chart-col.sel .chart-month{color:var(--cyan);}
+  .chart-col{cursor:pointer;}
+
   @media (min-width:600px){
     .type-grid{grid-template-columns:repeat(4,1fr);}
   }
@@ -380,7 +434,6 @@
 </head>
 <body>
 
-<div class="grid-lines"></div>
 <div id="app">
 
   <div class="topbar">
@@ -403,6 +456,8 @@
     <div class="page-title">Papan Pemuka</div>
     <div class="page-sub">Ringkasan perjalanan kenderaan anda</div>
 
+    <div id="backupBanner"></div>
+
     <div class="hero-card">
       <div class="hero-top">
         <div>
@@ -414,16 +469,26 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 12l3-2M12 7v1M17 12h1M6 12h1"/></svg>
         </div>
       </div>
+      <div class="hero-split" id="heroSplit"></div>
       <button class="cta-btn" onclick="goAddRecord()">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
         Tambah Rekod
       </button>
     </div>
 
-    <div class="section-head">
-      <div class="section-title">Prestasi Bulan Ini</div>
+    <div id="nextService"></div>
+
+    <div class="period-bar">
+      <button class="period-nav" id="periodPrev" onclick="shiftPeriod(-1)" aria-label="Sebelum"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="period-label" id="periodLabel">-</div>
+      <button class="period-nav" id="periodNext" onclick="shiftPeriod(1)" aria-label="Seterusnya"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+    </div>
+    <div class="seg" id="periodMode">
+      <button data-mode="month" class="active" onclick="setPeriodMode('month')">Bulan</button>
+      <button data-mode="year" onclick="setPeriodMode('year')">Tahun</button>
     </div>
     <div class="stat-grid" id="monthlyStats"></div>
+    <button class="period-link" onclick="openHistoryForPeriod()">Lihat rekod tempoh ini</button>
 
     <div class="section-head">
       <div class="section-title">Aliran Perbelanjaan</div>
@@ -440,13 +505,14 @@
     <div class="section-head">
       <div class="section-title">Penjagaan Kenderaan</div>
     </div>
+    <div id="docList"></div>
     <div id="reminderList"></div>
-    <button class="add-reminder-btn" onclick="openReminderSheet()">+ Tambah Peringatan Servis</button>
+    <button class="add-reminder-btn" onclick="openReminderSheet()">+ Tambah Peringatan</button>
     <button class="link-btn" onclick="openScheduleSheet()">Lihat Jadual Servis Rasmi (S70)</button>
 
     <div class="section-head">
       <div class="section-title">Rekod Terkini</div>
-      <button class="section-link" onclick="switchScreen('history')">Lihat Semua</button>
+      <button class="section-link" onclick="historyRange=null; switchScreen('history')">Lihat Semua</button>
     </div>
     <div id="recentRecords"></div>
   </section>
@@ -476,6 +542,8 @@
       <button class="filter-chip" data-filter="servis">Servis</button>
       <button class="filter-chip" data-filter="lain">Lain-lain</button>
     </div>
+
+    <div id="historyMonthChip"></div>
 
     <div class="sort-select-wrap">
       <select class="sort-select" id="sortSelect">
@@ -523,25 +591,25 @@
     </div>
 
     <div class="settings-group">
-      <div class="settings-group-title">Unit &amp; Mata Wang</div>
+      <div class="settings-group-title">Tarikh Penting</div>
       <div class="form-block">
-        <label class="form-label">Mata wang</label>
-        <select class="form-select" id="setCurrency">
-          <option value="RM">Ringgit Malaysia (RM)</option>
-        </select>
+        <label class="form-label">Tarikh kereta diambil</label>
+        <input class="form-input" id="setDelivery" type="date">
+        <div class="sched-edit-sub" style="margin-top:6px;">Untuk kira servis ikut bulan (cth: 10,000 km atau 6 bulan, mana dulu).</div>
       </div>
       <div class="form-block">
-        <label class="form-label">Unit jarak</label>
-        <select class="form-select" id="setDistanceUnit">
-          <option value="km">Kilometer (km)</option>
-        </select>
+        <label class="form-label">Roadtax tamat</label>
+        <input class="form-input" id="setRoadtax" type="date">
       </div>
-      <div class="form-block" style="margin-bottom:0;">
-        <label class="form-label">Unit penggunaan minyak</label>
-        <select class="form-select" id="setConsumptionUnit">
-          <option value="kml">km/L</option>
-        </select>
+      <div class="form-block">
+        <label class="form-label">Insurans tamat</label>
+        <input class="form-input" id="setInsurans" type="date">
       </div>
+      <div class="form-block">
+        <label class="form-label">Lesen memandu tamat</label>
+        <input class="form-input" id="setLesen" type="date">
+      </div>
+      <button class="save-btn" onclick="saveDates()">Simpan Tarikh</button>
     </div>
 
     <div class="settings-group">
@@ -583,7 +651,7 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
     <span>Tambah Rekod</span>
   </button>
-  <button class="nav-item" data-nav="history" onclick="switchScreen('history')">
+  <button class="nav-item" data-nav="history" onclick="historyRange=null; switchScreen('history')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 8v5l3 3"/></svg>
     <span>Sejarah</span>
   </button>
@@ -705,7 +773,22 @@ function fmtDate(d){
   const bulan = ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'];
   return dt.getDate()+' '+bulan[dt.getMonth()]+' '+dt.getFullYear();
 }
-function todayStr(){ return new Date().toISOString().slice(0,10); }
+/* Local date (not UTC). toISOString() gave yesterday's date before 8am in Malaysia. */
+function ymd(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function todayStr(){ return ymd(new Date()); }
+function parseDate(s){ return new Date(s+'T00:00:00'); }
+function daysUntil(s){ return Math.round((parseDate(s) - parseDate(todayStr()))/86400000); }
+function addMonths(s, n){
+  const d = parseDate(s); const day = d.getDate();
+  d.setDate(1); d.setMonth(d.getMonth()+n);
+  const last = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate();
+  d.setDate(Math.min(day, last));
+  return ymd(d);
+}
+function recKey(r){ return (r.date||'')+' '+(r.time||'00:00')+' '+String(r.mileage??'').padStart(8,'0'); }
+const BULAN = ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'];
+const BULAN_S = ['Jan','Feb','Mac','Apr','Mei','Jun','Jul','Ogo','Sep','Okt','Nov','Dis'];
+function fmtShortDate(s){ const d=parseDate(s); return d.getDate()+' '+BULAN_S[d.getMonth()]+' '+d.getFullYear(); }
 function nowTimeStr(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
 function isThisMonth(dateStr){
   if(!dateStr) return false;
@@ -755,6 +838,10 @@ function recordAmount(r){
   return Number(r.amount)||0;
 }
 function recordLabel(type){ return (TYPE_META[type]||{}).label || type; }
+function lastFuelPrice(){
+  const f = state.records.filter(r=>r.type==='minyak' && r.pricePerLitre>0).sort((a,b)=>recKey(a).localeCompare(recKey(b)));
+  return f.length ? Number(f[f.length-1].pricePerLitre).toFixed(2) : '';
+}
 
 /* ============================================================
    NAVIGATION
@@ -780,103 +867,328 @@ function goAddRecord(){
 function getLatestMileageRecord(){
   const withMileage = state.records.filter(r=>r.mileage!==undefined && r.mileage!==null && r.mileage!=='');
   if(withMileage.length===0) return null;
-  withMileage.sort((a,b)=> (a.date+  (a.time||'00:00')).localeCompare(b.date+(b.time||'00:00')) || 0);
+  withMileage.sort((a,b)=> recKey(a).localeCompare(recKey(b)));
   return withMileage[withMileage.length-1];
 }
-
-function computeMonthly(){
-  const monthRecords = state.records.filter(r=>isThisMonth(r.date));
-  const fuel = monthRecords.filter(r=>r.type==='minyak');
-  const kosMinyak = fuel.reduce((s,r)=>s+(Number(r.amount)||0),0);
-  const jumlahLiter = fuel.reduce((s,r)=>s+(Number(r.litres)||0),0);
-  const jumlahBelanja = monthRecords.reduce((s,r)=>s+(Number(r.amount)||0),0);
-
-  // fuel efficiency this month: needs >=2 fuel records with mileage
-  const fuelWithMileage = fuel.filter(r=>r.mileage!=='' && r.mileage!=null).sort((a,b)=>Number(a.mileage)-Number(b.mileage));
-  let penggunaan = null, kosPerKm = null;
-  if(fuelWithMileage.length>=2){
-    const dist = Number(fuelWithMileage[fuelWithMileage.length-1].mileage) - Number(fuelWithMileage[0].mileage);
-    const litresUsed = fuelWithMileage.slice(1).reduce((s,r)=>s+(Number(r.litres)||0),0);
-    if(dist>0 && litresUsed>0) penggunaan = dist/litresUsed;
-    if(dist>0) kosPerKm = jumlahBelanja/dist;
-  }
-  return {kosMinyak, jumlahLiter, jumlahBelanja, penggunaan, kosPerKm};
+function fuelSorted(){
+  return state.records.filter(r=>r.type==='minyak' && r.mileage!=null && r.mileage!=='').sort((a,b)=>recKey(a).localeCompare(recKey(b)));
 }
 
-function renderMonthlyStats(){
-  const m = computeMonthly();
-  const latest = getLatestMileageRecord();
+/* ---------- Period (month / year) ---------- */
+const _now = new Date();
+let period = {mode:'month', y:_now.getFullYear(), m:_now.getMonth()};
+
+function periodRange(p){
+  if(p.mode==='year') return {start:p.y+'-01-01', end:p.y+'-12-31'};
+  const last = new Date(p.y, p.m+1, 0).getDate();
+  const mm = String(p.m+1).padStart(2,'0');
+  return {start:`${p.y}-${mm}-01`, end:`${p.y}-${mm}-${String(last).padStart(2,'0')}`};
+}
+function periodShift(p, n){
+  if(p.mode==='year') return {mode:'year', y:p.y+n};
+  const d = new Date(p.y, p.m+n, 1);
+  return {mode:'month', y:d.getFullYear(), m:d.getMonth()};
+}
+function periodName(p){ return p.mode==='year' ? 'Tahun '+p.y : BULAN[p.m]+' '+p.y; }
+function periodIdx(p){ return p.mode==='year' ? p.y*12 : p.y*12+p.m; }
+function earliestPeriod(mode){
+  const dates = state.records.map(r=>r.date).filter(Boolean).sort();
+  const d = dates.length ? parseDate(dates[0]) : new Date();
+  return mode==='year' ? {mode:'year', y:d.getFullYear()} : {mode:'month', y:d.getFullYear(), m:d.getMonth()};
+}
+function currentPeriod(mode){
+  const d = new Date();
+  return mode==='year' ? {mode:'year', y:d.getFullYear()} : {mode:'month', y:d.getFullYear(), m:d.getMonth()};
+}
+function shiftPeriod(n){
+  const next = periodShift(period, n);
+  if(periodIdx(next) > periodIdx(currentPeriod(period.mode))) return;
+  if(periodIdx(next) < periodIdx(earliestPeriod(period.mode))) return;
+  period = next;
+  renderPeriod(); renderChart();
+}
+function setPeriodMode(mode){
+  if(mode==='year') period = {mode:'year', y:period.y};
+  else period = (period.y===_now.getFullYear()) ? currentPeriod('month') : {mode:'month', y:period.y, m:11};
+  document.querySelectorAll('#periodMode button').forEach(b=>b.classList.toggle('active', b.dataset.mode===mode));
+  renderPeriod(); renderChart();
+}
+
+/* Fuel efficiency for a date range. Uses the last fill BEFORE the range as the
+   starting odometer, so no distance or litres fall through the gap between
+   months. Litres = everything filled within the range (each fill replaces fuel
+   burned since the previous fill), which is accurate over several fills even
+   without full-tank tracking. */
+function fuelStats(start, end){
+  const fuel = fuelSorted();
+  const inP = fuel.filter(r=>r.date>=start && r.date<=end);
+  const before = fuel.filter(r=>r.date<start);
+  const baseline = before.length ? before[before.length-1] : null;
+  let dist = null, litresUsed = null;
+  if(inP.length){
+    const last = Number(inP[inP.length-1].mileage);
+    if(baseline){ dist = last - Number(baseline.mileage); litresUsed = inP.reduce((s,r)=>s+(Number(r.litres)||0),0); }
+    else if(inP.length>=2){ dist = last - Number(inP[0].mileage); litresUsed = inP.slice(1).reduce((s,r)=>s+(Number(r.litres)||0),0); }
+  }
+  const kml = (dist>0 && litresUsed>0) ? dist/litresUsed : null;
+  return {dist: dist>0?dist:null, kml};
+}
+function computePeriod(p, clipEnd){
+  const r = periodRange(p);
+  const start = r.start, end = (clipEnd && clipEnd < r.end) ? clipEnd : r.end;
+  const recs = state.records.filter(r=>r.date>=start && r.date<=end);
+  const fuel = recs.filter(r=>r.type==='minyak');
+  const kosMinyak = fuel.reduce((s,r)=>s+(Number(r.amount)||0),0);
+  const liter = fuel.reduce((s,r)=>s+(Number(r.litres)||0),0);
+  const kosLain = recs.filter(r=>r.type!=='minyak').reduce((s,r)=>s+(Number(r.amount)||0),0);
+  const fs = fuelStats(start, end);
+  return {count:recs.length, kosMinyak, liter, kosLain, jumlah:kosMinyak+kosLain, dist:fs.dist, kml:fs.kml,
+          minyakPerKm: fs.dist ? kosMinyak/fs.dist : null, isiCount:fuel.length};
+}
+function rollingKml(n){
+  const f = fuelSorted();
+  if(f.length < n+1) return null;
+  const seg = f.slice(-(n+1));
+  const dist = Number(seg[seg.length-1].mileage) - Number(seg[0].mileage);
+  const lit = seg.slice(1).reduce((s,r)=>s+(Number(r.litres)||0),0);
+  return dist>0 && lit>0 ? dist/lit : null;
+}
+function overallKml(){
+  const f = fuelSorted();
+  if(f.length<2) return null;
+  const dist = Number(f[f.length-1].mileage) - Number(f[0].mileage);
+  const lit = f.slice(1).reduce((s,r)=>s+(Number(r.litres)||0),0);
+  return dist>0 && lit>0 ? dist/lit : null;
+}
+function kmPerDay(){
+  const f = fuelSorted();
+  if(f.length<2) return null;
+  const a = f[0], b = f[f.length-1];
+  const days = (parseDate(b.date)-parseDate(a.date))/86400000;
+  const km = Number(b.mileage)-Number(a.mileage);
+  return days>=14 && km>0 ? km/days : null;
+}
+
+function deltaHtml(cur, prev, higherIsGood, fmt){
+  if(cur==null || prev==null || prev===0) return `<div class="delta flat">tiada perbandingan</div>`;
+  const pct = (cur-prev)/prev*100;
+  if(Math.abs(pct) < 1) return `<div class="delta flat">sama seperti sebelum</div>`;
+  const up = pct>0;
+  const cls = higherIsGood ? (up?'good-up':'bad-down') : (up?'up':'down');
+  return `<div class="delta ${cls}">${up?'▲':'▼'} ${Math.abs(pct).toFixed(0)}% ${fmt? '('+fmt(prev)+')':''}</div>`;
+}
+
+function renderPeriod(){
+  const cur = computePeriod(period);
+  // An unfinished current period is compared with the same stretch of the previous one
+  const isCurrent = periodIdx(period)===periodIdx(currentPeriod(period.mode));
+  const prevP = periodShift(period,-1);
+  let clip = null, prevName = period.mode==='year' ? 'Tahun lepas' : 'Bulan lepas';
+  if(isCurrent){
+    const t = new Date();
+    if(period.mode==='month'){
+      const last = new Date(prevP.y, prevP.m+1, 0).getDate();
+      clip = ymd(new Date(prevP.y, prevP.m, Math.min(t.getDate(), last)));
+      prevName = '1 hingga '+Math.min(t.getDate(), last)+' '+BULAN_S[prevP.m];
+    } else {
+      clip = ymd(new Date(prevP.y, t.getMonth(), t.getDate()));
+      prevName = 'Tempoh sama '+prevP.y;
+    }
+  }
+  const prev = computePeriod(prevP, clip);
+  document.getElementById('periodLabel').textContent = periodName(period);
+  document.getElementById('periodPrev').disabled = periodIdx(periodShift(period,-1)) < periodIdx(earliestPeriod(period.mode));
+  document.getElementById('periodNext').disabled = periodIdx(periodShift(period,1)) > periodIdx(currentPeriod(period.mode));
+
   const wrap = document.getElementById('monthlyStats');
+  if(cur.count===0){
+    wrap.innerHTML = `<div class="stat-card wide" style="text-align:center; color:var(--text-faint); font-size:13px; padding:22px;">Tiada rekod dalam tempoh ini</div>`;
+    return;
+  }
+  const km = n=>Math.round(n).toLocaleString('en-MY')+' km';
+  const kml = n=>n.toFixed(1);
   wrap.innerHTML = `
     <div class="stat-card">
-      <div class="stat-icon-row"><span class="stat-title">Kos Minyak</span><span class="stat-dot bg-red"></span></div>
-      <div class="stat-value">${fmtRM(m.kosMinyak)}</div>
-      <div class="stat-sub">bulan semasa</div>
+      <div class="stat-icon-row"><span class="stat-title">Jarak dilalui</span><span class="stat-dot bg-cyan"></span></div>
+      <div class="stat-value">${cur.dist!=null? km(cur.dist) : '-'}</div>
+      ${deltaHtml(cur.dist, prev.dist, null, null).replace(/delta (up|down|good-up|bad-down)/,'delta flat')}
     </div>
     <div class="stat-card">
-      <div class="stat-icon-row"><span class="stat-title">Jumlah Liter</span><span class="stat-dot bg-cyan"></span></div>
-      <div class="stat-value">${m.jumlahLiter.toFixed(1)} L</div>
-      <div class="stat-sub">minyak diisi bulan ini</div>
+      <div class="stat-icon-row"><span class="stat-title">Purata minyak</span><span class="stat-dot bg-green"></span></div>
+      <div class="stat-value">${cur.kml!=null? kml(cur.kml)+' km/L' : '-'}</div>
+      ${deltaHtml(cur.kml, prev.kml, true, null)}
     </div>
     <div class="stat-card">
-      <div class="stat-icon-row"><span class="stat-title">Penggunaan Minyak</span><span class="stat-dot bg-green"></span></div>
-      <div class="stat-value">${m.penggunaan!==null ? m.penggunaan.toFixed(1)+' km/L' : '-'}</div>
-      <div class="stat-sub">${m.penggunaan!==null ? 'purata bulan semasa' : 'belum cukup data'}</div>
+      <div class="stat-icon-row"><span class="stat-title">Kos minyak</span><span class="stat-dot bg-red"></span></div>
+      <div class="stat-value">${fmtRM(cur.kosMinyak)}</div>
+      ${deltaHtml(cur.kosMinyak, prev.kosMinyak, false, null)}
     </div>
     <div class="stat-card">
-      <div class="stat-icon-row"><span class="stat-title">Kos Setiap KM</span><span class="stat-dot bg-yellow"></span></div>
-      <div class="stat-value">${m.kosPerKm!==null ? fmtRM(m.kosPerKm) : '-'}</div>
-      <div class="stat-sub">${m.kosPerKm!==null ? 'anggaran bulan semasa' : 'belum cukup data'}</div>
+      <div class="stat-icon-row"><span class="stat-title">Liter diisi</span><span class="stat-dot bg-yellow"></span></div>
+      <div class="stat-value">${cur.liter.toFixed(1)} L</div>
+      <div class="stat-sub">${cur.isiCount} kali isi</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon-row"><span class="stat-title">Minyak setiap km</span><span class="stat-dot bg-red"></span></div>
+      <div class="stat-value">${cur.minyakPerKm!=null? 'RM '+cur.minyakPerKm.toFixed(2) : '-'}</div>
+      <div class="stat-sub">kos minyak ÷ jarak</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon-row"><span class="stat-title">Servis &amp; lain</span><span class="stat-dot bg-cyan"></span></div>
+      <div class="stat-value">${fmtRM(cur.kosLain)}</div>
+      <div class="stat-sub">selain minyak</div>
     </div>
     <div class="stat-card wide">
-      <div class="stat-icon-row"><span class="stat-title">Jumlah Belanja</span><span class="stat-dot bg-red"></span></div>
-      <div class="stat-value">${fmtRM(m.jumlahBelanja)}</div>
-      <div class="stat-sub">semua rekod bulan ini</div>
+      <div class="stat-icon-row"><span class="stat-title">Jumlah belanja</span><span class="stat-dot bg-red"></span></div>
+      <div class="stat-value">${fmtRM(cur.jumlah)}</div>
+      ${deltaHtml(cur.jumlah, prev.jumlah, false, null)}
+      <div class="stat-sub">${prevName}: ${fmtRM(prev.jumlah)}</div>
     </div>
   `;
+}
+
+function renderHero(){
+  const latest = getLatestMileageRecord();
   const hero = document.getElementById('heroMileage');
   const meta = document.getElementById('heroMeta');
   if(latest){
     hero.innerHTML = Number(latest.mileage).toLocaleString('en-MY')+' <span>km</span>';
-    meta.textContent = 'terakhir direkodkan pada '+fmtDate(latest.date);
+    meta.textContent = 'dikemaskini '+fmtDate(latest.date);
   }else{
     hero.innerHTML = '- <span>km</span>';
-    meta.textContent = 'km terakhir direkodkan';
+    meta.textContent = 'Belum ada rekod';
   }
+  const all = overallKml(), r5 = rollingKml(5);
+  document.getElementById('heroSplit').innerHTML = (all||r5) ? `
+    <div class="hero-mini"><div class="k">Purata keseluruhan</div><div class="v">${all? all.toFixed(1)+' km/L':'-'}</div></div>
+    <div class="hero-mini"><div class="k">5 isian terakhir</div><div class="v">${r5? r5.toFixed(1)+' km/L':'-'}</div></div>` : '';
 }
 
-function monthLabel(offset){
-  const d = new Date(); d.setDate(1); d.setMonth(d.getMonth()-offset);
-  const bulan = ['Jan','Feb','Mac','Apr','Mei','Jun','Jul','Ogo','Sep','Okt','Nov','Dis'];
-  return {label:bulan[d.getMonth()], y:d.getFullYear(), m:d.getMonth()};
+/* ---------- Next scheduled service ---------- */
+function nextServiceInfo(){
+  const latest = getLatestMileageRecord();
+  if(!latest || !state.schedule || !state.schedule.length) return null;
+  const cur = Number(latest.mileage);
+  const done = new Set(state.records.filter(r=>r.scheduleId).map(r=>r.scheduleId));
+  const iv = [...state.schedule].sort((a,b)=>a.mileage-b.mileage).find(x=>!done.has(x.id));
+  if(!iv) return null;
+  const kmLeft = iv.mileage - cur;
+  const delivery = state.settings.deliveryDate;
+  const dueDate = delivery ? addMonths(delivery, iv.months) : null;
+  const daysLeft = dueDate ? daysUntil(dueDate) : null;
+  const pace = kmPerDay();
+  const projected = (pace && kmLeft>0) ? ymd(new Date(Date.now() + (kmLeft/pace)*86400000)) : null;
+  let status = 'ok';
+  if(kmLeft<=0 || (daysLeft!=null && daysLeft<=0)) status = 'due';
+  else if(kmLeft<=1000 || (daysLeft!=null && daysLeft<=30)) status = 'soon';
+  // which limit arrives first
+  let firstBy = 'km';
+  if(dueDate && (!projected || dueDate < projected)) firstBy = 'date';
+  return {iv, cur, kmLeft, dueDate, daysLeft, projected, status, firstBy};
 }
+function renderNextService(){
+  const wrap = document.getElementById('nextService');
+  const n = nextServiceInfo();
+  if(!n){ wrap.innerHTML=''; return; }
+  const badge = n.status==='due' ? '<span class="badge due">Sudah sampai</span>' : n.status==='soon' ? '<span class="badge soon">Hampir</span>' : '<span class="badge ok">Aktif</span>';
+  const kmText = n.kmLeft>0 ? n.kmLeft.toLocaleString('en-MY')+' km' : 'Lebih '+Math.abs(n.kmLeft).toLocaleString('en-MY')+' km';
+  const dateText = n.dueDate ? (n.daysLeft>0 ? n.daysLeft+' hari' : 'Lewat '+Math.abs(n.daysLeft)+' hari') : '-';
+  let note;
+  if(!n.dueDate){
+    note = `Had ${n.iv.months} bulan belum dikira. <button class="text-link" onclick="switchScreen('settings')">Set tarikh kereta diambil</button>`;
+  } else if(n.firstBy==='date'){
+    note = `<b>Ikut tarikh dulu</b>, sebelum ${fmtShortDate(n.dueDate)}.`;
+  } else {
+    note = `<b>Ikut mileage dulu</b>${n.projected? ', anggaran sekitar '+fmtShortDate(n.projected):''}.`;
+  }
+  wrap.innerHTML = `<div class="next-service ${n.status}">
+    <div class="ns-top">
+      <div><div class="ns-label">Servis seterusnya</div><div class="ns-title">${n.iv.mileage.toLocaleString('en-MY')} km / ${n.iv.months} bulan</div></div>
+      ${badge}
+    </div>
+    <div class="ns-grid">
+      <div class="ns-cell"><div class="k">Baki jarak</div><div class="v">${kmText}</div></div>
+      <div class="ns-cell"><div class="k">Baki masa${n.dueDate?' ('+fmtShortDate(n.dueDate)+')':''}</div><div class="v">${dateText}</div></div>
+    </div>
+    <div class="ns-note">${note}<br>Anggaran kos rasmi ${fmtRM(scheduleTotal(n.iv))}. <button class="text-link" onclick="openScheduleSheet()">Butiran</button></div>
+  </div>`;
+}
+
+/* ---------- Document expiry (roadtax, insurance, licence) ---------- */
+const DOCS = [
+  {key:'roadtaxExpiry', name:'Roadtax', icon:'doc'},
+  {key:'insuransExpiry', name:'Insurans', icon:'shield'},
+  {key:'lesenExpiry', name:'Lesen memandu', icon:'doc'}
+];
+function renderDocs(){
+  const wrap = document.getElementById('docList');
+  const set = DOCS.filter(d=>state.settings[d.key]);
+  if(!set.length){
+    wrap.innerHTML = `<div class="reminder-card" style="cursor:pointer;" onclick="switchScreen('settings')">
+      <div class="reminder-icon">${iconSvg('shield')}</div>
+      <div class="reminder-body"><div class="reminder-name">Roadtax &amp; insurans</div><div class="reminder-target">Tekan untuk set tarikh tamat</div></div></div>`;
+    return;
+  }
+  wrap.innerHTML = set.sort((a,b)=>state.settings[a.key].localeCompare(state.settings[b.key])).map(d=>{
+    const date = state.settings[d.key];
+    const days = daysUntil(date);
+    const cls = days<0 ? 'due' : days<=30 ? 'soon' : 'ok';
+    const label = days<0 ? 'Tamat' : days===0 ? 'Hari ini' : days+' hari';
+    return `<div class="reminder-card">
+      <div class="reminder-icon">${iconSvg(d.icon)}</div>
+      <div class="reminder-body"><div class="reminder-name">${d.name}</div><div class="reminder-target">Tamat ${fmtDate(date)}</div></div>
+      <span class="badge ${cls}">${label}</span>
+    </div>`;
+  }).join('');
+}
+
+/* ---------- Backup nudge ---------- */
+function renderBackupBanner(){
+  const wrap = document.getElementById('backupBanner');
+  if(!state.records.length){ wrap.innerHTML=''; return; }
+  const last = state.settings.lastExportAt;
+  const days = last ? -daysUntil(last.slice(0,10)) : null;
+  if(days!==null && days<30){ wrap.innerHTML=''; return; }
+  wrap.innerHTML = `<div class="backup-banner">
+    <span>${days===null ? 'Data belum pernah dibackup. Simpan salinan sekarang.' : 'Backup terakhir '+days+' hari lepas.'}</span>
+    <button onclick="exportData()">Backup</button>
+  </div>`;
+}
+
 function catMatchesFilter(type, cat){
   if(cat==='minyak') return type==='minyak';
   if(cat==='maintenance') return type==='servis' || type==='maintenance';
   return !['minyak','servis','maintenance'].includes(type);
 }
 function renderChart(){
-  const months = [5,4,3,2,1,0].map(monthLabel);
+  // 6 months ending at the selected month (or the current month in year view)
+  const endP = period.mode==='month' ? period : currentPeriod('month');
+  const months = [5,4,3,2,1,0].map(i=>periodShift(endP,-i));
   const totals = months.map(mo=>{
-    return state.records.filter(r=>{
-      if(!r.date) return false;
-      const d = new Date(r.date+'T00:00:00');
-      return d.getFullYear()===mo.y && d.getMonth()===mo.m && catMatchesFilter(r.type, chartCat);
-    }).reduce((s,r)=>s+(Number(r.amount)||0),0);
+    const {start,end} = periodRange(mo);
+    return state.records.filter(r=>r.date>=start && r.date<=end && catMatchesFilter(r.type, chartCat))
+      .reduce((s,r)=>s+(Number(r.amount)||0),0);
   });
   const max = Math.max(...totals, 1);
   const area = document.getElementById('chartArea');
   if(totals.every(t=>t===0)){
-    area.innerHTML = `<div class="chart-empty">Belum cukup data untuk carta ini</div>`;
+    area.innerHTML = `<div class="chart-empty">Tiada perbelanjaan dalam 6 bulan ini</div>`;
     return;
   }
   area.innerHTML = `<div class="chart-bars">
-    ${totals.map((t,i)=>`
-      <div class="chart-col">
-        <div class="chart-bar" style="height:${Math.max((t/max)*100,3)}%" title="${fmtRM(t)}"></div>
-        <div class="chart-month">${months[i].label}</div>
-      </div>`).join('')}
+    ${totals.map((t,i)=>{
+      const sel = period.mode==='month' && months[i].y===period.y && months[i].m===period.m;
+      return `<div class="chart-col ${sel?'sel':''}" onclick="selectMonth(${months[i].y},${months[i].m})">
+        <div class="chart-val">${t>0? Math.round(t):''}</div>
+        <div class="chart-bar" style="height:${Math.max((t/max)*82,3)}%"></div>
+        <div class="chart-month">${BULAN_S[months[i].m]}</div>
+      </div>`;}).join('')}
   </div>`;
+}
+function selectMonth(y,m){
+  period = {mode:'month', y, m};
+  document.querySelectorAll('#periodMode button').forEach(b=>b.classList.toggle('active', b.dataset.mode==='month'));
+  renderPeriod(); renderChart();
 }
 
 function reminderStatus(rem){
@@ -890,20 +1202,17 @@ function reminderStatus(rem){
   }
   let dueByDate=false, soonByDate=false;
   if(rem.targetDate){
-    const days = (new Date(rem.targetDate+'T00:00:00') - new Date(todayStr()+'T00:00:00'))/86400000;
+    const days = daysUntil(rem.targetDate);
     if(days<=0) dueByDate = true; else if(days<=14) soonByDate = true;
   }
   if(dueByMileage||dueByDate) return {key:'due', label:'Due'};
-  if(soonByMileage||soonByDate) return {key:'soon', label:'Due Soon'};
+  if(soonByMileage||soonByDate) return {key:'soon', label:'Hampir'};
   return {key:'active', label:'Aktif'};
 }
 
 function renderReminders(){
   const wrap = document.getElementById('reminderList');
-  if(state.reminders.length===0){
-    wrap.innerHTML = `<div style="text-align:center; color:var(--text-faint); font-size:13px; padding:14px 0;">Tiada peringatan servis lagi</div>`;
-    return;
-  }
+  if(state.reminders.length===0){ wrap.innerHTML = ''; return; }
   const sorted = [...state.reminders].sort((a,b)=>{
     const order = {due:0, soon:1, active:2, ok:3};
     return order[reminderStatus(a).key]-order[reminderStatus(b).key];
@@ -914,21 +1223,28 @@ function renderReminders(){
     const targetParts = [];
     if(rem.targetMileage) targetParts.push(Number(rem.targetMileage).toLocaleString('en-MY')+' km');
     if(rem.targetDate) targetParts.push(fmtDate(rem.targetDate));
-    return `<div class="reminder-card">
-      <div class="reminder-icon">${iconSvg('wrench')}</div>
+    return `<div class="reminder-card ${rem.completed?'done':''}">
+      <button class="reminder-check" onclick="toggleReminder('${rem.id}')" aria-label="Tanda selesai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></button>
       <div class="reminder-body">
         <div class="reminder-name">${escapeHtml(rem.name)}</div>
         <div class="reminder-target">${targetParts.join(' • ')||'Tiada sasaran'}</div>
       </div>
-      <span class="badge ${badgeClass}">${st.label}</span>
+      ${rem.completed?'':`<span class="badge ${badgeClass}">${st.label}</span>`}
       <button class="reminder-del" onclick="deleteReminder('${rem.id}')">${iconSvg('trash')}</button>
     </div>`;
   }).join('');
 }
-
+function toggleReminder(id){
+  const r = state.reminders.find(x=>x.id===id);
+  if(!r) return;
+  r.completed = !r.completed;
+  saveReminders();
+  renderReminders();
+  showToast(r.completed ? 'Ditanda selesai' : 'Ditanda belum selesai');
+}
 function renderRecentRecords(){
   const wrap = document.getElementById('recentRecords');
-  const sorted = [...state.records].sort((a,b)=>(b.date+(b.time||'')).localeCompare(a.date+(a.time||''))).slice(0,4);
+  const sorted = [...state.records].sort((a,b)=>recKey(b).localeCompare(recKey(a))).slice(0,4);
   if(sorted.length===0){
     wrap.innerHTML = emptyStateHtml();
     return;
@@ -979,8 +1295,12 @@ function recordCardHtml(r){
 function renderDashboard(){
   document.getElementById('chipPlate').textContent = state.settings.vehPlate || 'GM9727';
   document.getElementById('chipName').textContent = state.settings.vehName || 'Proton S70';
-  renderMonthlyStats();
+  renderBackupBanner();
+  renderHero();
+  renderNextService();
+  renderPeriod();
   renderChart();
+  renderDocs();
   renderReminders();
   renderRecentRecords();
 }
@@ -1024,7 +1344,7 @@ function renderRecordForm(){
     html += fieldWrap('Mileage (km)', `<input class="form-input" type="number" inputmode="numeric" id="f_mileage" placeholder="cth: 12450" value="${v('mileage')}">`, 'e_mileage');
     html += `<div class="form-row-2">
       ${fieldWrap('Jumlah liter', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_litres" placeholder="cth: 40.0" value="${v('litres')}">`, 'e_litres')}
-      ${fieldWrap('Harga seliter (RM)', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_price" placeholder="cth: 2.05" value="${v('pricePerLitre')}">`, 'e_price')}
+      ${fieldWrap('Harga seliter (RM)', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_price" placeholder="cth: 2.05" value="${existing ? (existing.pricePerLitre? Number(existing.pricePerLitre).toFixed(2):'') : lastFuelPrice()}">`, 'e_price')}
     </div>`;
     html += fieldWrap('Jumlah bayaran (RM)', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_amount" placeholder="cth: 82.00" value="${v('amount')}">`, 'e_amount');
     html += `<div class="calc-hint" id="calcHint" style="display:none;"></div>`;
@@ -1038,10 +1358,10 @@ function renderRecordForm(){
     html += fieldWrap('Kos (RM)', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_amount" placeholder="cth: 150.00" value="${v('amount')}">`, 'e_amount');
     html += fieldWrap('Bengkel', `<input class="form-input" type="text" id="f_workshop" placeholder="cth: Bengkel Ah Chong" value="${escapeHtml(v('workshop'))}">`, 'e_workshop');
     html += fieldWrap('Catatan', `<textarea class="form-textarea" id="f_notes">${escapeHtml(v('notes'))}</textarea>`, 'e_notes');
-    html += fieldWrap('Bandingkan dengan jadual rasmi (pilihan)', `<select class="form-select" id="f_scheduleCompare">
-      <option value="">- Tiada -</option>
-      ${state.schedule.map(iv=>`<option value="${iv.id}">${iv.mileage.toLocaleString('en-MY')} km / ${iv.months} bulan</option>`).join('')}
-    </select>`, 'e_scheduleCompare');
+    html += fieldWrap('Servis berkala ikut jadual (pilihan)', `<select class="form-select" id="f_scheduleCompare">
+      <option value="">- Bukan servis berkala -</option>
+      ${state.schedule.map(iv=>`<option value="${iv.id}" ${v('scheduleId')===iv.id?'selected':''}>${iv.mileage.toLocaleString('en-MY')} km / ${iv.months} bulan</option>`).join('')}
+    </select><div class="sched-edit-sub" style="margin-top:6px;">Pilih jika ini servis berkala. App akan tanda selesai dan kira servis seterusnya.</div>`, 'e_scheduleCompare');
     html += `<div class="calc-hint" id="scheduleHint" style="display:none;"></div>`;
   } else {
     html += fieldWrap('Tarikh', `<input class="form-input" type="date" id="f_tarikh" value="${v('date', todayStr())}">`, 'e_tarikh');
@@ -1057,21 +1377,25 @@ function renderRecordForm(){
   form.innerHTML = html;
 
   if(currentType==='minyak'){
-    const litresEl = document.getElementById('f_litres');
-    const priceEl = document.getElementById('f_price');
-    const amountEl = document.getElementById('f_amount');
+    /* Fill any two of litres / price / amount and the third is calculated.
+       The field the user touched least recently is the one that gets computed.
+       Price starts as "touched" because it is prefilled from the last fill. */
+    const el = {l:document.getElementById('f_litres'), p:document.getElementById('f_price'), a:document.getElementById('f_amount')};
     const hint = document.getElementById('calcHint');
-    function recalcFromLitresPrice(){
-      const l = parseFloat(litresEl.value), p = parseFloat(priceEl.value);
-      if(l>0 && p>0){ amountEl.value = (l*p).toFixed(2); hint.style.display='block'; hint.textContent = 'Jumlah bayaran dikira automatik (liter × harga seliter)'; }
+    let order = existing ? ['l','p','a'] : ['p'];
+    function recalc(){
+      const known = order.filter(k=>parseFloat(el[k].value)>0).slice(-2);
+      if(known.length<2) { hint.style.display='none'; return; }
+      const target = ['l','p','a'].find(k=>!known.includes(k));
+      const l=parseFloat(el.l.value), p=parseFloat(el.p.value), a=parseFloat(el.a.value);
+      if(target==='a'){ el.a.value=(l*p).toFixed(2); hint.textContent='Jumlah bayaran dikira automatik'; }
+      if(target==='l'){ el.l.value=(a/p).toFixed(2); hint.textContent='Jumlah liter dikira automatik'; }
+      if(target==='p'){ el.p.value=(a/l).toFixed(2); hint.textContent='Harga seliter dikira automatik'; }
+      hint.style.display='block';
     }
-    function recalcPriceFromTotal(){
-      const l = parseFloat(litresEl.value), a = parseFloat(amountEl.value);
-      if(l>0 && a>0 && (!priceEl.value || document.activeElement===amountEl)){ priceEl.value = (a/l).toFixed(2); hint.style.display='block'; hint.textContent='Harga seliter dikira automatik (jumlah ÷ liter)'; }
-    }
-    litresEl.addEventListener('input', recalcFromLitresPrice);
-    priceEl.addEventListener('input', recalcFromLitresPrice);
-    amountEl.addEventListener('input', recalcPriceFromTotal);
+    Object.entries(el).forEach(([k,input])=>input.addEventListener('input', ()=>{
+      order = order.filter(x=>x!==k); order.push(k); recalc();
+    }));
   }
 
   if(currentType==='servis' || currentType==='maintenance'){
@@ -1115,6 +1439,23 @@ function handleFormSubmit(ev){
   if(currentType==='minyak' || currentType==='servis' || currentType==='maintenance'){
     if(mileageVal===''){ setError('e_mileage','f_mileage','Sila masukkan mileage.'); valid = false; }
   }
+  // Odometer sanity check against the records around this date
+  if(mileageVal!=='' && date && valid){
+    const m = Number(mileageVal);
+    const time = get('f_masa') ? get('f_masa').value : '';
+    const key = date+' '+(time||'00:00');
+    const others = state.records.filter(r=>r.id!==editingId && r.mileage!=null && r.mileage!=='' && r.date);
+    const before = others.filter(r=>(r.date+' '+(r.time||'00:00')) <= key).sort((a,b)=>Number(b.mileage)-Number(a.mileage))[0];
+    const after = others.filter(r=>(r.date+' '+(r.time||'00:00')) > key).sort((a,b)=>Number(a.mileage)-Number(b.mileage))[0];
+    if(before && m < Number(before.mileage)){
+      setError('e_mileage','f_mileage',`Lebih rendah dari rekod ${fmtDate(before.date)} (${Number(before.mileage).toLocaleString('en-MY')} km). Semak semula.`); valid=false;
+    } else if(after && m > Number(after.mileage)){
+      setError('e_mileage','f_mileage',`Lebih tinggi dari rekod ${fmtDate(after.date)} (${Number(after.mileage).toLocaleString('en-MY')} km). Semak semula.`); valid=false;
+    } else if(before && m - Number(before.mileage) > 1500 && form.dataset.ack !== String(m)){
+      form.dataset.ack = String(m);
+      setError('e_mileage','f_mileage',`Lompat ${(m-Number(before.mileage)).toLocaleString('en-MY')} km dari rekod lepas. Kalau betul, tekan Simpan sekali lagi.`); valid=false;
+    }
+  }
 
   let record = { id: editingId || uid(), type: currentType, date, mileage: mileageVal!==''? Number(mileageVal): null, createdAt: editingId ? (state.records.find(r=>r.id===editingId)||{}).createdAt || Date.now() : Date.now() };
 
@@ -1136,6 +1477,8 @@ function handleFormSubmit(ev){
     record.amount = Number(amount)||0;
     record.workshop = get('f_workshop').value.trim();
     record.notes = get('f_notes').value.trim();
+    const sid = get('f_scheduleCompare').value;
+    if(sid) record.scheduleId = sid;
   } else {
     if(currentType==='lain'){ record.category = get('f_category').value.trim() || 'Lain-lain'; }
     else { record.category = TYPE_META[currentType].label; }
@@ -1169,11 +1512,20 @@ function cancelEdit(){
    HISTORY
    ============================================================ */
 let activeFilter = 'semua';
+let historyRange = null;
+function openHistoryForPeriod(){
+  historyRange = {...periodRange(period), label:periodName(period)};
+  switchScreen('history');
+}
+function clearHistoryRange(){ historyRange = null; renderHistory(); }
 function renderHistory(){
   const search = (document.getElementById('searchInput').value||'').toLowerCase();
   const sortMode = document.getElementById('sortSelect').value;
+  document.getElementById('historyMonthChip').innerHTML = historyRange
+    ? `<button class="month-chip" onclick="clearHistoryRange()">${historyRange.label} <span class="x">×</span></button>` : '';
 
   let list = state.records.filter(r=>{
+    if(historyRange && !(r.date>=historyRange.start && r.date<=historyRange.end)) return false;
     if(activeFilter==='minyak') return r.type==='minyak';
     if(activeFilter==='servis') return r.type==='servis'||r.type==='maintenance';
     if(activeFilter==='lain') return !['minyak','servis','maintenance'].includes(r.type);
@@ -1185,8 +1537,8 @@ function renderHistory(){
       return hay.includes(search);
     });
   }
-  if(sortMode==='terbaru') list.sort((a,b)=>(b.date+(b.time||'')).localeCompare(a.date+(a.time||'')));
-  if(sortMode==='terlama') list.sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
+  if(sortMode==='terbaru') list.sort((a,b)=>recKey(b).localeCompare(recKey(a)));
+  if(sortMode==='terlama') list.sort((a,b)=>recKey(a).localeCompare(recKey(b)));
   if(sortMode==='mileage') list.sort((a,b)=>(Number(b.mileage)||0)-(Number(a.mileage)||0));
   if(sortMode==='kos') list.sort((a,b)=>recordAmount(b)-recordAmount(a));
 
@@ -1261,6 +1613,8 @@ function openRecordDetail(id){
     if(r.vendor) rows.push(['Stesen minyak', r.vendor]);
   } else if(r.type==='servis'||r.type==='maintenance'){
     rows.push(['Kategori', r.category||'-']);
+    const iv = r.scheduleId && state.schedule.find(x=>x.id===r.scheduleId);
+    if(iv) rows.push(['Servis berkala', iv.mileage.toLocaleString('en-MY')+' km']);
     rows.push(['Kos', fmtRM(r.amount)]);
     if(r.workshop) rows.push(['Bengkel', r.workshop]);
   } else {
@@ -1482,6 +1836,18 @@ function populateSettingsForm(){
   document.getElementById('setVehPlate').value = state.settings.vehPlate||'';
   document.getElementById('setVehModel').value = state.settings.vehModel||'';
   document.getElementById('setVehYear').value = state.settings.vehYear||'';
+  document.getElementById('setDelivery').value = state.settings.deliveryDate||'';
+  document.getElementById('setRoadtax').value = state.settings.roadtaxExpiry||'';
+  document.getElementById('setInsurans').value = state.settings.insuransExpiry||'';
+  document.getElementById('setLesen').value = state.settings.lesenExpiry||'';
+}
+function saveDates(){
+  state.settings.deliveryDate = document.getElementById('setDelivery').value || null;
+  state.settings.roadtaxExpiry = document.getElementById('setRoadtax').value || null;
+  state.settings.insuransExpiry = document.getElementById('setInsurans').value || null;
+  state.settings.lesenExpiry = document.getElementById('setLesen').value || null;
+  saveSettings();
+  showToast('Tarikh disimpan');
 }
 function saveVehicleSettings(){
   state.settings.vehName = document.getElementById('setVehName').value.trim() || 'Kenderaan Saya';
@@ -1499,10 +1865,13 @@ function exportData(){
   const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = 'log-prestasi-data.json';
+  a.href = url; a.download = 'log-prestasi-'+todayStr()+'.json';
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  showToast('Data dieksport');
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+  state.settings.lastExportAt = todayStr();
+  saveSettings();
+  renderBackupBanner();
+  showToast('Backup disimpan');
 }
 document.getElementById('importFile').addEventListener('change', function(e){
   const file = e.target.files[0];
@@ -1511,17 +1880,22 @@ document.getElementById('importFile').addEventListener('change', function(e){
   reader.onload = function(ev){
     try{
       const data = JSON.parse(ev.target.result);
-      if(!data || typeof data !== 'object') throw new Error('invalid');
-      state.records = Array.isArray(data.records) ? data.records : state.records;
-      state.settings = data.settings && typeof data.settings==='object' ? {...DEFAULT_SETTINGS, ...data.settings} : state.settings;
-      state.reminders = Array.isArray(data.reminders) ? data.reminders : state.reminders;
-      state.schedule = Array.isArray(data.schedule) ? data.schedule : state.schedule;
-      Promise.all([saveRecords(), saveSettings(), saveReminders(), saveSchedule()]).then(()=>{
-        populateSettingsForm();
-        renderScheduleSettings();
-        renderDashboard();
-        showToast('Data diimport berjaya');
-      });
+      if(!data || typeof data !== 'object' || !Array.isArray(data.records)) throw new Error('invalid');
+      pendingImport = data;
+      const newIds = new Set(state.records.map(r=>r.id));
+      const fresh = data.records.filter(r=>!newIds.has(r.id)).length;
+      openOverlay(`
+        <div class="sheet-handle"></div>
+        <div class="sheet-title">Import data?</div>
+        <div class="confirm-text">Fail ini ada <b>${data.records.length}</b> rekod${data.exportedAt? ' (backup '+fmtDate(String(data.exportedAt).slice(0,10))+')':''}. Dalam app sekarang ada <b>${state.records.length}</b> rekod.<br><br>
+        <b>Gabung</b>: tambah ${fresh} rekod yang belum ada, rekod sedia ada kekal.<br>
+        <b>Ganti</b>: padam semua data sekarang dan guna fail ini.</div>
+        <div class="sheet-actions">
+          <button class="btn-edit" onclick="applyImport('merge')">Gabung</button>
+          <button class="btn-delete" onclick="applyImport('replace')">Ganti</button>
+        </div>
+        <button class="cancel-link" onclick="pendingImport=null; closeOverlay()">Batal</button>
+      `);
     }catch(err){
       showToast('Fail tidak sah. Sila cuba fail export yang betul.');
     }
@@ -1529,6 +1903,31 @@ document.getElementById('importFile').addEventListener('change', function(e){
   reader.readAsText(file);
   e.target.value = '';
 });
+let pendingImport = null;
+function applyImport(mode){
+  const data = pendingImport; pendingImport = null;
+  if(!data) return;
+  if(mode==='replace'){
+    state.records = data.records;
+    state.settings = data.settings && typeof data.settings==='object' ? {...DEFAULT_SETTINGS, ...data.settings} : state.settings;
+    state.reminders = Array.isArray(data.reminders) ? data.reminders : state.reminders;
+    state.schedule = Array.isArray(data.schedule) ? data.schedule : state.schedule;
+  } else {
+    const ids = new Set(state.records.map(r=>r.id));
+    state.records = state.records.concat(data.records.filter(r=>!ids.has(r.id)));
+    const rids = new Set(state.reminders.map(r=>r.id));
+    if(Array.isArray(data.reminders)) state.reminders = state.reminders.concat(data.reminders.filter(r=>!rids.has(r.id)));
+    // keep current settings, only fill blanks from the file
+    if(data.settings) for(const k in data.settings){ if(state.settings[k]==null || state.settings[k]==='') state.settings[k]=data.settings[k]; }
+  }
+  Promise.all([saveRecords(), saveSettings(), saveReminders(), saveSchedule()]).then(()=>{
+    closeOverlay();
+    populateSettingsForm();
+    renderScheduleSettings();
+    renderDashboard();
+    showToast(mode==='replace' ? 'Data diganti' : 'Data digabung');
+  });
+}
 function confirmReset(){
   openOverlay(`
     <div class="sheet-handle"></div>
