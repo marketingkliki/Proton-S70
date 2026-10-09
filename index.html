@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Log Prestasi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#0a0e16;
@@ -27,7 +27,7 @@
     --text-faint:#5c6787;
     --radius:16px;
     --radius-sm:10px;
-    --font-num:'Space Grotesk', sans-serif;
+    --font-num:'Inter', sans-serif;
     --font-body:'Inter', sans-serif;
   }
   *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
@@ -39,6 +39,7 @@
       var(--bg);
     color:var(--text);
     font-family:var(--font-body);
+    font-feature-settings:'tnum' 1, 'cv11' 1;
     font-size:15px;
     line-height:1.45;
     min-height:100%;
@@ -453,8 +454,8 @@
 
   <!-- ============ DASHBOARD ============ -->
   <section class="screen active" data-screen="dashboard">
-    <div class="page-title">Papan Pemuka</div>
-    <div class="page-sub">Ringkasan perjalanan kenderaan anda</div>
+    <div class="page-title">Dashboard</div>
+    <div class="page-sub">Overview kereta hang</div>
 
     <div id="backupBanner"></div>
 
@@ -488,10 +489,10 @@
       <button data-mode="year" onclick="setPeriodMode('year')">Tahun</button>
     </div>
     <div class="stat-grid" id="monthlyStats"></div>
-    <button class="period-link" onclick="openHistoryForPeriod()">Lihat rekod tempoh ini</button>
+    <button class="period-link" onclick="openHistoryForPeriod()" id="periodLink">Tengok rekod bulan ni</button>
 
     <div class="section-head">
-      <div class="section-title">Aliran Perbelanjaan</div>
+      <div class="section-title">Trend Belanja</div>
     </div>
     <div class="chart-card">
       <div class="chart-tabs" id="chartTabs">
@@ -503,16 +504,16 @@
     </div>
 
     <div class="section-head">
-      <div class="section-title">Penjagaan Kenderaan</div>
+      <div class="section-title">Reminder &amp; Dokumen</div>
     </div>
     <div id="docList"></div>
     <div id="reminderList"></div>
-    <button class="add-reminder-btn" onclick="openReminderSheet()">+ Tambah Peringatan</button>
-    <button class="link-btn" onclick="openScheduleSheet()">Lihat Jadual Servis Rasmi (S70)</button>
+    <button class="add-reminder-btn" onclick="openReminderSheet()">+ Tambah Reminder</button>
+    <button class="link-btn" onclick="openScheduleSheet()">Jadual Servis Official (S70)</button>
 
     <div class="section-head">
-      <div class="section-title">Rekod Terkini</div>
-      <button class="section-link" onclick="historyRange=null; switchScreen('history')">Lihat Semua</button>
+      <div class="section-title">Rekod Terbaru</div>
+      <button class="section-link" onclick="historyRange=null; switchScreen('history')">Tengok semua</button>
     </div>
     <div id="recentRecords"></div>
   </section>
@@ -520,7 +521,7 @@
   <!-- ============ ADD RECORD ============ -->
   <section class="screen" data-screen="add">
     <div class="page-title">Tambah Rekod</div>
-    <div class="page-sub">Pilih jenis rekod untuk diteruskan</div>
+    <div class="page-sub">Pilih jenis rekod</div>
 
     <div class="type-grid" id="typeGrid"></div>
     <form id="recordForm"></form>
@@ -528,8 +529,8 @@
 
   <!-- ============ HISTORY ============ -->
   <section class="screen" data-screen="history">
-    <div class="page-title">Sejarah</div>
-    <div class="page-sub">Semua rekod kenderaan anda</div>
+    <div class="page-title">History</div>
+    <div class="page-sub">Semua rekod kereta</div>
 
     <div class="search-box">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
@@ -548,33 +549,33 @@
     <div class="sort-select-wrap">
       <select class="sort-select" id="sortSelect">
         <option value="terbaru">Terbaru</option>
-        <option value="terlama">Terlama</option>
-        <option value="mileage">Mileage Tertinggi</option>
-        <option value="kos">Kos Tertinggi</option>
+        <option value="terlama">Paling lama</option>
+        <option value="mileage">Mileage paling tinggi</option>
+        <option value="kos">Kos paling tinggi</option>
       </select>
     </div>
 
     <div id="historyList"></div>
 
     <div class="section-head">
-      <div class="section-title">Statistik Keseluruhan</div>
+      <div class="section-title">Overall Stats</div>
     </div>
     <div class="stat-grid" id="analyticsGrid" style="margin-bottom:20px;"></div>
   </section>
 
   <!-- ============ SETTINGS ============ -->
   <section class="screen" data-screen="settings">
-    <div class="page-title">Tetapan</div>
-    <div class="page-sub">Urus maklumat kenderaan dan data</div>
+    <div class="page-title">Settings</div>
+    <div class="page-sub">Info kereta, tarikh penting &amp; data</div>
 
     <div class="settings-group">
-      <div class="settings-group-title">Maklumat Kenderaan</div>
+      <div class="settings-group-title">Info Kereta</div>
       <div class="form-block">
-        <label class="form-label">Nama kenderaan</label>
+        <label class="form-label">Nama kereta</label>
         <input class="form-input" id="setVehName" type="text" placeholder="cth: Proton S70">
       </div>
       <div class="form-block">
-        <label class="form-label">Nombor pendaftaran</label>
+        <label class="form-label">No. plat</label>
         <input class="form-input" id="setVehPlate" type="text" placeholder="cth: GM9727">
       </div>
       <div class="form-row-2">
@@ -587,45 +588,45 @@
           <input class="form-input" id="setVehYear" type="number" placeholder="cth: 2024">
         </div>
       </div>
-      <button class="save-btn" onclick="saveVehicleSettings()">Simpan Maklumat</button>
+      <button class="save-btn" onclick="saveVehicleSettings()">Simpan Info</button>
     </div>
 
     <div class="settings-group">
       <div class="settings-group-title">Tarikh Penting</div>
       <div class="form-block">
-        <label class="form-label">Tarikh kereta diambil</label>
+        <label class="form-label">Tarikh ambil kereta</label>
         <input class="form-input" id="setDelivery" type="date">
-        <div class="sched-edit-sub" style="margin-top:6px;">Untuk kira servis ikut bulan (cth: 10,000 km atau 6 bulan, mana dulu).</div>
+        <div class="sched-edit-sub" style="margin-top:6px;">Untuk kira servis ikut bulan (10,000 km atau 6 bulan, mana sampai dulu).</div>
       </div>
       <div class="form-block">
-        <label class="form-label">Roadtax tamat</label>
+        <label class="form-label">Roadtax expire</label>
         <input class="form-input" id="setRoadtax" type="date">
       </div>
       <div class="form-block">
-        <label class="form-label">Insurans tamat</label>
+        <label class="form-label">Insurans expire</label>
         <input class="form-input" id="setInsurans" type="date">
       </div>
       <div class="form-block">
-        <label class="form-label">Lesen memandu tamat</label>
+        <label class="form-label">Lesen expire</label>
         <input class="form-input" id="setLesen" type="date">
       </div>
       <button class="save-btn" onclick="saveDates()">Simpan Tarikh</button>
     </div>
 
     <div class="settings-group">
-      <div class="settings-group-title">Jadual Servis Rasmi (S70)</div>
-      <div class="sched-edit-sub" style="margin-bottom:12px;">Harga parts berubah dari semasa ke semasa. Kemaskini di sini bila Proton tukar harga supaya jadual dalam app kekal tepat.</div>
+      <div class="settings-group-title">Jadual Servis Official (S70)</div>
+      <div class="sched-edit-sub" style="margin-bottom:12px;">Harga parts selalu berubah. Update kat sini bila Proton tukar harga.</div>
       <div id="scheduleSettingsContainer"></div>
       <div class="settings-btn-row">
         <button class="save-btn" style="margin-top:8px;" onclick="saveScheduleFromSettings()">Simpan Jadual</button>
-        <button class="settings-btn" style="margin-top:8px; margin-bottom:0;" onclick="confirmResetSchedule()">Set Semula</button>
+        <button class="settings-btn" style="margin-top:8px; margin-bottom:0;" onclick="confirmResetSchedule()">Reset</button>
       </div>
     </div>
 
     <div class="settings-group">
-      <div class="settings-group-title">Urusan Data</div>
+      <div class="settings-group-title">Data</div>
       <button class="settings-btn" onclick="exportData()">
-        <span>Export Data</span>
+        <span>Backup (Export)</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
       </button>
       <button class="settings-btn" onclick="document.getElementById('importFile').click()">
@@ -649,15 +650,15 @@
   </button>
   <button class="nav-item" data-nav="add" onclick="goAddRecord()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-    <span>Tambah Rekod</span>
+    <span>Tambah</span>
   </button>
   <button class="nav-item" data-nav="history" onclick="historyRange=null; switchScreen('history')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 8v5l3 3"/></svg>
-    <span>Sejarah</span>
+    <span>History</span>
   </button>
   <button class="nav-item" data-nav="settings" onclick="switchScreen('settings')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.13.31.4.55.72.72.32.13.55.4.72.72"/></svg>
-    <span>Tetapan</span>
+    <span>Settings</span>
   </button>
 </nav>
 
@@ -970,9 +971,9 @@ function kmPerDay(){
 }
 
 function deltaHtml(cur, prev, higherIsGood, fmt){
-  if(cur==null || prev==null || prev===0) return `<div class="delta flat">tiada perbandingan</div>`;
+  if(cur==null || prev==null || prev===0) return `<div class="delta flat">takde data nak banding</div>`;
   const pct = (cur-prev)/prev*100;
-  if(Math.abs(pct) < 1) return `<div class="delta flat">sama seperti sebelum</div>`;
+  if(Math.abs(pct) < 1) return `<div class="delta flat">lebih kurang sama</div>`;
   const up = pct>0;
   const cls = higherIsGood ? (up?'good-up':'bad-down') : (up?'up':'down');
   return `<div class="delta ${cls}">${up?'▲':'▼'} ${Math.abs(pct).toFixed(0)}% ${fmt? '('+fmt(prev)+')':''}</div>`;
@@ -992,29 +993,30 @@ function renderPeriod(){
       prevName = '1 hingga '+Math.min(t.getDate(), last)+' '+BULAN_S[prevP.m];
     } else {
       clip = ymd(new Date(prevP.y, t.getMonth(), t.getDate()));
-      prevName = 'Tempoh sama '+prevP.y;
+      prevName = 'Same period '+prevP.y;
     }
   }
   const prev = computePeriod(prevP, clip);
   document.getElementById('periodLabel').textContent = periodName(period);
+  document.getElementById('periodLink').textContent = period.mode==='year' ? 'Tengok rekod tahun ni' : 'Tengok rekod bulan ni';
   document.getElementById('periodPrev').disabled = periodIdx(periodShift(period,-1)) < periodIdx(earliestPeriod(period.mode));
   document.getElementById('periodNext').disabled = periodIdx(periodShift(period,1)) > periodIdx(currentPeriod(period.mode));
 
   const wrap = document.getElementById('monthlyStats');
   if(cur.count===0){
-    wrap.innerHTML = `<div class="stat-card wide" style="text-align:center; color:var(--text-faint); font-size:13px; padding:22px;">Tiada rekod dalam tempoh ini</div>`;
+    wrap.innerHTML = `<div class="stat-card wide" style="text-align:center; color:var(--text-faint); font-size:13px; padding:22px;">Takde rekod dalam tempoh ni</div>`;
     return;
   }
   const km = n=>Math.round(n).toLocaleString('en-MY')+' km';
   const kml = n=>n.toFixed(1);
   wrap.innerHTML = `
     <div class="stat-card">
-      <div class="stat-icon-row"><span class="stat-title">Jarak dilalui</span><span class="stat-dot bg-cyan"></span></div>
+      <div class="stat-icon-row"><span class="stat-title">Jarak</span><span class="stat-dot bg-cyan"></span></div>
       <div class="stat-value">${cur.dist!=null? km(cur.dist) : '-'}</div>
       ${deltaHtml(cur.dist, prev.dist, null, null).replace(/delta (up|down|good-up|bad-down)/,'delta flat')}
     </div>
     <div class="stat-card">
-      <div class="stat-icon-row"><span class="stat-title">Purata minyak</span><span class="stat-dot bg-green"></span></div>
+      <div class="stat-icon-row"><span class="stat-title">Avg minyak</span><span class="stat-dot bg-green"></span></div>
       <div class="stat-value">${cur.kml!=null? kml(cur.kml)+' km/L' : '-'}</div>
       ${deltaHtml(cur.kml, prev.kml, true, null)}
     </div>
@@ -1024,14 +1026,14 @@ function renderPeriod(){
       ${deltaHtml(cur.kosMinyak, prev.kosMinyak, false, null)}
     </div>
     <div class="stat-card">
-      <div class="stat-icon-row"><span class="stat-title">Liter diisi</span><span class="stat-dot bg-yellow"></span></div>
+      <div class="stat-icon-row"><span class="stat-title">Liter isi</span><span class="stat-dot bg-yellow"></span></div>
       <div class="stat-value">${cur.liter.toFixed(1)} L</div>
-      <div class="stat-sub">${cur.isiCount} kali isi</div>
+      <div class="stat-sub">${cur.isiCount} kali isi minyak</div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon-row"><span class="stat-title">Minyak setiap km</span><span class="stat-dot bg-red"></span></div>
+      <div class="stat-icon-row"><span class="stat-title">Kos minyak / km</span><span class="stat-dot bg-red"></span></div>
       <div class="stat-value">${cur.minyakPerKm!=null? 'RM '+cur.minyakPerKm.toFixed(2) : '-'}</div>
-      <div class="stat-sub">kos minyak ÷ jarak</div>
+      <div class="stat-sub">minyak sahaja</div>
     </div>
     <div class="stat-card">
       <div class="stat-icon-row"><span class="stat-title">Servis &amp; lain</span><span class="stat-dot bg-cyan"></span></div>
@@ -1039,7 +1041,7 @@ function renderPeriod(){
       <div class="stat-sub">selain minyak</div>
     </div>
     <div class="stat-card wide">
-      <div class="stat-icon-row"><span class="stat-title">Jumlah belanja</span><span class="stat-dot bg-red"></span></div>
+      <div class="stat-icon-row"><span class="stat-title">Total belanja</span><span class="stat-dot bg-red"></span></div>
       <div class="stat-value">${fmtRM(cur.jumlah)}</div>
       ${deltaHtml(cur.jumlah, prev.jumlah, false, null)}
       <div class="stat-sub">${prevName}: ${fmtRM(prev.jumlah)}</div>
@@ -1053,15 +1055,15 @@ function renderHero(){
   const meta = document.getElementById('heroMeta');
   if(latest){
     hero.innerHTML = Number(latest.mileage).toLocaleString('en-MY')+' <span>km</span>';
-    meta.textContent = 'dikemaskini '+fmtDate(latest.date);
+    meta.textContent = 'Last update '+fmtDate(latest.date);
   }else{
     hero.innerHTML = '- <span>km</span>';
     meta.textContent = 'Belum ada rekod';
   }
   const all = overallKml(), r5 = rollingKml(5);
   document.getElementById('heroSplit').innerHTML = (all||r5) ? `
-    <div class="hero-mini"><div class="k">Purata keseluruhan</div><div class="v">${all? all.toFixed(1)+' km/L':'-'}</div></div>
-    <div class="hero-mini"><div class="k">5 isian terakhir</div><div class="v">${r5? r5.toFixed(1)+' km/L':'-'}</div></div>` : '';
+    <div class="hero-mini"><div class="k">Avg keseluruhan</div><div class="v">${all? all.toFixed(1)+' km/L':'-'}</div></div>
+    <div class="hero-mini"><div class="k">Avg 5 isi terakhir</div><div class="v">${r5? r5.toFixed(1)+' km/L':'-'}</div></div>` : '';
 }
 
 /* ---------- Next scheduled service ---------- */
@@ -1090,27 +1092,27 @@ function renderNextService(){
   const wrap = document.getElementById('nextService');
   const n = nextServiceInfo();
   if(!n){ wrap.innerHTML=''; return; }
-  const badge = n.status==='due' ? '<span class="badge due">Sudah sampai</span>' : n.status==='soon' ? '<span class="badge soon">Hampir</span>' : '<span class="badge ok">Aktif</span>';
-  const kmText = n.kmLeft>0 ? n.kmLeft.toLocaleString('en-MY')+' km' : 'Lebih '+Math.abs(n.kmLeft).toLocaleString('en-MY')+' km';
+  const badge = n.status==='due' ? '<span class="badge due">Due</span>' : n.status==='soon' ? '<span class="badge soon">Due soon</span>' : '<span class="badge ok">OK</span>';
+  const kmText = n.kmLeft>0 ? n.kmLeft.toLocaleString('en-MY')+' km' : 'Lajak '+Math.abs(n.kmLeft).toLocaleString('en-MY')+' km';
   const dateText = n.dueDate ? (n.daysLeft>0 ? n.daysLeft+' hari' : 'Lewat '+Math.abs(n.daysLeft)+' hari') : '-';
   let note;
   if(!n.dueDate){
-    note = `Had ${n.iv.months} bulan belum dikira. <button class="text-link" onclick="switchScreen('settings')">Set tarikh kereta diambil</button>`;
+    note = `Had ${n.iv.months} bulan belum kira. <button class="text-link" onclick="switchScreen('settings')">Set tarikh ambil kereta</button>`;
   } else if(n.firstBy==='date'){
-    note = `<b>Ikut tarikh dulu</b>, sebelum ${fmtShortDate(n.dueDate)}.`;
+    note = `<b>Due ikut tarikh dulu</b>, sebelum ${fmtShortDate(n.dueDate)}.`;
   } else {
-    note = `<b>Ikut mileage dulu</b>${n.projected? ', anggaran sekitar '+fmtShortDate(n.projected):''}.`;
+    note = `<b>Due ikut mileage dulu</b>${n.projected? ', anggaran sekitar '+fmtShortDate(n.projected):''}.`;
   }
   wrap.innerHTML = `<div class="next-service ${n.status}">
     <div class="ns-top">
-      <div><div class="ns-label">Servis seterusnya</div><div class="ns-title">${n.iv.mileage.toLocaleString('en-MY')} km / ${n.iv.months} bulan</div></div>
+      <div><div class="ns-label">Next servis</div><div class="ns-title">${n.iv.mileage.toLocaleString('en-MY')} km / ${n.iv.months} bulan</div></div>
       ${badge}
     </div>
     <div class="ns-grid">
-      <div class="ns-cell"><div class="k">Baki jarak</div><div class="v">${kmText}</div></div>
-      <div class="ns-cell"><div class="k">Baki masa${n.dueDate?' ('+fmtShortDate(n.dueDate)+')':''}</div><div class="v">${dateText}</div></div>
+      <div class="ns-cell"><div class="k">Lagi</div><div class="v">${kmText}</div></div>
+      <div class="ns-cell"><div class="k">Atau${n.dueDate?' ('+fmtShortDate(n.dueDate)+')':''}</div><div class="v">${dateText}</div></div>
     </div>
-    <div class="ns-note">${note}<br>Anggaran kos rasmi ${fmtRM(scheduleTotal(n.iv))}. <button class="text-link" onclick="openScheduleSheet()">Butiran</button></div>
+    <div class="ns-note">${note}<br>Anggaran kos official ${fmtRM(scheduleTotal(n.iv))}. <button class="text-link" onclick="openScheduleSheet()">Details</button></div>
   </div>`;
 }
 
@@ -1118,7 +1120,7 @@ function renderNextService(){
 const DOCS = [
   {key:'roadtaxExpiry', name:'Roadtax', icon:'doc'},
   {key:'insuransExpiry', name:'Insurans', icon:'shield'},
-  {key:'lesenExpiry', name:'Lesen memandu', icon:'doc'}
+  {key:'lesenExpiry', name:'Lesen', icon:'doc'}
 ];
 function renderDocs(){
   const wrap = document.getElementById('docList');
@@ -1126,17 +1128,17 @@ function renderDocs(){
   if(!set.length){
     wrap.innerHTML = `<div class="reminder-card" style="cursor:pointer;" onclick="switchScreen('settings')">
       <div class="reminder-icon">${iconSvg('shield')}</div>
-      <div class="reminder-body"><div class="reminder-name">Roadtax &amp; insurans</div><div class="reminder-target">Tekan untuk set tarikh tamat</div></div></div>`;
+      <div class="reminder-body"><div class="reminder-name">Roadtax &amp; insurans</div><div class="reminder-target">Tekan untuk set tarikh expire</div></div></div>`;
     return;
   }
   wrap.innerHTML = set.sort((a,b)=>state.settings[a.key].localeCompare(state.settings[b.key])).map(d=>{
     const date = state.settings[d.key];
     const days = daysUntil(date);
     const cls = days<0 ? 'due' : days<=30 ? 'soon' : 'ok';
-    const label = days<0 ? 'Tamat' : days===0 ? 'Hari ini' : days+' hari';
+    const label = days<0 ? 'Expired' : days===0 ? 'Hari ni' : days+' hari';
     return `<div class="reminder-card">
       <div class="reminder-icon">${iconSvg(d.icon)}</div>
-      <div class="reminder-body"><div class="reminder-name">${d.name}</div><div class="reminder-target">Tamat ${fmtDate(date)}</div></div>
+      <div class="reminder-body"><div class="reminder-name">${d.name}</div><div class="reminder-target">Expire ${fmtDate(date)}</div></div>
       <span class="badge ${cls}">${label}</span>
     </div>`;
   }).join('');
@@ -1150,7 +1152,7 @@ function renderBackupBanner(){
   const days = last ? -daysUntil(last.slice(0,10)) : null;
   if(days!==null && days<30){ wrap.innerHTML=''; return; }
   wrap.innerHTML = `<div class="backup-banner">
-    <span>${days===null ? 'Data belum pernah dibackup. Simpan salinan sekarang.' : 'Backup terakhir '+days+' hari lepas.'}</span>
+    <span>${days===null ? 'Data belum pernah backup lagi.' : 'Last backup '+days+' hari lepas.'}</span>
     <button onclick="exportData()">Backup</button>
   </div>`;
 }
@@ -1172,7 +1174,7 @@ function renderChart(){
   const max = Math.max(...totals, 1);
   const area = document.getElementById('chartArea');
   if(totals.every(t=>t===0)){
-    area.innerHTML = `<div class="chart-empty">Tiada perbelanjaan dalam 6 bulan ini</div>`;
+    area.innerHTML = `<div class="chart-empty">Takde belanja dalam 6 bulan ni</div>`;
     return;
   }
   area.innerHTML = `<div class="chart-bars">
@@ -1192,7 +1194,7 @@ function selectMonth(y,m){
 }
 
 function reminderStatus(rem){
-  if(rem.completed) return {key:'ok', label:'Selesai'};
+  if(rem.completed) return {key:'ok', label:'Done'};
   const latest = getLatestMileageRecord();
   const curMileage = latest ? Number(latest.mileage) : null;
   let dueByMileage = false, soonByMileage = false;
@@ -1206,8 +1208,8 @@ function reminderStatus(rem){
     if(days<=0) dueByDate = true; else if(days<=14) soonByDate = true;
   }
   if(dueByMileage||dueByDate) return {key:'due', label:'Due'};
-  if(soonByMileage||soonByDate) return {key:'soon', label:'Hampir'};
-  return {key:'active', label:'Aktif'};
+  if(soonByMileage||soonByDate) return {key:'soon', label:'Due soon'};
+  return {key:'active', label:'OK'};
 }
 
 function renderReminders(){
@@ -1227,7 +1229,7 @@ function renderReminders(){
       <button class="reminder-check" onclick="toggleReminder('${rem.id}')" aria-label="Tanda selesai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></button>
       <div class="reminder-body">
         <div class="reminder-name">${escapeHtml(rem.name)}</div>
-        <div class="reminder-target">${targetParts.join(' • ')||'Tiada sasaran'}</div>
+        <div class="reminder-target">${targetParts.join(' • ')||'Takde target'}</div>
       </div>
       ${rem.completed?'':`<span class="badge ${badgeClass}">${st.label}</span>`}
       <button class="reminder-del" onclick="deleteReminder('${rem.id}')">${iconSvg('trash')}</button>
@@ -1240,7 +1242,7 @@ function toggleReminder(id){
   r.completed = !r.completed;
   saveReminders();
   renderReminders();
-  showToast(r.completed ? 'Ditanda selesai' : 'Ditanda belum selesai');
+  showToast(r.completed ? 'Marked done' : 'Unmark done');
 }
 function renderRecentRecords(){
   const wrap = document.getElementById('recentRecords');
@@ -1256,7 +1258,7 @@ function emptyStateHtml(){
   return `<div class="empty-state">
     ${iconSvg('doc')}
     <div class="empty-title">Belum ada rekod</div>
-    <div class="empty-sub">Mulakan dengan merekodkan minyak, servis atau perbelanjaan pertama anda.</div>
+    <div class="empty-sub">Start dengan rekod minyak atau servis pertama.</div>
     <button class="cta-btn" style="margin-top:0;" onclick="goAddRecord()">+ Tambah Rekod</button>
   </div>`;
 }
@@ -1343,36 +1345,36 @@ function renderRecordForm(){
     html += fieldWrap('Masa', `<input class="form-input" type="time" id="f_masa" value="${v('time', nowTimeStr())}">`, 'e_masa');
     html += fieldWrap('Mileage (km)', `<input class="form-input" type="number" inputmode="numeric" id="f_mileage" placeholder="cth: 12450" value="${v('mileage')}">`, 'e_mileage');
     html += `<div class="form-row-2">
-      ${fieldWrap('Jumlah liter', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_litres" placeholder="cth: 40.0" value="${v('litres')}">`, 'e_litres')}
-      ${fieldWrap('Harga seliter (RM)', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_price" placeholder="cth: 2.05" value="${existing ? (existing.pricePerLitre? Number(existing.pricePerLitre).toFixed(2):'') : lastFuelPrice()}">`, 'e_price')}
+      ${fieldWrap('Liter', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_litres" placeholder="cth: 40.0" value="${v('litres')}">`, 'e_litres')}
+      ${fieldWrap('Harga / liter (RM)', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_price" placeholder="cth: 2.05" value="${existing ? (existing.pricePerLitre? Number(existing.pricePerLitre).toFixed(2):'') : lastFuelPrice()}">`, 'e_price')}
     </div>`;
-    html += fieldWrap('Jumlah bayaran (RM)', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_amount" placeholder="cth: 82.00" value="${v('amount')}">`, 'e_amount');
+    html += fieldWrap('Total bayar (RM)', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_amount" placeholder="cth: 82.00" value="${v('amount')}">`, 'e_amount');
     html += `<div class="calc-hint" id="calcHint" style="display:none;"></div>`;
-    html += fieldWrap('Stesen minyak', `<input class="form-input" type="text" id="f_vendor" placeholder="cth: Petronas" value="${escapeHtml(v('vendor'))}">`, 'e_vendor');
-    html += fieldWrap('Catatan', `<textarea class="form-textarea" id="f_notes">${escapeHtml(v('notes'))}</textarea>`, 'e_notes');
+    html += fieldWrap('Stesen', `<input class="form-input" type="text" id="f_vendor" placeholder="cth: Petronas" value="${escapeHtml(v('vendor'))}">`, 'e_vendor');
+    html += fieldWrap('Nota', `<textarea class="form-textarea" id="f_notes">${escapeHtml(v('notes'))}</textarea>`, 'e_notes');
   } else if(currentType==='servis' || currentType==='maintenance'){
     const cats = ['Engine oil','Oil filter','Air filter','Cabin filter','Brake','Tyre','Battery','Alignment','Air conditioning','Scheduled service','Other'];
     html += fieldWrap('Tarikh', `<input class="form-input" type="date" id="f_tarikh" value="${v('date', todayStr())}">`, 'e_tarikh');
     html += fieldWrap('Mileage (km)', `<input class="form-input" type="number" inputmode="numeric" id="f_mileage" placeholder="cth: 12450" value="${v('mileage')}">`, 'e_mileage');
-    html += fieldWrap('Kategori servis', `<select class="form-select" id="f_category">${cats.map(c=>`<option value="${c}" ${v('category')===c?'selected':''}>${c}</option>`).join('')}</select>`, 'e_category');
+    html += fieldWrap('Kategori', `<select class="form-select" id="f_category">${cats.map(c=>`<option value="${c}" ${v('category')===c?'selected':''}>${c}</option>`).join('')}</select>`, 'e_category');
     html += fieldWrap('Kos (RM)', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_amount" placeholder="cth: 150.00" value="${v('amount')}">`, 'e_amount');
-    html += fieldWrap('Bengkel', `<input class="form-input" type="text" id="f_workshop" placeholder="cth: Bengkel Ah Chong" value="${escapeHtml(v('workshop'))}">`, 'e_workshop');
-    html += fieldWrap('Catatan', `<textarea class="form-textarea" id="f_notes">${escapeHtml(v('notes'))}</textarea>`, 'e_notes');
-    html += fieldWrap('Servis berkala ikut jadual (pilihan)', `<select class="form-select" id="f_scheduleCompare">
-      <option value="">- Bukan servis berkala -</option>
+    html += fieldWrap('Workshop', `<input class="form-input" type="text" id="f_workshop" placeholder="cth: Proton Service Centre" value="${escapeHtml(v('workshop'))}">`, 'e_workshop');
+    html += fieldWrap('Nota', `<textarea class="form-textarea" id="f_notes">${escapeHtml(v('notes'))}</textarea>`, 'e_notes');
+    html += fieldWrap('Servis berkala (optional)', `<select class="form-select" id="f_scheduleCompare">
+      <option value="">Bukan servis berkala</option>
       ${state.schedule.map(iv=>`<option value="${iv.id}" ${v('scheduleId')===iv.id?'selected':''}>${iv.mileage.toLocaleString('en-MY')} km / ${iv.months} bulan</option>`).join('')}
-    </select><div class="sched-edit-sub" style="margin-top:6px;">Pilih jika ini servis berkala. App akan tanda selesai dan kira servis seterusnya.</div>`, 'e_scheduleCompare');
+    </select><div class="sched-edit-sub" style="margin-top:6px;">Pilih kalau ni servis ikut jadual. App akan tanda done dan kira next servis.</div>`, 'e_scheduleCompare');
     html += `<div class="calc-hint" id="scheduleHint" style="display:none;"></div>`;
   } else {
     html += fieldWrap('Tarikh', `<input class="form-input" type="date" id="f_tarikh" value="${v('date', todayStr())}">`, 'e_tarikh');
     if(currentType==='lain'){
       html += fieldWrap('Kategori', `<input class="form-input" type="text" id="f_category" placeholder="cth: Cucian kereta" value="${escapeHtml(v('category'))}">`, 'e_category');
     }
-    html += fieldWrap('Mileage (km) - pilihan', `<input class="form-input" type="number" inputmode="numeric" id="f_mileage" placeholder="cth: 12450" value="${v('mileage')}">`, 'e_mileage');
-    html += fieldWrap('Jumlah (RM)', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_amount" placeholder="cth: 15.00" value="${v('amount')}">`, 'e_amount');
-    html += fieldWrap('Catatan', `<textarea class="form-textarea" id="f_notes">${escapeHtml(v('notes'))}</textarea>`, 'e_notes');
+    html += fieldWrap('Mileage (km), optional', `<input class="form-input" type="number" inputmode="numeric" id="f_mileage" placeholder="cth: 12450" value="${v('mileage')}">`, 'e_mileage');
+    html += fieldWrap('Total (RM)', `<input class="form-input" type="number" step="0.01" inputmode="decimal" id="f_amount" placeholder="cth: 15.00" value="${v('amount')}">`, 'e_amount');
+    html += fieldWrap('Nota', `<textarea class="form-textarea" id="f_notes">${escapeHtml(v('notes'))}</textarea>`, 'e_notes');
   }
-  html += `<button type="submit" class="save-btn">${existing? 'Kemaskini Rekod':'Simpan Rekod'}</button>`;
+  html += `<button type="submit" class="save-btn">${existing? 'Update Rekod':'Simpan Rekod'}</button>`;
   if(existing) html += `<button type="button" class="cancel-link" onclick="cancelEdit()">Batal</button>`;
   form.innerHTML = html;
 
@@ -1388,9 +1390,9 @@ function renderRecordForm(){
       if(known.length<2) { hint.style.display='none'; return; }
       const target = ['l','p','a'].find(k=>!known.includes(k));
       const l=parseFloat(el.l.value), p=parseFloat(el.p.value), a=parseFloat(el.a.value);
-      if(target==='a'){ el.a.value=(l*p).toFixed(2); hint.textContent='Jumlah bayaran dikira automatik'; }
-      if(target==='l'){ el.l.value=(a/p).toFixed(2); hint.textContent='Jumlah liter dikira automatik'; }
-      if(target==='p'){ el.p.value=(a/l).toFixed(2); hint.textContent='Harga seliter dikira automatik'; }
+      if(target==='a'){ el.a.value=(l*p).toFixed(2); hint.textContent='Total bayar auto kira'; }
+      if(target==='l'){ el.l.value=(a/p).toFixed(2); hint.textContent='Liter auto kira'; }
+      if(target==='p'){ el.p.value=(a/l).toFixed(2); hint.textContent='Harga / liter auto kira'; }
       hint.style.display='block';
     }
     Object.entries(el).forEach(([k,input])=>input.addEventListener('input', ()=>{
@@ -1405,7 +1407,7 @@ function renderRecordForm(){
       const iv = state.schedule.find(x=>x.id===compareEl.value);
       if(!iv){ hintEl.style.display='none'; return; }
       hintEl.style.display='block';
-      hintEl.textContent = 'Anggaran rasmi untuk ' + iv.mileage.toLocaleString('en-MY') + ' km: ' + fmtRM(scheduleTotal(iv)) + ' (bandingkan dengan Kos di atas)';
+      hintEl.textContent = 'Anggaran official untuk ' + iv.mileage.toLocaleString('en-MY') + ' km: ' + fmtRM(scheduleTotal(iv)) + ' (banding dengan kos atas)';
     });
   }
 
@@ -1431,13 +1433,13 @@ function handleFormSubmit(ev){
   const get = id => document.getElementById(id);
 
   const date = get('f_tarikh') ? get('f_tarikh').value : '';
-  if(!date){ setError('e_tarikh','f_tarikh','Sila pilih tarikh.'); valid = false; }
+  if(!date){ setError('e_tarikh','f_tarikh','Pilih tarikh dulu.'); valid = false; }
 
   const mileageEl = get('f_mileage');
   const mileageVal = mileageEl ? mileageEl.value : '';
-  if(mileageEl && mileageVal!=='' && Number(mileageVal) < 0){ setError('e_mileage','f_mileage','Mileage tidak boleh negatif.'); valid = false; }
+  if(mileageEl && mileageVal!=='' && Number(mileageVal) < 0){ setError('e_mileage','f_mileage','Mileage tak boleh negatif.'); valid = false; }
   if(currentType==='minyak' || currentType==='servis' || currentType==='maintenance'){
-    if(mileageVal===''){ setError('e_mileage','f_mileage','Sila masukkan mileage.'); valid = false; }
+    if(mileageVal===''){ setError('e_mileage','f_mileage','Isi mileage dulu.'); valid = false; }
   }
   // Odometer sanity check against the records around this date
   if(mileageVal!=='' && date && valid){
@@ -1448,9 +1450,9 @@ function handleFormSubmit(ev){
     const before = others.filter(r=>(r.date+' '+(r.time||'00:00')) <= key).sort((a,b)=>Number(b.mileage)-Number(a.mileage))[0];
     const after = others.filter(r=>(r.date+' '+(r.time||'00:00')) > key).sort((a,b)=>Number(a.mileage)-Number(b.mileage))[0];
     if(before && m < Number(before.mileage)){
-      setError('e_mileage','f_mileage',`Lebih rendah dari rekod ${fmtDate(before.date)} (${Number(before.mileage).toLocaleString('en-MY')} km). Semak semula.`); valid=false;
+      setError('e_mileage','f_mileage',`Lebih rendah dari rekod ${fmtDate(before.date)} (${Number(before.mileage).toLocaleString('en-MY')} km). Check balik.`); valid=false;
     } else if(after && m > Number(after.mileage)){
-      setError('e_mileage','f_mileage',`Lebih tinggi dari rekod ${fmtDate(after.date)} (${Number(after.mileage).toLocaleString('en-MY')} km). Semak semula.`); valid=false;
+      setError('e_mileage','f_mileage',`Lebih tinggi dari rekod ${fmtDate(after.date)} (${Number(after.mileage).toLocaleString('en-MY')} km). Check balik.`); valid=false;
     } else if(before && m - Number(before.mileage) > 1500 && form.dataset.ack !== String(m)){
       form.dataset.ack = String(m);
       setError('e_mileage','f_mileage',`Lompat ${(m-Number(before.mileage)).toLocaleString('en-MY')} km dari rekod lepas. Kalau betul, tekan Simpan sekali lagi.`); valid=false;
@@ -1462,9 +1464,9 @@ function handleFormSubmit(ev){
   if(currentType==='minyak'){
     record.time = get('f_masa').value;
     const litres = get('f_litres').value, price = get('f_price').value, amount = get('f_amount').value;
-    if(litres==='' || Number(litres)<=0){ setError('e_litres','f_litres','Jumlah liter mesti lebih daripada 0.'); valid=false; }
-    if(price!=='' && Number(price)<0){ setError('e_price','f_price','Harga tidak boleh negatif.'); valid=false; }
-    if(amount==='' || Number(amount)<=0){ setError('e_amount','f_amount','Sila masukkan jumlah bayaran.'); valid=false; }
+    if(litres==='' || Number(litres)<=0){ setError('e_litres','f_litres','Liter kena lebih dari 0.'); valid=false; }
+    if(price!=='' && Number(price)<0){ setError('e_price','f_price','Harga tak boleh negatif.'); valid=false; }
+    if(amount==='' || Number(amount)<=0){ setError('e_amount','f_amount','Isi total bayar dulu.'); valid=false; }
     record.litres = Number(litres)||0;
     record.pricePerLitre = price!==''? Number(price) : (record.litres>0? Number(amount)/record.litres : 0);
     record.amount = Number(amount)||0;
@@ -1473,7 +1475,7 @@ function handleFormSubmit(ev){
   } else if(currentType==='servis'||currentType==='maintenance'){
     record.category = get('f_category').value;
     const amount = get('f_amount').value;
-    if(amount===''|| Number(amount)<0){ setError('e_amount','f_amount','Sila masukkan kos servis.'); valid=false; }
+    if(amount===''|| Number(amount)<0){ setError('e_amount','f_amount','Isi kos servis dulu.'); valid=false; }
     record.amount = Number(amount)||0;
     record.workshop = get('f_workshop').value.trim();
     record.notes = get('f_notes').value.trim();
@@ -1483,7 +1485,7 @@ function handleFormSubmit(ev){
     if(currentType==='lain'){ record.category = get('f_category').value.trim() || 'Lain-lain'; }
     else { record.category = TYPE_META[currentType].label; }
     const amount = get('f_amount').value;
-    if(amount===''|| Number(amount)<0){ setError('e_amount','f_amount','Sila masukkan jumlah perbelanjaan.'); valid=false; }
+    if(amount===''|| Number(amount)<0){ setError('e_amount','f_amount','Isi total dulu.'); valid=false; }
     record.amount = Number(amount)||0;
     record.notes = get('f_notes').value.trim();
   }
@@ -1493,7 +1495,7 @@ function handleFormSubmit(ev){
   if(editingId){
     const idx = state.records.findIndex(r=>r.id===editingId);
     state.records[idx] = record;
-    showToast('Rekod dikemaskini');
+    showToast('Rekod diupdate');
   } else {
     state.records.push(record);
     showToast('Rekod disimpan');
@@ -1543,7 +1545,7 @@ function renderHistory(){
   if(sortMode==='kos') list.sort((a,b)=>recordAmount(b)-recordAmount(a));
 
   const wrap = document.getElementById('historyList');
-  wrap.innerHTML = list.length ? list.map(recordCardHtml).join('') : `<div class="empty-state">${iconSvg('doc')}<div class="empty-title">Tiada rekod dijumpai</div><div class="empty-sub">Cuba tukar penapis atau kata kunci carian.</div></div>`;
+  wrap.innerHTML = list.length ? list.map(recordCardHtml).join('') : `<div class="empty-state">${iconSvg('doc')}<div class="empty-title">Takde rekod</div><div class="empty-sub">Cuba tukar filter atau carian.</div></div>`;
 
   renderAnalytics();
 }
@@ -1572,13 +1574,13 @@ function renderAnalytics(){
 
   const grid = document.getElementById('analyticsGrid');
   grid.innerHTML = `
-    <div class="stat-card"><div class="stat-title">Jumlah Mileage</div><div class="stat-value">${distance!==null? distance.toLocaleString('en-MY')+' km' : '-'}</div><div class="stat-sub">${distance!==null?'jarak direkodkan':'belum cukup data'}</div></div>
-    <div class="stat-card"><div class="stat-title">Jumlah Minyak</div><div class="stat-value">${totalLitres.toFixed(1)} L</div><div class="stat-sub">keseluruhan</div></div>
-    <div class="stat-card"><div class="stat-title">Purata Harga Minyak</div><div class="stat-value">${avgPrice!==null? 'RM '+avgPrice.toFixed(2):'-'}</div><div class="stat-sub">setiap liter</div></div>
-    <div class="stat-card"><div class="stat-title">Purata Penggunaan</div><div class="stat-value">${avgConsumption!==null? avgConsumption.toFixed(1)+' km/L':'-'}</div><div class="stat-sub">${avgConsumption!==null?'keseluruhan':'belum cukup data'}</div></div>
-    <div class="stat-card"><div class="stat-title">Kos Setiap KM</div><div class="stat-value">${costPerKm!==null? fmtRM(costPerKm):'-'}</div><div class="stat-sub">${costPerKm!==null?'anggaran keseluruhan':'belum cukup data'}</div></div>
-    <div class="stat-card"><div class="stat-title">Jumlah Penyelenggaraan</div><div class="stat-value">${fmtRM(maintCost)}</div><div class="stat-sub">servis &amp; maintenance</div></div>
-    <div class="stat-card wide"><div class="stat-title">Jumlah Belanja Kenderaan</div><div class="stat-value">${fmtRM(totalSpending)}</div><div class="stat-sub">semua rekod</div></div>
+    <div class="stat-card"><div class="stat-title">Total jarak</div><div class="stat-value">${distance!==null? distance.toLocaleString('en-MY')+' km' : '-'}</div><div class="stat-sub">${distance!==null?'sejak rekod pertama':'data tak cukup'}</div></div>
+    <div class="stat-card"><div class="stat-title">Total minyak</div><div class="stat-value">${totalLitres.toFixed(1)} L</div><div class="stat-sub">keseluruhan</div></div>
+    <div class="stat-card"><div class="stat-title">Avg harga minyak</div><div class="stat-value">${avgPrice!==null? 'RM '+avgPrice.toFixed(2):'-'}</div><div class="stat-sub">setiap liter</div></div>
+    <div class="stat-card"><div class="stat-title">Avg km/L</div><div class="stat-value">${avgConsumption!==null? avgConsumption.toFixed(1)+' km/L':'-'}</div><div class="stat-sub">${avgConsumption!==null?'keseluruhan':'data tak cukup'}</div></div>
+    <div class="stat-card"><div class="stat-title">Kos / km</div><div class="stat-value">${costPerKm!==null? fmtRM(costPerKm):'-'}</div><div class="stat-sub">${costPerKm!==null?'semua belanja ÷ jarak':'data tak cukup'}</div></div>
+    <div class="stat-card"><div class="stat-title">Total servis</div><div class="stat-value">${fmtRM(maintCost)}</div><div class="stat-sub">servis &amp; maintenance</div></div>
+    <div class="stat-card wide"><div class="stat-title">Total belanja kereta</div><div class="stat-value">${fmtRM(totalSpending)}</div><div class="stat-sub">semua rekod</div></div>
   `;
 }
 
@@ -1607,29 +1609,29 @@ function openRecordDetail(id){
   if(r.time) rows.push(['Masa', r.time]);
   if(r.mileage!=null) rows.push(['Mileage', Number(r.mileage).toLocaleString('en-MY')+' km']);
   if(r.type==='minyak'){
-    rows.push(['Jumlah liter', Number(r.litres).toFixed(2)+' L']);
-    rows.push(['Harga seliter', 'RM '+Number(r.pricePerLitre).toFixed(2)]);
-    rows.push(['Jumlah bayaran', fmtRM(r.amount)]);
-    if(r.vendor) rows.push(['Stesen minyak', r.vendor]);
+    rows.push(['Liter', Number(r.litres).toFixed(2)+' L']);
+    rows.push(['Harga / liter', 'RM '+Number(r.pricePerLitre).toFixed(2)]);
+    rows.push(['Total bayar', fmtRM(r.amount)]);
+    if(r.vendor) rows.push(['Stesen', r.vendor]);
   } else if(r.type==='servis'||r.type==='maintenance'){
     rows.push(['Kategori', r.category||'-']);
     const iv = r.scheduleId && state.schedule.find(x=>x.id===r.scheduleId);
     if(iv) rows.push(['Servis berkala', iv.mileage.toLocaleString('en-MY')+' km']);
     rows.push(['Kos', fmtRM(r.amount)]);
-    if(r.workshop) rows.push(['Bengkel', r.workshop]);
+    if(r.workshop) rows.push(['Workshop', r.workshop]);
   } else {
     if(r.category) rows.push(['Kategori', r.category]);
-    rows.push(['Jumlah', fmtRM(r.amount)]);
+    rows.push(['Total', fmtRM(r.amount)]);
   }
-  if(r.notes) rows.push(['Catatan', r.notes]);
+  if(r.notes) rows.push(['Nota', r.notes]);
 
   openOverlay(`
     <div class="sheet-handle"></div>
     <div class="sheet-title">${meta.label}</div>
     ${rows.map(([k,v])=>`<div class="detail-row"><span class="k">${escapeHtml(k)}</span><span class="v">${escapeHtml(v)}</span></div>`).join('')}
     <div class="sheet-actions">
-      <button class="btn-edit" onclick="editRecord('${r.id}')">Edit Rekod</button>
-      <button class="btn-delete" onclick="confirmDeleteRecord('${r.id}')">Delete Rekod</button>
+      <button class="btn-edit" onclick="editRecord('${r.id}')">Edit</button>
+      <button class="btn-delete" onclick="confirmDeleteRecord('${r.id}')">Delete</button>
     </div>
   `);
 }
@@ -1646,11 +1648,11 @@ function editRecord(id){
 function confirmDeleteRecord(id){
   openOverlay(`
     <div class="sheet-handle"></div>
-    <div class="sheet-title">Padam rekod ini?</div>
-    <div class="confirm-text">Tindakan ini tidak boleh diundur. Rekod akan dipadam secara kekal.</div>
+    <div class="sheet-title">Delete rekod ni?</div>
+    <div class="confirm-text">Tak boleh undo. Rekod akan hilang terus.</div>
     <div class="sheet-actions">
       <button class="btn-edit" onclick="closeOverlay()">Batal</button>
-      <button class="btn-delete" onclick="deleteRecord('${id}')">Padam</button>
+      <button class="btn-delete" onclick="deleteRecord('${id}')">Delete</button>
     </div>
   `);
 }
@@ -1658,7 +1660,7 @@ function deleteRecord(id){
   state.records = state.records.filter(r=>r.id!==id);
   saveRecords();
   closeOverlay();
-  showToast('Rekod dipadam');
+  showToast('Rekod didelete');
   renderDashboard();
   renderHistory();
 }
@@ -1670,13 +1672,13 @@ function openReminderSheet(prefill){
   prefill = prefill || {};
   openOverlay(`
     <div class="sheet-handle"></div>
-    <div class="sheet-title">Tambah Peringatan Servis</div>
-    <div class="form-block"><label class="form-label">Nama servis</label><input class="form-input" id="rem_name" placeholder="cth: Engine Oil" value="${escapeHtml(prefill.name||'')}"></div>
-    <div class="form-block"><label class="form-label">Mileage sasaran (km)</label><input class="form-input" type="number" id="rem_mileage" placeholder="cth: 15000" value="${prefill.targetMileage||''}"></div>
-    <div class="form-block"><label class="form-label">Tarikh sasaran</label><input class="form-input" type="date" id="rem_date" value="${prefill.targetDate||''}"></div>
+    <div class="sheet-title">Tambah Reminder</div>
+    <div class="form-block"><label class="form-label">Nama</label><input class="form-input" id="rem_name" placeholder="cth: Engine Oil" value="${escapeHtml(prefill.name||'')}"></div>
+    <div class="form-block"><label class="form-label">Target mileage (km)</label><input class="form-input" type="number" id="rem_mileage" placeholder="cth: 15000" value="${prefill.targetMileage||''}"></div>
+    <div class="form-block"><label class="form-label">Target tarikh</label><input class="form-input" type="date" id="rem_date" value="${prefill.targetDate||''}"></div>
     <div class="form-block"><label class="form-label">Catatan</label><textarea class="form-textarea" id="rem_notes">${escapeHtml(prefill.notes||'')}</textarea></div>
     <div class="form-error show" id="rem_err" style="display:none;"></div>
-    <button class="save-btn" onclick="saveReminder()">Simpan Peringatan</button>
+    <button class="save-btn" onclick="saveReminder()">Simpan Reminder</button>
   `);
 }
 function saveReminder(){
@@ -1685,19 +1687,19 @@ function saveReminder(){
   const date = document.getElementById('rem_date').value;
   const notes = document.getElementById('rem_notes').value.trim();
   const err = document.getElementById('rem_err');
-  if(!name){ err.textContent = 'Sila masukkan nama servis.'; err.style.display='block'; return; }
-  if(!mileage && !date){ err.textContent = 'Sila masukkan mileage sasaran atau tarikh sasaran.'; err.style.display='block'; return; }
+  if(!name){ err.textContent = 'Isi nama dulu.'; err.style.display='block'; return; }
+  if(!mileage && !date){ err.textContent = 'Isi target mileage atau tarikh.'; err.style.display='block'; return; }
   state.reminders.push({id:uid(), name, targetMileage: mileage?Number(mileage):null, targetDate: date||null, notes, completed:false});
   saveReminders();
   closeOverlay();
-  showToast('Peringatan disimpan');
+  showToast('Reminder disimpan');
   renderReminders();
 }
 function deleteReminder(id){
   state.reminders = state.reminders.filter(r=>r.id!==id);
   saveReminders();
   renderReminders();
-  showToast('Peringatan dipadam');
+  showToast('Reminder dipadam');
 }
 
 /* ============================================================
@@ -1723,15 +1725,15 @@ function openScheduleSheet(){
       <div class="schedule-body">
         <div class="schedule-table">${scheduleRowsHtml(iv)}</div>
         <div class="schedule-actions">
-          <button class="schedule-use-btn" onclick="useScheduleAsReminder('${iv.id}')">Guna Sebagai Peringatan</button>
+          <button class="schedule-use-btn" onclick="useScheduleAsReminder('${iv.id}')">Jadikan Reminder</button>
         </div>
       </div>
     </div>
   `).join('');
   openOverlay(`
     <div class="sheet-handle"></div>
-    <div class="sheet-title">Jadual Servis Rasmi (S70)</div>
-    <div class="schedule-note">Harga anggaran ikut jadual servis berkala rasmi. Harga sebenar boleh berbeza ikut pusat servis dan promosi semasa. Boleh dikemaskini di Tetapan.</div>
+    <div class="sheet-title">Jadual Servis Official (S70)</div>
+    <div class="schedule-note">Harga anggaran ikut jadual official. Harga sebenar boleh lain ikut service centre dan promo. Boleh update kat Settings.</div>
     ${items}
   `);
 }
@@ -1747,7 +1749,7 @@ function useScheduleAsReminder(id){
   openReminderSheet({
     name: 'Servis '+iv.mileage.toLocaleString('en-MY')+' km',
     targetMileage: iv.mileage,
-    notes: 'Ikut jadual rasmi: '+partNames+'. Anggaran RM '+scheduleTotal(iv).toFixed(2)+'.'
+    notes: 'Ikut jadual official: '+partNames+'. Anggaran RM '+scheduleTotal(iv).toFixed(2)+'.'
   });
 }
 
@@ -1769,7 +1771,7 @@ function renderScheduleSettings(){
         <label>Servis Labour (RM)</label>
         <input type="number" step="0.01" class="sched-labour-input" value="${iv.labour}">
       </div>
-      <div class="sched-computed">Tax 8% + Total dikira automatik bila disimpan</div>
+      <div class="sched-computed">Tax 8% + total auto kira bila simpan</div>
     </div>
   `).join('');
 }
@@ -1803,7 +1805,7 @@ function saveScheduleFromSettings(){
     if(labour<0){ hasError = true; }
     newSchedule.push({id, mileage, months, labour, parts});
   });
-  if(hasError){ showToast('Nilai tidak sah, sila semak semula.'); return; }
+  if(hasError){ showToast('Ada nilai salah, check balik.'); return; }
   state.schedule = newSchedule;
   saveSchedule();
   showToast('Jadual servis disimpan');
@@ -1811,11 +1813,11 @@ function saveScheduleFromSettings(){
 function confirmResetSchedule(){
   openOverlay(`
     <div class="sheet-handle"></div>
-    <div class="sheet-title">Set semula jadual servis?</div>
-    <div class="confirm-text">Sebarang harga yang anda kemaskini akan digantikan dengan jadual asal. Rekod dan peringatan anda tidak terjejas.</div>
+    <div class="sheet-title">Reset jadual servis?</div>
+    <div class="confirm-text">Harga yang hang dah update akan balik ke jadual asal. Rekod dan reminder tak terjejas.</div>
     <div class="sheet-actions">
       <button class="btn-edit" onclick="closeOverlay()">Batal</button>
-      <button class="btn-delete" onclick="doResetSchedule()">Set Semula</button>
+      <button class="btn-delete" onclick="doResetSchedule()">Reset</button>
     </div>
   `);
 }
@@ -1824,7 +1826,7 @@ function doResetSchedule(){
   saveSchedule().then(()=>{
     closeOverlay();
     renderScheduleSettings();
-    showToast('Jadual servis diset semula');
+    showToast('Jadual servis direset');
   });
 }
 
@@ -1850,14 +1852,14 @@ function saveDates(){
   showToast('Tarikh disimpan');
 }
 function saveVehicleSettings(){
-  state.settings.vehName = document.getElementById('setVehName').value.trim() || 'Kenderaan Saya';
+  state.settings.vehName = document.getElementById('setVehName').value.trim() || 'Kereta Aku';
   state.settings.vehPlate = document.getElementById('setVehPlate').value.trim().toUpperCase();
   state.settings.vehModel = document.getElementById('setVehModel').value.trim();
   state.settings.vehYear = document.getElementById('setVehYear').value.trim();
   saveSettings();
   document.getElementById('chipPlate').textContent = state.settings.vehPlate || '-';
   document.getElementById('chipName').textContent = state.settings.vehName || '-';
-  showToast('Maklumat kenderaan disimpan');
+  showToast('Info kereta disimpan');
 }
 
 function exportData(){
@@ -1887,9 +1889,9 @@ document.getElementById('importFile').addEventListener('change', function(e){
       openOverlay(`
         <div class="sheet-handle"></div>
         <div class="sheet-title">Import data?</div>
-        <div class="confirm-text">Fail ini ada <b>${data.records.length}</b> rekod${data.exportedAt? ' (backup '+fmtDate(String(data.exportedAt).slice(0,10))+')':''}. Dalam app sekarang ada <b>${state.records.length}</b> rekod.<br><br>
-        <b>Gabung</b>: tambah ${fresh} rekod yang belum ada, rekod sedia ada kekal.<br>
-        <b>Ganti</b>: padam semua data sekarang dan guna fail ini.</div>
+        <div class="confirm-text">Fail ni ada <b>${data.records.length}</b> rekod${data.exportedAt? ' (backup '+fmtDate(String(data.exportedAt).slice(0,10))+')':''}. Dalam app sekarang ada <b>${state.records.length}</b> rekod.<br><br>
+        <b>Gabung</b>: tambah ${fresh} rekod baru, rekod sedia ada kekal.<br>
+        <b>Ganti</b>: buang data sekarang, guna fail ni.</div>
         <div class="sheet-actions">
           <button class="btn-edit" onclick="applyImport('merge')">Gabung</button>
           <button class="btn-delete" onclick="applyImport('replace')">Ganti</button>
@@ -1897,7 +1899,7 @@ document.getElementById('importFile').addEventListener('change', function(e){
         <button class="cancel-link" onclick="pendingImport=null; closeOverlay()">Batal</button>
       `);
     }catch(err){
-      showToast('Fail tidak sah. Sila cuba fail export yang betul.');
+      showToast('Fail tak sah. Guna fail backup dari app ni.');
     }
   };
   reader.readAsText(file);
@@ -1932,7 +1934,7 @@ function confirmReset(){
   openOverlay(`
     <div class="sheet-handle"></div>
     <div class="sheet-title">Reset semua data?</div>
-    <div class="confirm-text">Semua rekod, peringatan dan tetapan akan dipadam secara kekal. Pastikan anda telah export data jika perlu.</div>
+    <div class="confirm-text">Semua rekod, reminder dan settings akan hilang terus. Pastikan dah backup dulu.</div>
     <div class="sheet-actions">
       <button class="btn-edit" onclick="closeOverlay()">Batal</button>
       <button class="btn-delete" onclick="doReset()">Reset</button>
@@ -1947,7 +1949,7 @@ function doReset(){
     closeOverlay();
     populateSettingsForm();
     renderDashboard();
-    showToast('Data telah direset');
+    showToast('Data direset');
   });
 }
 
