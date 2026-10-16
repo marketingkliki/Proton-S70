@@ -473,8 +473,10 @@
   .gauge-text .gv{font-size:30px; font-weight:700; letter-spacing:-0.6px; line-height:1;}
   .gauge-text .gl{font-size:11px; font-weight:600; letter-spacing:1.8px; color:var(--text-dim); margin-top:5px;}
   .gauge-sub{position:absolute; left:0; right:0; bottom:-2px; text-align:center; font-size:10.5px; color:var(--text-faint);}
-  .car-art{width:88%; margin:16px auto 10px;}
-  .car-svg{width:100%; height:auto; display:block;}
+  .car-art{width:92%; margin:18px auto 14px;}
+  .car-img{width:100%; height:auto; display:block; position:relative;}
+  .car-art{position:relative;}
+  .car-art::after{content:''; position:absolute; left:8%; right:8%; bottom:-4px; height:18px; background:radial-gradient(ellipse at center, rgba(0,0,0,0.85), transparent 70%); z-index:-0; pointer-events:none;}
   .cc-chips{display:flex; justify-content:center; gap:10px; flex-wrap:wrap;}
   .cc-chip{border:1px solid var(--border-strong); background:rgba(255,255,255,0.02); border-radius:100px; padding:9px 16px; font-size:15px; font-weight:600;}
   .cc-chip span{font-size:11.5px; letter-spacing:1.6px; color:var(--text-dim); margin-right:8px; font-weight:600;}
@@ -581,43 +583,7 @@
         </div>
         <div class="gauge" id="gauge"></div>
       </div>
-      <div class="car-art"><svg viewBox="0 0 400 150" class="car-svg" aria-hidden="true">
-  <defs>
-    <linearGradient id="carBody" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#8a8d93"/>
-      <stop offset="0.35" stop-color="#5d6066"/>
-      <stop offset="1" stop-color="#2b2d31"/>
-    </linearGradient>
-    <linearGradient id="carGlass" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#2a2f38"/>
-      <stop offset="1" stop-color="#0b0c0f"/>
-    </linearGradient>
-    <radialGradient id="carShadow" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="#000" stop-opacity="0.9"/>
-      <stop offset="1" stop-color="#000" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-  <ellipse cx="200" cy="128" rx="185" ry="12" fill="url(#carShadow)"/>
-  <path d="M22 100 C20 88 28 82 44 79 L112 69 C138 52 168 39 204 37 L254 37 C284 38 306 51 332 65 L368 71 C382 74 388 83 388 93 L388 104 C388 110 384 112 378 112 L333 112 A33 33 0 0 0 267 112 L138 112 A33 33 0 0 0 72 112 L32 112 C25 112 22 108 22 100 Z" fill="url(#carBody)"/>
-  <path d="M46 84 L120 74 C150 57 175 46 206 44 L252 44 C280 45 300 56 322 68" fill="none" stroke="#c9ccd2" stroke-opacity="0.35" stroke-width="1.5"/>
-  <path d="M128 70 C148 56 170 46 200 45 L224 45 L224 70 Z" fill="url(#carGlass)"/>
-  <path d="M232 45 L254 45 C280 46 297 55 316 67 L232 70 Z" fill="url(#carGlass)"/>
-  <path d="M60 98 L370 98" stroke="#000" stroke-opacity="0.25" stroke-width="1"/>
-  <path d="M30 86 C34 82 40 81 52 80" stroke="#e9eef5" stroke-width="3" stroke-linecap="round" fill="none"/>
-  <path d="M372 76 L385 80" stroke="#ff4a4f" stroke-width="3.5" stroke-linecap="round"/>
-  <g>
-    <circle cx="105" cy="112" r="25" fill="#0d0e10"/>
-    <circle cx="105" cy="112" r="16" fill="#3a3c41" stroke="#8a8d93" stroke-width="2"/>
-    <circle cx="105" cy="112" r="4" fill="#15161a"/>
-    <path d="M105 97v30M90 112h30M94.4 101.4l21.2 21.2M115.6 101.4l-21.2 21.2" stroke="#1d1e22" stroke-width="2.5"/>
-  </g>
-  <g>
-    <circle cx="300" cy="112" r="25" fill="#0d0e10"/>
-    <circle cx="300" cy="112" r="16" fill="#3a3c41" stroke="#8a8d93" stroke-width="2"/>
-    <circle cx="300" cy="112" r="4" fill="#15161a"/>
-    <path d="M300 97v30M285 112h30M289.4 101.4l21.2 21.2M310.6 101.4l-21.2 21.2" stroke="#1d1e22" stroke-width="2.5"/>
-  </g>
-</svg></div>
+      <div class="car-art"><img src="car.png" alt="Proton S70" class="car-img"></div>
       <div class="cc-chips" id="ccChips"></div>
       <div class="cc-progress" id="nextService"></div>
     </div>
