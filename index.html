@@ -7,7 +7,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/svg+xml" href="icon.svg">
 <link rel="apple-touch-icon" href="icon-180.png">
-<meta name="theme-color" content="#0d1220">
+<meta name="theme-color" content="#000000">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -439,6 +439,116 @@
   @media (min-width:600px){
     .type-grid{grid-template-columns:repeat(4,1fr);}
   }
+
+  /* ================= Restyle: black, minimal (v2) ================= */
+  :root{
+    --bg:#000; --bg-2:#000; --surface:#111113; --surface-2:#1c1c1f;
+    --border:rgba(255,255,255,0.07); --border-strong:rgba(255,255,255,0.13);
+    --text:#f5f5f7; --text-dim:#8e8e93; --text-faint:#5a5a5f;
+    --radius:28px; --radius-sm:22px;
+    --red:#ff453a; --red-dim:rgba(255,69,58,0.14);
+    --green:#32d74b; --green-dim:rgba(50,215,75,0.14);
+    --yellow:#ffd60a; --yellow-dim:rgba(255,214,10,0.13);
+    --cyan:#8e8e93; --cyan-dim:rgba(255,255,255,0.06);
+  }
+  body{background:#000;}
+  #app{padding-bottom:120px;}
+  .topbar{background:rgba(0,0,0,0.82); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1px solid var(--border); padding-bottom:14px;}
+  .tb-title{font-size:19px; font-weight:700; letter-spacing:-0.2px;}
+  .tb-status{display:flex; align-items:center; gap:7px; font-size:13px; color:var(--text-dim); margin-top:3px;}
+  .tb-dot{width:8px; height:8px; border-radius:50%; background:var(--green);}
+  .tb-btn{display:flex; align-items:center; gap:6px; background:var(--surface); border:1px solid var(--border-strong); border-radius:100px; padding:10px 16px; font-size:14px; font-weight:600; color:var(--text);}
+  .tb-btn svg{width:16px; height:16px;}
+  .screen{padding-top:16px;}
+  .page-title{font-size:30px; font-weight:700; letter-spacing:-0.5px;}
+
+  .car-card{background:linear-gradient(180deg,#141416,#0c0c0e); border:1px solid var(--border); border-radius:var(--radius); padding:24px 22px 22px; margin-bottom:8px;}
+  .cc-top{display:flex; justify-content:space-between; align-items:flex-start; gap:12px;}
+  .cc-plate{font-size:12.5px; font-weight:600; letter-spacing:2.5px; color:var(--text-dim);}
+  .cc-model{font-size:34px; font-weight:700; letter-spacing:-0.8px; margin-top:4px; line-height:1.1;}
+  .cc-sub{font-size:14px; color:var(--text-dim); margin-top:4px;}
+  .gauge{position:relative; width:122px; height:122px; flex-shrink:0; margin-top:-4px;}
+  .gauge-svg{width:100%; height:100%;}
+  .gauge-text{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding-bottom:6px;}
+  .gauge-text .gv{font-size:30px; font-weight:700; letter-spacing:-0.6px; line-height:1;}
+  .gauge-text .gl{font-size:11px; font-weight:600; letter-spacing:1.8px; color:var(--text-dim); margin-top:5px;}
+  .gauge-sub{position:absolute; left:0; right:0; bottom:-2px; text-align:center; font-size:10.5px; color:var(--text-faint);}
+  .car-art{width:88%; margin:16px auto 10px;}
+  .car-svg{width:100%; height:auto; display:block;}
+  .cc-chips{display:flex; justify-content:center; gap:10px; flex-wrap:wrap;}
+  .cc-chip{border:1px solid var(--border-strong); background:rgba(255,255,255,0.02); border-radius:100px; padding:9px 16px; font-size:15px; font-weight:600;}
+  .cc-chip span{font-size:11.5px; letter-spacing:1.6px; color:var(--text-dim); margin-right:8px; font-weight:600;}
+  .cc-progress{border-top:1px solid var(--border); margin-top:20px; padding-top:18px;}
+  .pg-row{margin-bottom:16px;}
+  .pg-head{display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:9px;}
+  .pg-label{font-size:12.5px; font-weight:600; letter-spacing:1.4px; text-transform:uppercase; color:var(--text-dim);}
+  .pg-val{font-size:15px; font-weight:700; white-space:nowrap;}
+  .pg-track{height:7px; border-radius:10px; background:rgba(255,255,255,0.08); overflow:hidden;}
+  .pg-fill{height:100%; border-radius:10px; background:#f5f5f7;}
+  .pg-fill.soon{background:var(--yellow);} .pg-fill.due{background:var(--red);}
+  .pg-note{font-size:12.5px; color:var(--text-faint); line-height:1.5;}
+  .text-link, .ns-note a{color:var(--text) !important; text-decoration:underline; text-underline-offset:2px;}
+
+  .section-head{margin:30px 4px 14px;}
+  .section-title{font-size:13px; font-weight:600; letter-spacing:2.2px; text-transform:uppercase; color:var(--text-dim);}
+  .section-link{color:var(--text); font-size:13px;}
+
+  .stat-grid{gap:12px;}
+  .stat-card{background:var(--surface); border-radius:var(--radius-sm); padding:20px 18px;}
+  .stat-dot{display:none;}
+  .stat-icon-row{margin-bottom:12px;}
+  .stat-title{font-size:11.5px; font-weight:600; letter-spacing:1.6px; text-transform:uppercase; color:var(--text-dim);}
+  .stat-value{font-size:25px; font-weight:700; letter-spacing:-0.5px;}
+  .stat-sub{color:var(--text-faint);}
+  .delta.up, .delta.bad-down{color:var(--red);} .delta.down, .delta.good-up{color:var(--green);}
+
+  .period-bar{margin:0 0 12px;}
+  .period-nav{border-radius:50%; width:42px; height:42px; background:var(--surface);}
+  .period-label{font-size:18px;}
+  .seg{border-radius:100px; padding:4px; background:var(--surface);}
+  .seg button{border-radius:100px;}
+  .seg button.active{background:#f5f5f7; color:#000;}
+  .period-link{color:var(--text-dim);}
+
+  .chart-card{background:var(--surface); border-radius:var(--radius-sm); padding:18px 16px;}
+  .chart-tabs{overflow-x:auto;}
+  .chart-tab{border-radius:100px; background:transparent; border:1px solid var(--border-strong); flex:1 1 auto; padding:8px 10px;}
+  .chart-tab.active{background:#f5f5f7; border-color:#f5f5f7; color:#000;}
+  .chart-bar{background:linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.12)); border-radius:8px 8px 4px 4px;}
+  .chart-col.sel .chart-bar{background:linear-gradient(180deg,#fff,rgba(255,255,255,0.5));}
+  .chart-col.sel .chart-month{color:var(--text);}
+
+  .reminder-card, .record-card{background:var(--surface); border-radius:var(--radius-sm); padding:16px;}
+  .reminder-icon, .record-icon{border-radius:14px; background:var(--surface-2) !important;}
+  .reminder-icon svg{color:var(--text-dim);}
+  .record-icon{color:var(--text) !important;}
+  .add-reminder-btn{border-radius:var(--radius-sm); background:transparent;}
+  .link-btn{border-radius:var(--radius-sm); color:var(--text); background:var(--surface);}
+  .backup-banner{border-radius:18px;}
+  .next-service{display:none;}
+
+  .search-box, select.sort-select, .form-input, .form-select, .form-textarea{border-radius:16px; background:var(--surface);}
+  .form-input:focus, .form-select:focus, .form-textarea:focus{border-color:rgba(255,255,255,0.45);}
+  .filter-chip.active{background:#f5f5f7; border-color:#f5f5f7; color:#000;}
+  .type-btn{border-radius:18px;}
+  .type-btn.active{background:var(--surface-2); border-color:#f5f5f7; color:var(--text);}
+  .type-btn.active svg, .type-btn.active span{color:var(--text) !important;}
+  .calc-hint{color:var(--green);}
+  .cta-btn, .save-btn{background:#f5f5f7; color:#000; box-shadow:none; border-radius:100px;}
+  .cta-btn svg{stroke:#000;}
+  .settings-group{border-radius:var(--radius-sm);}
+  .settings-btn{border-radius:16px;}
+  .month-chip{background:var(--surface-2); color:var(--text);}
+  .sheet{background:#0d0d0f; border-radius:28px 28px 0 0;}
+  .btn-edit{background:var(--surface-2);}
+  .schedule-item{border-radius:18px;}
+  .schedule-use-btn{background:#f5f5f7 !important; color:#000 !important; border-color:#f5f5f7 !important;}
+
+  .bottom-nav{left:14px; right:14px; bottom:calc(12px + env(safe-area-inset-bottom)); max-width:492px; border-radius:100px; padding:6px; background:rgba(28,28,30,0.82); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border:1px solid var(--border-strong); box-shadow:0 10px 30px rgba(0,0,0,0.6);}
+  .nav-item{border-radius:100px; padding:9px 2px; color:var(--text-dim);}
+  .nav-item span{font-size:10.5px; letter-spacing:0.8px; text-transform:uppercase;}
+  .nav-item.active{background:rgba(255,255,255,0.12); color:var(--text);}
+  .toast{bottom:110px;}
 </style>
 </head>
 <body>
@@ -447,46 +557,74 @@
 
   <div class="topbar">
     <div class="topbar-row">
-      <div class="brand">
-        <div class="brand-mark">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M5.9 17.1A7 7 0 1 1 18.1 17.1"/><path d="M12 13.5l3.6-3.2"/><circle cx="12" cy="13.5" r="1.3" fill="#fff" stroke="none"/></svg>
-        </div>
-        <span class="brand-name">Log Prestasi</span>
+      <div>
+        <div class="tb-title" id="tbTitle">S70 · GM9727</div>
+        <div class="tb-status"><span class="tb-dot"></span><span id="tbStatus">Log Prestasi</span></div>
       </div>
-      <div class="vehicle-chip" id="vehicleChip">
-        <span class="plate" id="chipPlate">GM9727</span>
-        <span class="vname" id="chipName">Proton S70</span>
-      </div>
+      <button class="tb-btn" onclick="goAddRecord()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        Rekod
+      </button>
     </div>
   </div>
 
   <!-- ============ DASHBOARD ============ -->
   <section class="screen active" data-screen="dashboard">
-    <div class="page-title">Dashboard</div>
-    <div class="page-sub">Overview kereta hang</div>
-
     <div id="backupBanner"></div>
 
-    <div class="hero-card">
-      <div class="hero-top">
-        <div>
-          <div class="hero-label">Mileage terkini</div>
-          <div class="hero-value" id="heroMileage">- <span>km</span></div>
-          <div class="hero-meta" id="heroMeta">Belum ada rekod</div>
+    <div class="car-card">
+      <div class="cc-top">
+        <div class="cc-id">
+          <div class="cc-plate" id="ccPlate">GM9727</div>
+          <div class="cc-model" id="ccModel">S70</div>
+          <div class="cc-sub" id="ccSub">Proton</div>
         </div>
-        <div class="odo-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 12l3-2M12 7v1M17 12h1M6 12h1"/></svg>
-        </div>
+        <div class="gauge" id="gauge"></div>
       </div>
-      <div class="hero-split" id="heroSplit"></div>
-      <button class="cta-btn" onclick="goAddRecord()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-        Tambah Rekod
-      </button>
+      <div class="car-art"><svg viewBox="0 0 400 150" class="car-svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="carBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8a8d93"/>
+      <stop offset="0.35" stop-color="#5d6066"/>
+      <stop offset="1" stop-color="#2b2d31"/>
+    </linearGradient>
+    <linearGradient id="carGlass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2a2f38"/>
+      <stop offset="1" stop-color="#0b0c0f"/>
+    </linearGradient>
+    <radialGradient id="carShadow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#000" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="200" cy="128" rx="185" ry="12" fill="url(#carShadow)"/>
+  <path d="M22 100 C20 88 28 82 44 79 L112 69 C138 52 168 39 204 37 L254 37 C284 38 306 51 332 65 L368 71 C382 74 388 83 388 93 L388 104 C388 110 384 112 378 112 L333 112 A33 33 0 0 0 267 112 L138 112 A33 33 0 0 0 72 112 L32 112 C25 112 22 108 22 100 Z" fill="url(#carBody)"/>
+  <path d="M46 84 L120 74 C150 57 175 46 206 44 L252 44 C280 45 300 56 322 68" fill="none" stroke="#c9ccd2" stroke-opacity="0.35" stroke-width="1.5"/>
+  <path d="M128 70 C148 56 170 46 200 45 L224 45 L224 70 Z" fill="url(#carGlass)"/>
+  <path d="M232 45 L254 45 C280 46 297 55 316 67 L232 70 Z" fill="url(#carGlass)"/>
+  <path d="M60 98 L370 98" stroke="#000" stroke-opacity="0.25" stroke-width="1"/>
+  <path d="M30 86 C34 82 40 81 52 80" stroke="#e9eef5" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M372 76 L385 80" stroke="#ff4a4f" stroke-width="3.5" stroke-linecap="round"/>
+  <g>
+    <circle cx="105" cy="112" r="25" fill="#0d0e10"/>
+    <circle cx="105" cy="112" r="16" fill="#3a3c41" stroke="#8a8d93" stroke-width="2"/>
+    <circle cx="105" cy="112" r="4" fill="#15161a"/>
+    <path d="M105 97v30M90 112h30M94.4 101.4l21.2 21.2M115.6 101.4l-21.2 21.2" stroke="#1d1e22" stroke-width="2.5"/>
+  </g>
+  <g>
+    <circle cx="300" cy="112" r="25" fill="#0d0e10"/>
+    <circle cx="300" cy="112" r="16" fill="#3a3c41" stroke="#8a8d93" stroke-width="2"/>
+    <circle cx="300" cy="112" r="4" fill="#15161a"/>
+    <path d="M300 97v30M285 112h30M289.4 101.4l21.2 21.2M310.6 101.4l-21.2 21.2" stroke="#1d1e22" stroke-width="2.5"/>
+  </g>
+</svg></div>
+      <div class="cc-chips" id="ccChips"></div>
+      <div class="cc-progress" id="nextService"></div>
     </div>
 
-    <div id="nextService"></div>
-
+    <div class="section-head" style="margin-bottom:0;">
+      <div class="section-title">Stats</div>
+    </div>
     <div class="period-bar">
       <button class="period-nav" id="periodPrev" onclick="shiftPeriod(-1)" aria-label="Sebelum"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
       <div class="period-label" id="periodLabel">-</div>
@@ -500,12 +638,12 @@
     <button class="period-link" onclick="openHistoryForPeriod()" id="periodLink">Tengok rekod bulan ni</button>
 
     <div class="section-head">
-      <div class="section-title">Trend Belanja</div>
+      <div class="section-title">Trend</div>
     </div>
     <div class="chart-card">
       <div class="chart-tabs" id="chartTabs">
         <button class="chart-tab active" data-cat="minyak">Minyak</button>
-        <button class="chart-tab" data-cat="maintenance">Maintenance</button>
+        <button class="chart-tab" data-cat="maintenance">Servis</button>
         <button class="chart-tab" data-cat="lain">Lain-lain</button>
         <button class="chart-tab" data-cat="kml">km/L</button>
       </div>
@@ -1069,21 +1207,35 @@ function renderPeriod(){
   `;
 }
 
+function shortModel(){
+  const n = (state.settings.vehName||'Proton S70').trim();
+  return n.replace(/^proton\s+/i,'') || n;
+}
+function gaugeSvg(value, max, label, sub){
+  const r = 52, C = 2*Math.PI*r, arc = C*0.75;
+  const frac = value!=null ? Math.max(0, Math.min(1, value/max)) : 0;
+  return `<svg viewBox="0 0 128 128" class="gauge-svg">
+    <circle cx="64" cy="64" r="${r}" fill="none" stroke="rgba(255,255,255,0.10)" stroke-width="7" stroke-linecap="round" stroke-dasharray="${arc} ${C}" transform="rotate(135 64 64)"/>
+    <circle cx="64" cy="64" r="${r}" fill="none" stroke="#f5f5f7" stroke-width="7" stroke-linecap="round" stroke-dasharray="${arc*frac} ${C}" transform="rotate(135 64 64)"/>
+  </svg>
+  <div class="gauge-text"><div class="gv">${value!=null? value.toFixed(1) : '-'}</div><div class="gl">${label}</div></div>
+  <div class="gauge-sub">${sub}</div>`;
+}
 function renderHero(){
   const latest = getLatestMileageRecord();
-  const hero = document.getElementById('heroMileage');
-  const meta = document.getElementById('heroMeta');
-  if(latest){
-    hero.innerHTML = Number(latest.mileage).toLocaleString('en-MY')+' <span>km</span>';
-    meta.textContent = 'Last update '+fmtDate(latest.date);
-  }else{
-    hero.innerHTML = '- <span>km</span>';
-    meta.textContent = 'Belum ada rekod';
-  }
+  const plate = state.settings.vehPlate || '-';
+  const model = shortModel();
+  document.getElementById('tbTitle').textContent = model+' · '+plate;
+  document.getElementById('tbStatus').textContent = latest ? 'Last update '+fmtShortDate(latest.date) : 'Belum ada rekod';
+  document.getElementById('ccPlate').textContent = plate;
+  document.getElementById('ccModel').textContent = model;
+  const variant = (state.settings.vehModel||'').replace(new RegExp('^'+model+'\\s*','i'),'').trim();
+  document.getElementById('ccSub').textContent = [variant, state.settings.vehYear].filter(Boolean).join(' · ') || 'Proton';
   const all = overallKml(), r5 = rollingKml(5);
-  document.getElementById('heroSplit').innerHTML = (all||r5) ? `
-    <div class="hero-mini"><div class="k">Avg keseluruhan</div><div class="v">${all? all.toFixed(1)+' km/L':'-'}</div></div>
-    <div class="hero-mini"><div class="k">Avg 5 isi terakhir</div><div class="v">${r5? r5.toFixed(1)+' km/L':'-'}</div></div>` : '';
+  document.getElementById('gauge').innerHTML = gaugeSvg(r5 ?? all, 16, 'KM/L', r5!=null ? '5 isi terakhir' : 'keseluruhan');
+  document.getElementById('ccChips').innerHTML = `
+    <div class="cc-chip"><span>ODO</span>${latest? Number(latest.mileage).toLocaleString('en-MY')+' km' : '-'}</div>
+    <div class="cc-chip"><span>AVG</span>${all? all.toFixed(1)+' km/L' : '-'}</div>`;
 }
 
 /* ---------- Next scheduled service ---------- */
@@ -1108,32 +1260,36 @@ function nextServiceInfo(){
   if(dueDate && (!projected || dueDate < projected)) firstBy = 'date';
   return {iv, cur, kmLeft, dueDate, daysLeft, projected, status, firstBy};
 }
+function progressRow(label, right, frac, cls){
+  const pct = Math.max(2, Math.min(100, frac*100));
+  return `<div class="pg-row">
+    <div class="pg-head"><span class="pg-label">${label}</span><span class="pg-val">${right}</span></div>
+    <div class="pg-track"><div class="pg-fill ${cls||''}" style="width:${pct}%"></div></div>
+  </div>`;
+}
 function renderNextService(){
   const wrap = document.getElementById('nextService');
   const n = nextServiceInfo();
   if(!n){ wrap.innerHTML=''; return; }
-  const badge = n.status==='due' ? '<span class="badge due">Due</span>' : n.status==='soon' ? '<span class="badge soon">Due soon</span>' : '<span class="badge ok">OK</span>';
-  const kmText = n.kmLeft>0 ? n.kmLeft.toLocaleString('en-MY')+' km' : 'Lajak '+Math.abs(n.kmLeft).toLocaleString('en-MY')+' km';
-  const dateText = n.dueDate ? (n.daysLeft>0 ? n.daysLeft+' hari' : 'Lewat '+Math.abs(n.daysLeft)+' hari') : '-';
-  let note;
-  if(!n.dueDate){
-    note = `Had ${n.iv.months} bulan belum kira. <button class="text-link" onclick="switchScreen('settings')">Set tarikh ambil kereta</button>`;
-  } else if(n.firstBy==='date'){
-    note = `<b>Due ikut tarikh dulu</b>, sebelum ${fmtShortDate(n.dueDate)}.`;
-  } else {
-    note = `<b>Due ikut mileage dulu</b>${n.projected? ', anggaran sekitar '+fmtShortDate(n.projected):''}.`;
+  const sorted = [...state.schedule].sort((a,b)=>a.mileage-b.mileage);
+  const idx = sorted.findIndex(x=>x.id===n.iv.id);
+  const prev = idx>0 ? sorted[idx-1] : {mileage:0, months:0};
+  const cls = n.status==='due' ? 'due' : n.status==='soon' ? 'soon' : '';
+  const kmFrac = (n.cur - prev.mileage) / (n.iv.mileage - prev.mileage);
+  const kmText = n.kmLeft>0 ? n.kmLeft.toLocaleString('en-MY')+' km lagi' : 'Lajak '+Math.abs(n.kmLeft).toLocaleString('en-MY')+' km';
+  let html = progressRow(`Next servis · ${n.iv.mileage/1000}k`, kmText, kmFrac, n.firstBy==='km'?cls:'');
+  if(n.dueDate){
+    const startDate = addMonths(state.settings.deliveryDate, prev.months);
+    const span = Math.max(1, (parseDate(n.dueDate)-parseDate(startDate))/86400000);
+    const dateText = n.daysLeft>0 ? n.daysLeft+' hari lagi' : 'Lewat '+Math.abs(n.daysLeft)+' hari';
+    html += progressRow(`Atau sebelum ${fmtShortDate(n.dueDate)}`, dateText, 1 - n.daysLeft/span, n.firstBy==='date'?cls:'');
   }
-  wrap.innerHTML = `<div class="next-service ${n.status}">
-    <div class="ns-top">
-      <div><div class="ns-label">Next servis</div><div class="ns-title">${n.iv.mileage.toLocaleString('en-MY')} km / ${n.iv.months} bulan</div></div>
-      ${badge}
-    </div>
-    <div class="ns-grid">
-      <div class="ns-cell"><div class="k">Lagi</div><div class="v">${kmText}</div></div>
-      <div class="ns-cell"><div class="k">Atau${n.dueDate?' ('+fmtShortDate(n.dueDate)+')':''}</div><div class="v">${dateText}</div></div>
-    </div>
-    <div class="ns-note">${note}<br>Anggaran kos official ${fmtRM(scheduleTotal(n.iv))}. <button class="text-link" onclick="openScheduleSheet()">Details</button></div>
-  </div>`;
+  let note;
+  if(!n.dueDate) note = `<button class="text-link" onclick="switchScreen('settings')">Set tarikh ambil kereta</button> untuk kira had ${n.iv.months} bulan.`;
+  else if(n.firstBy==='date') note = `Due ikut tarikh dulu.`;
+  else note = `Due ikut mileage dulu${n.projected? ', sekitar '+fmtShortDate(n.projected):''}.`;
+  const badge = n.status==='due' ? '<span class="badge due">Due</span> ' : n.status==='soon' ? '<span class="badge soon">Due soon</span> ' : '';
+  wrap.innerHTML = html + `<div class="pg-note">${badge}${note} Anggaran ${fmtRM(scheduleTotal(n.iv))}. <button class="text-link" onclick="openScheduleSheet()">Details</button></div>`;
 }
 
 /* ---------- Document expiry (roadtax, insurance, licence) ---------- */
@@ -1318,8 +1474,6 @@ function recordCardHtml(r){
 }
 
 function renderDashboard(){
-  document.getElementById('chipPlate').textContent = state.settings.vehPlate || 'GM9727';
-  document.getElementById('chipName').textContent = state.settings.vehName || 'Proton S70';
   renderBackupBanner();
   renderHero();
   renderNextService();
@@ -1880,8 +2034,7 @@ function saveVehicleSettings(){
   state.settings.vehModel = document.getElementById('setVehModel').value.trim();
   state.settings.vehYear = document.getElementById('setVehYear').value.trim();
   saveSettings();
-  document.getElementById('chipPlate').textContent = state.settings.vehPlate || '-';
-  document.getElementById('chipName').textContent = state.settings.vehName || '-';
+  renderHero();
   showToast('Info kereta disimpan');
 }
 
