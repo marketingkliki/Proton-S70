@@ -551,6 +551,13 @@
   .nav-item span{font-size:10.5px; letter-spacing:0.8px; text-transform:uppercase;}
   .nav-item.active{background:rgba(255,255,255,0.12); color:var(--text);}
   .toast{bottom:110px;}
+
+  /* iOS Safari gives date/time inputs their own min width and centred text */
+  .form-input, .form-select, .form-textarea{min-width:0; max-width:100%; display:block;}
+  input[type=date].form-input, input[type=time].form-input{-webkit-appearance:none; appearance:none; width:100%; min-height:52px; text-align:left;}
+  input[type=date]::-webkit-date-and-time-value, input[type=time]::-webkit-date-and-time-value{text-align:left; margin:0;}
+  .form-row-2{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
+  .form-block{min-width:0;}
 </style>
 </head>
 <body>
