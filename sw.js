@@ -2,9 +2,9 @@
    with weak signal) and refreshes the cache in the background, so a new
    version shows up on the next open. Bump VERSION when shipping changes
    to old caches get cleaned out. */
-const VERSION = 'v5';
+const VERSION = 'v6';
 const CACHE = 'logprestasi-' + VERSION;
-const SHELL = ['./', './index.html', './manifest.json', './icon.svg', './icon-180.png', './icon-192.png', './icon-512.png', './car.png'];
+const SHELL = ['./', './index.html', './manifest.json', './icon.svg', './icon-180.png', './icon-192.png', './icon-512.png', './car.webp'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
